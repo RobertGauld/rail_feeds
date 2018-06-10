@@ -1,4 +1,9 @@
+Style/SymbolArray:
+  Enabled: false
+Metrics/MethodLength:
+  Max: 20
 Metrics/LineLength:
+  Max: 85
   Exclude:
   - rail_feeds.gemspec
 Layout/TrailingBlankLines:

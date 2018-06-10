@@ -7,6 +7,8 @@ end
 require 'coveralls'
 Coveralls.wear! if ENV['TRAVIS']
 
+require 'rail_feeds'
+
 RSpec.configure do |config|
   # == Mock Framework
   #

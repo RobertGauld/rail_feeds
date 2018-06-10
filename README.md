@@ -35,7 +35,7 @@ For more details of what feeds are available visit [The Open Rail Data Wiki](htt
 Add to your Gemfile and run the `bundle` command to install it.
 
 ```ruby
-gem 'rail_feeds', '~> 2.0'
+gem 'rail_feeds', '~> 0.1'
 ```
 
 

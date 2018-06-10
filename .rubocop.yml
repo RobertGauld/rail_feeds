@@ -1,0 +1,12 @@
+Metrics/LineLength:
+  Exclude:
+  - rail_feeds.gemspec
+Layout/TrailingBlankLines:
+  Exclude:
+  - rail_feeds.gemspec
+Layout/EmptyLines:
+  Exclude:
+  - spec/**/*
+Metrics/BlockLength:
+  Exclude:
+  - spec/**/*

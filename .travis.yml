@@ -1,0 +1,43 @@
+language: ruby
+rvm:
+  - 2.2.0
+  - 2.2.1
+  - 2.2.2
+  - 2.2.3
+  - 2.2.4
+  - 2.2.5
+  - 2.2.6
+  - 2.2.7
+  - 2.2.8
+  - 2.2.9
+  - 2.3.0
+  - 2.3.1
+  - 2.3.2
+  - 2.3.3
+  - 2.3.4
+  - 2.3.5
+  - 2.3.6
+  - 2.4.0
+  - 2.4.1
+  - 2.4.2
+  - 2.4.3
+  - 2.5.0
+  - 2.5.1
+gemfile:
+  - Gemfile
+branches:
+  only:
+    - master
+    - staging
+    - /gh(?:\d)+(?:-.+)?/
+    - /dev_ver_\d+\.\d+/
+before_install: gem update bundler
+script:
+  - bundle exec rubocop
+  - bundle exec rspec
+notifications:
+  slack:
+    on_success: always
+    on_failure: always
+    rooms:
+    - secure: CH9idL8/an98uf8uvZ0Pzp7LN9ejdFXh40L6obz5x3tViTzvqo2pqNdryom1E6Dw3NJ7nh4h91XxAq6IZLzrwhSGVGri4tA6EPls6NnkN/UvaK/oCt71ZUaC07hb7SSrc+sQN2CRXMFzxkRBvQ8EKlq+F+Qtj28h0Rebfd79CE+i2NYuAtimYRezOmyLKYUHKRkhYtXbR12FKkNW+2pNNx/Aq02bP/sMXTVdk3k+1bsnpjOoan0m7c2SUkYRD9vmY4u9vxTt2lFFJ+V5NWntXb3y5ttctR9EukULHS2mqFA4q+i6OAJaJUIGWCeWTsB1V3fPuICcZHPV1gF4wVAfV/xees1STJuzGRBpIRTUPd/iXfnNT35e5o97quSHolYx0nCRstonW8IOwlegDqJCbmu8nAaP2M42VkZ4u0Qi1MgzFZ3XcmlLsIrypQHbLnQZKgcnBPxY/8AuqDY9JgiY9RaTMT5xyPox33yAC41MaNYouicyfFSZ4Q+4QFNaPtjaG+N5VR7neMGa5uCXGFHR8H5pWDV5oUFlZzep3bMnrkT9nb/56UjZlAF94nYPEs0nsEm+r35b/g/WWGB+t8UpHzl/jK0s74NbASu+MyNN6X+FiaxOB3WvaFz0wJNqN46SINJjHk1CDhquD1qoyLI+R6AtrRkFvlgaXf6RCSfsWCo=

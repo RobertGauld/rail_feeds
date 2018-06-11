@@ -11,9 +11,9 @@ module RailFeeds
       PORT = '61618'.freeze
 
       # Initialize a new stomp client.
-      # @ param [RailFeeds::NetworkRail::Credentials] credentials
+      # @param [RailFeeds::NetworkRail::Credentials] credentials
       #   The credentials for connecting to the feed.
-      # @ param [Logger] logger
+      # @param [Logger] logger
       #   The logger for outputting evetns.
       def initialize(credentials: Credentials, logger: Logger.new(IO::NULL))
         @credentials = credentials
@@ -50,9 +50,9 @@ module RailFeeds
       # Subscribe to a topic.
       # Will connect to the server if required.
       # Must be passed a block which will be called with each message received.
-      # @ param [String, #to_s] topic
+      # @param [String, #to_s] topic
       #   The topic to subscribe to (e.g. "TSR_WESS_ROUTE" or "TD_ALL_SIG_AREA").
-      # @ param [Hash] headers
+      # @param [Hash] headers
       #   Extra headers to pass to the server.
       def subscribe(topic, headers = {}, &block)
         connect if @client.nil? || @client.closed?

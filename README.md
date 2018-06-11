@@ -19,7 +19,6 @@ and Staging (which is what is currently being developed ready for moving to mast
 ## Ruby Versions
 This gem supports the following versions of ruby, it may work on other versions but is not tested against them so don't rely on it.
 
-  * 2.2.0 - 2.2.9
   * 2.3.0 - 2.3.6
   * 2.4.0 - 2.4.3
   * 2.5.0 - 2.5.1
@@ -52,18 +51,18 @@ We follow the [Semantic Versioning](http://semver.org/) concept.
 
 ### Sources
 
-| Source        | Module                  | Module Alias | Support |
-| ------------- | ----------------------- | ------------ | ------- |
-| Network Rail  | RailFeeds::NetworkRail  | NetRailFeeds | Being developed |
+| Source        | Module                  | Module Alias | Support                    |
+| ------------- | ----------------------- | ------------ | -------------------------- |
+| Network Rail  | RailFeeds::NetworkRail  | NetRailFeeds | Being developed            |
 | National Rail | RailFeeds::NationalRail | NatRailFeeds | None yet - any volunteers? |
 
 ### Feeds
 
-| Source        | Feed                                 | Status       |
-| ------------- | ------------------------------------ | ------------ |
-| Network Rail  | Real Time Public Performance Measure |  |
-| Network Rail  | Schedule                             |  |
-| Network Rail  | Temporary Speed Restriction          |  |
-| Network Rail  | Train Describer                      |  |
-| Network Rail  | Train Movements                      |  |
-| Network Rail  | Very Short Term Planning             |  |
+| Source        | Feed                                 | Status                                |
+| ------------- | ------------------------------------ | ------------------------------------- |
+| Network Rail  | Real Time Public Performance Measure | Todo                                  |
+| Network Rail  | Schedule                             | Can fetch files.                      |
+| Network Rail  | Temporary Speed Restriction          | Todo                                  |
+| Network Rail  | Train Describer                      | Todo                                  |
+| Network Rail  | Train Movements                      | Todo                                  |
+| Network Rail  | Very Short Term Planning             | Todo                                  |

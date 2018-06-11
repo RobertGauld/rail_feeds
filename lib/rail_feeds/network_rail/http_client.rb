@@ -1,15 +1,18 @@
-require 'net/http'
+# frozen_string_literal: true
+
+require 'cgi'
+require 'open-uri'
 
 module RailFeeds
   module NetworkRail
     # A wrapper class for ::Net::HTTP
     class HTTPClient
-      HOST = 'datafeeds.networkrail.co.uk'.freeze
+      HOST = 'datafeeds.networkrail.co.uk'
 
       # Initialize a new http client.
-      # @ param [RailFeeds::NetworkRail::Credentials] credentials
+      # @param [RailFeeds::NetworkRail::Credentials] credentials
       #   The credentials for connecting to the feed.
-      # @ param [Logger] logger
+      # @param [Logger] logger
       #   The logger for outputting evetns.
       def initialize(credentials: Credentials, logger: Logger.new(IO::NULL))
         @credentials = credentials
@@ -17,22 +20,24 @@ module RailFeeds
       end
 
       # Get path from network rail server.
-      # Passes the (possible large) http response to an optionally passed block.
-      # @ param [String] path
+      # @param [String] path
       #   The path to get.
-      # @ return [String] the content of the page if no block is passed.
-      def get(path, &block)
+      # @return [TempFile] the content of the file.
+      def get(path)
+        @logger.debug "get(#{path.inspect})"
         uri = URI("https://#{HOST}/#{path}")
-        uri.user = @credentials.username
-        uri.password = @credentials.password
+        uri.open(http_basic_authentication: @credentials.to_a)
+      end
 
-        if block_given?
-          request = Net::HTTP::Get.new uri
-          http = Net::HTTP.new uri.hostname, uri.port, use_ssl: true
-          http.request request, &block
-        else
-          Net::HTTP.get(uri)
-        end
+      # Get path from network rail server and unzip it.
+      # @param [String] path
+      #   The path to get.
+      # @return [Zlib::GzipReader] the unzippedable content of the file.
+      def get_unzipped(path)
+        @logger.debug "get_unzipped(#{path.inspect})"
+        gz_file = get(path)
+        @logger.debug "gz_file = #{gz_file.inspect}"
+        Zlib::GzipReader.open(gz_file.path)
       end
     end
   end

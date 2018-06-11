@@ -1,14 +1,20 @@
-Style/SymbolArray:
+Style/SignalException:
   Enabled: false
 Metrics/MethodLength:
   Max: 20
+Metrics/AbcSize:
+  Max: 25
 Metrics/LineLength:
-  Max: 85
+  Max: 90
   Exclude:
   - rail_feeds.gemspec
+  - spec/**/*
 Layout/TrailingBlankLines:
   Exclude:
   - rail_feeds.gemspec
+Style/WordArray:
+  Exclude:
+  - spec/**/*
 Layout/EmptyLines:
   Exclude:
   - spec/**/*

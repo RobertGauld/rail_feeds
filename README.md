@@ -7,7 +7,7 @@ Master branch:
 
 Staging branch:
 [![Build Status](https://secure.travis-ci.org/robertgauld/rail_feeds.png?branch=staging)](http://travis-ci.org/robertgauld/rail_feeds)
-[![Coveralls Status](https://coveralls.io/repos/robertgauld/rail_feeds/badge.png?branch=master)](https://coveralls.io/r/robertgauld/rail_feeds)
+[![Coveralls Status](https://coveralls.io/repos/robertgauld/rail_feeds/badge.png?branch=staging)](https://coveralls.io/r/robertgauld/rail_feeds)
 
 
 ## Build State
@@ -50,7 +50,20 @@ We follow the [Semantic Versioning](http://semver.org/) concept.
 
 ## Feed Support
 
+### Sources
+
 | Source        | Module                  | Module Alias | Support |
 | ------------- | ----------------------- | ------------ | ------- |
-| Network Rail  | RailFeeds::NetworkRail  | NetRailFeeds |  |
+| Network Rail  | RailFeeds::NetworkRail  | NetRailFeeds | Being developed |
 | National Rail | RailFeeds::NationalRail | NatRailFeeds | None yet - any volunteers? |
+
+### Feeds
+
+| Source        | Feed                                 | Status       |
+| ------------- | ------------------------------------ | ------------ |
+| Network Rail  | Real Time Public Performance Measure |  |
+| Network Rail  | Schedule                             |  |
+| Network Rail  | Temporary Speed Restriction          |  |
+| Network Rail  | Train Describer                      |  |
+| Network Rail  | Train Movements                      |  |
+| Network Rail  | Very Short Term Planning             |  |

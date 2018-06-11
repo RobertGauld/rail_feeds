@@ -1,10 +1,4 @@
 describe RailFeeds::NetworkRail::HTTPClient do
-  subject { described_class.new credentials: credentials, logger: logger }
-  let :credentials do
-    RailFeeds::NetworkRail::Credentials.new username: 'a', password: 'b'
-  end
-  let(:logger) { double Logger }
-
   it 'Adds credentials when getting path' do
     uri = URI('https://a:b@datafeeds.networkrail.co.uk/path')
     expect(Net::HTTP).to receive(:get).with(uri).and_return('response body')

@@ -11,7 +11,7 @@ module RailFeeds
       #   The credentials for connecting to the feed.
       # @ param [Logger] logger
       #   The logger for outputting evetns.
-      def initialize(credentials:, logger: Logger.new(IO::NULL))
+      def initialize(credentials: Credentials, logger: Logger.new(IO::NULL))
         @credentials = credentials
         @logger = logger
       end

@@ -1,29 +1,61 @@
 describe RailFeeds::NetworkRail::StompClient do
-  subject { described_class.new credentials: credentials, logger: logger }
-  let :credentials do
-    RailFeeds::NetworkRail::Credentials.new username: 'a', password: 'b'
+  before :each do
+    RailFeeds::NetworkRail::Credentials.configure(
+      username: 'a',
+      password: 'b'
+    )
   end
-  let(:logger) { double Logger }
 
-  it 'Sets correct options when delegating #connect' do
-    stomp_client = double Stomp::Client
-    options = {
-      hosts: [{
-        host: 'datafeeds.networkrail.co.uk',
-        port: '61618',
-        login: 'a',
-        password: 'b'
-      }],
-      connect_headers: {
-        'host' => 'datafeeds.networkrail.co.uk',
-        'client-id' => 'a',
-        'accept-version' => '1.1',
-        'heart-beat' => '5000,10000'
-      },
-      logger: logger
-    }
-    expect(Stomp::Client).to receive(:new).with(options).and_return(stomp_client)
-    subject.connect
+  describe 'Sets correct options when delegating #connect' do
+    let(:logger) { double Logger }
+
+    it 'With no credentials passed' do
+      stomp_client = double Stomp::Client
+      options = {
+        hosts: [{
+          host: 'datafeeds.networkrail.co.uk',
+          port: '61618',
+          login: 'a',
+          password: 'b'
+        }],
+        connect_headers: {
+          'host' => 'datafeeds.networkrail.co.uk',
+          'client-id' => 'a',
+          'accept-version' => '1.1',
+          'heart-beat' => '5000,10000'
+        },
+        logger: logger
+      }
+      subject = described_class.new logger: logger
+      expect(Stomp::Client).to receive(:new).with(options).and_return(stomp_client)
+      subject.connect
+    end
+
+    it 'With credentials passed' do
+      credentials = RailFeeds::NetworkRail::Credentials.new(
+        username: 'A',
+        password: 'B'
+      )
+      stomp_client = double Stomp::Client
+      options = {
+        hosts: [{
+          host: 'datafeeds.networkrail.co.uk',
+          port: '61618',
+          login: 'A',
+          password: 'B'
+        }],
+        connect_headers: {
+          'host' => 'datafeeds.networkrail.co.uk',
+          'client-id' => 'A',
+          'accept-version' => '1.1',
+          'heart-beat' => '5000,10000'
+        },
+        logger: logger
+      }
+      subject = described_class.new credentials: credentials, logger: logger
+      expect(Stomp::Client).to receive(:new).with(options).and_return(stomp_client)
+      subject.connect
+    end
   end
 
   describe 'Sets correct options when delegating #subscribe' do

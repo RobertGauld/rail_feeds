@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 $LOAD_PATH.push File.expand_path('lib', __dir__)
 require File.join(File.dirname(__FILE__), 'lib', 'rail_feeds', 'version')
 
@@ -20,6 +22,7 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency 'coveralls', '~> 0.7'
   s.add_development_dependency 'guard-rspec', '~> 4.2', '>= 4.2.5'
+  s.add_development_dependency 'guard-rubocop', '~> 1.3'
   s.add_development_dependency 'rake', '~> 12.0'
   s.add_development_dependency 'rb-inotify', '~> 0.9'
   s.add_development_dependency 'rspec', '>= 3.7', '< 4'

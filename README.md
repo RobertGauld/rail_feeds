@@ -58,11 +58,11 @@ We follow the [Semantic Versioning](http://semver.org/) concept.
 
 ### Feeds
 
-| Source        | Feed                                 | Status                                |
-| ------------- | ------------------------------------ | ------------------------------------- |
-| Network Rail  | Real Time Public Performance Measure | Todo                                  |
-| Network Rail  | Schedule                             | Can fetch files.                      |
-| Network Rail  | Temporary Speed Restriction          | Todo                                  |
-| Network Rail  | Train Describer                      | Todo                                  |
-| Network Rail  | Train Movements                      | Todo                                  |
-| Network Rail  | Very Short Term Planning             | Todo                                  |
+| Source        | Feed                                 | Status                                     |
+| ------------- | ------------------------------------ | ------------------------------------------ |
+| Network Rail  | Real Time Public Performance Measure | Todo                                       |
+| Network Rail  | Schedule                             | Can fetch, parse and dump CIF files.       |
+| Network Rail  | Temporary Speed Restriction          | Todo                                       |
+| Network Rail  | Train Describer                      | Todo                                       |
+| Network Rail  | Train Movements                      | Todo                                       |
+| Network Rail  | Very Short Term Planning             | Todo                                       |

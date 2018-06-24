@@ -1,0 +1,60 @@
+---
+
+- - :on_header
+  - !ruby/object:RailFeeds::NetworkRail::Schedule::Header
+    current_file_reference: DFROC2Q
+    update_indicator: F
+    extracted_at: 2018-06-18 19:45:00
+    start_date: 2018-06-18
+    end_date: 2019-06-17
+
+- - :on_tiploc_insert
+  - !ruby/object:RailFeeds::NetworkRail::Schedule::Tiploc
+    tiploc: '1'
+- - :on_tiploc_insert
+  - !ruby/object:RailFeeds::NetworkRail::Schedule::Tiploc
+    tiploc: '2'
+- - :on_tiploc_insert
+  - !ruby/object:RailFeeds::NetworkRail::Schedule::Tiploc
+    tiploc: '3'
+
+- - :on_association_new
+  - !ruby/object:RailFeeds::NetworkRail::Schedule::Association
+    tiploc: '1'
+    main_location_suffix: 'a'
+    category: JJ
+    days: [true, true, true, true, true, false, false]
+- - :on_association_new
+  - !ruby/object:RailFeeds::NetworkRail::Schedule::Association
+    tiploc: '2'
+    main_location_suffix: 'b'
+    category: JJ
+    days: [true, true, true, true, true, true, false, false]
+- - :on_association_new
+  - !ruby/object:RailFeeds::NetworkRail::Schedule::Association
+    tiploc: '3'
+    main_location_suffix: 'c'
+    category: JJ
+    days: [true, true, true, true, true, false, false]
+
+- - :on_train_new
+  - !ruby/object:RailFeeds::NetworkRail::Schedule::Train
+    uid: 1
+    signalling_headcode: '1A11'
+    days: [true, true, true, true, true, false, false]
+    journey: []
+- - :on_train_new
+  - !ruby/object:RailFeeds::NetworkRail::Schedule::Train
+    uid: 2
+    signalling_headcode: '2B22'
+    days: [true, true, true, true, true, false, false]
+    journey: []
+- - :on_train_new
+  - !ruby/object:RailFeeds::NetworkRail::Schedule::Train
+    uid: 3
+    signalling_headcode: '3C33'
+    days: [true, true, true, true, true, false, false]
+    journey: []
+
+- - :on_trailer
+  - 

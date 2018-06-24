@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe RailFeeds do
   it 'Has a version' do
     expect(RailFeeds::Version).to_not be_nil

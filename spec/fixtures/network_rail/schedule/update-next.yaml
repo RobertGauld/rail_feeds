@@ -1,0 +1,13 @@
+---
+
+- - :on_header
+  - !ruby/object:RailFeeds::NetworkRail::Schedule::Header
+    current_file_reference: DFROC1M
+    previous_file_reference: DFROC1L
+    update_indicator: U
+    extracted_at: 2018-06-19 19:45:00
+    start_date: 2018-06-20
+    end_date: 2019-06-19
+
+- - :on_trailer
+  - 

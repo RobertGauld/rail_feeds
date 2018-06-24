@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe RailFeeds::NetworkRail::StompClient do
   before :each do
     RailFeeds::NetworkRail::Credentials.configure(

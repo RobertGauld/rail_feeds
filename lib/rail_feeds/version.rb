@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RailFeeds
   # Holds information on the current gem version.
   class Version

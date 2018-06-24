@@ -1,0 +1,112 @@
+---
+
+- - :on_header
+  - !ruby/object:RailFeeds::NetworkRail::Schedule::Header
+    current_file_reference: DFROC1L
+    previous_file_reference: DFROC1K
+    update_indicator: U
+    extracted_at: 2018-06-18 19:45:00
+    start_date: 2018-06-19
+    end_date: 2019-06-18
+
+# Insert new tiploc
+- - :on_tiploc_insert
+  - !ruby/object:RailFeeds::NetworkRail::Schedule::Tiploc
+    tiploc: '4'
+# Delete existing tiploc
+- - :on_tiploc_delete
+  - !ruby/object:RailFeeds::NetworkRail::Schedule::Tiploc
+    tiploc: '2'
+# Delete nonexisting tiploc
+- - :on_tiploc_delete
+  - !ruby/object:RailFeeds::NetworkRail::Schedule::Tiploc
+    tiploc: '22'
+# Amend existing tiploc
+- - :on_tiploc_amend
+  - - '3'
+    - !ruby/object:RailFeeds::NetworkRail::Schedule::Tiploc
+      tiploc: '3a'
+# Amend nonexisting tiploc
+- - :on_tiploc_amend
+  - - '5'
+    - !ruby/object:RailFeeds::NetworkRail::Schedule::Tiploc
+      tiploc: '5a'
+
+# New association
+- - :on_association_new
+  - !ruby/object:RailFeeds::NetworkRail::Schedule::Association
+    tiploc: '4'
+    main_location_suffix: 'd'
+    category: JJ
+    days: [true, true, true, true, true, false, false]
+# Delete existing association
+- - :on_association_delete
+  - !ruby/object:RailFeeds::NetworkRail::Schedule::Association
+    tiploc: '2'
+    main_location_suffix: 'b'
+# Delete nonexisting association
+- - :on_association_delete
+  - !ruby/object:RailFeeds::NetworkRail::Schedule::Association
+    tiploc: '22'
+    main_location_suffix: 'D'
+# Revise existing association
+- - :on_association_revise
+  - !ruby/object:RailFeeds::NetworkRail::Schedule::Association
+    tiploc: '3'
+    main_location_suffix: 'c'
+    category: VV    
+    days: [true, true, true, true, true, false, false]
+# Revise nonexisting association
+- - :on_association_revise
+  - !ruby/object:RailFeeds::NetworkRail::Schedule::Association
+    tiploc: '5'
+    main_location_suffix: 'e'
+    category: JJ
+    days: [true, true, true, true, true, false, false]
+
+# New train
+- - :on_train_new
+  - !ruby/object:RailFeeds::NetworkRail::Schedule::Train
+    uid: 4
+    signalling_headcode: '4D44'
+    days: [true, true, true, true, true, false, false]
+    journey:
+    - !ruby/object:RailFeeds::NetworkRail::Schedule::Train::Location::Origin
+      scheduled_departure: '1111'
+      public_departure: '1111'
+      tiploc: 1
+    - !ruby/object:RailFeeds::NetworkRail::Schedule::Train::ChangeEnRoute
+      tiploc: 2
+    - !ruby/object:RailFeeds::NetworkRail::Schedule::Train::Location::Intermediate
+      scheduled_departure: '1111'
+      public_departure: '1111'
+      tiploc: 2
+    - !ruby/object:RailFeeds::NetworkRail::Schedule::Train::Location::Terminating
+      scheduled_arrival: '2222'
+      public_arrival: '2222'
+      tiploc: 3
+# Delete existing train
+- - :on_train_delete
+  - !ruby/object:RailFeeds::NetworkRail::Schedule::Train
+    uid: 2
+# Delete nonexisting train
+- - :on_train_delete
+  - !ruby/object:RailFeeds::NetworkRail::Schedule::Train
+    uid: 22
+# Revise existing train
+- - :on_train_revise
+  - !ruby/object:RailFeeds::NetworkRail::Schedule::Train
+    uid: 3
+    signalling_headcode: '3c33'
+    days: [true, true, true, true, true, false, false]
+    journey: []
+# Revise nonexisting train
+- - :on_train_revise
+  - !ruby/object:RailFeeds::NetworkRail::Schedule::Train
+    uid: 5
+    signalling_headcode: '5E55'
+    days: [true, true, true, true, true, false, false]
+    journey: []
+
+- - :on_trailer
+  - 

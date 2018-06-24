@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe RailFeeds::Credentials do
   context 'Using system wide credentials' do
     before :each do

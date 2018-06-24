@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe RailFeeds::NetworkRail::Credentials do
   subject { described_class.new username: 'user-i', password: 'pass-i' }
 
@@ -8,12 +10,12 @@ describe RailFeeds::NetworkRail::Credentials do
   end
 
   describe 'Outputs an array' do
-    it 'Class' do
+    it '::to_a' do
       described_class.configure username: 'user', password: 'pass'
       expect(described_class.to_a).to eq ['user', 'pass']
     end
 
-    it 'Instance' do
+    it '#to_a' do
       expect(subject.to_a).to eq ['user-i', 'pass-i']
     end
   end

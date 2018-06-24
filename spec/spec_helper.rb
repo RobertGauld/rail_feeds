@@ -1,3 +1,7 @@
+# frozen_string_literal: true
+
+require 'yaml'
+
 require 'simplecov'
 SimpleCov.coverage_dir(File.join('tmp', 'coverage'))
 SimpleCov.start do
@@ -7,7 +11,9 @@ end
 require 'coveralls'
 Coveralls.wear! if ENV['TRAVIS']
 
-require 'rail_feeds'
+RSPEC_ROOT = File.dirname __FILE__
+RSPEC_FIXTURES = File.join RSPEC_ROOT, 'fixtures'
+Dir[File.join(RSPEC_ROOT, '**', '*_shared.rb')].each { |f| require f }
 
 RSpec.configure do |config|
   # == Mock Framework
@@ -30,3 +36,5 @@ RSpec.configure do |config|
     configuration.syntax = :expect
   end
 end
+
+require 'rail_feeds'

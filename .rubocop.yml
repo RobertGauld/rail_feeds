@@ -1,9 +1,11 @@
+AllCops:
+  TargetRubyVersion: 2.3
 Style/SignalException:
   Enabled: false
 Metrics/MethodLength:
-  Max: 20
+  Max: 15
 Metrics/AbcSize:
-  Max: 25
+  Max: 17.5
 Metrics/LineLength:
   Max: 90
   Exclude:
@@ -19,5 +21,11 @@ Layout/EmptyLines:
   Exclude:
   - spec/**/*
 Metrics/BlockLength:
+  Exclude:
+  - spec/**/*
+Style/NumericLiterals:
+  Exclude:
+  - spec/**/*
+Security/YAMLLoad:
   Exclude:
   - spec/**/*

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'socket'
 require 'stomp'
 
@@ -7,8 +9,8 @@ module RailFeeds
     class StompClient
       extend Forwardable
 
-      HOST = 'datafeeds.networkrail.co.uk'.freeze
-      PORT = '61618'.freeze
+      HOST = 'datafeeds.networkrail.co.uk'
+      PORT = '61618'
 
       # Initialize a new stomp client.
       # @param [RailFeeds::NetworkRail::Credentials] credentials
@@ -20,6 +22,7 @@ module RailFeeds
         @logger = logger
       end
 
+      # rubocop:disable Metrics/MethodLength
       # Connect to the network rail server.
       def connect
         return if @client && client.open?
@@ -40,6 +43,7 @@ module RailFeeds
         }
         @client = Stomp::Client.new client_options
       end
+      # rubocop:enable Metrics/MethodLength
 
       # Disconnect from the network rail server.
       def disconnect

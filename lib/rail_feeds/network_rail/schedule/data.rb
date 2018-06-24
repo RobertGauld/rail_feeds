@@ -48,13 +48,11 @@ module RailFeeds
         # Load data files into the parser, of types:
         #  * Full CIF file - the data will be replaced
         #  * Update CIF file - the data will be changed
-        # @param [IO, Array<IO>] file
-        #   The files to load data from.
-        def load_cif(*files)
-          ensure_correct_update_order(*files)
-          @parser.parse_cif(*files)
+        # @param [IO] file
+        #   The file to load data from.
+        def load_cif_file(file)
+          @parser.parse_cif_file file
 
-          logger.info "Finished loading #{files.count} file(s)."
           logger.info "Currently have #{associations.count} associations, " \
                       "#{tiplocs.count} tiplocs, #{trains.count} trains."
         end
@@ -103,31 +101,27 @@ module RailFeeds
         # rubocop:disable Metrics/CyclomaticComplexity
         # rubocop:disable Metrics/MethodLength
         # rubocop:disable Metrics/PerceivedComplexity
-        def ensure_correct_update_order(*files)
-          @parser.get_headers_cif(*files).each do |header|
-            if last_header.nil?
-              # No updates since full data was inserted
-              unless header.full?
-                fail ArgumentError,
-                     'Update can\'t be loaded before loading a full extract.'
-              end
-
-            elsif last_header.update? && header.update?
-              # Check against last update
-              if header.extracted_at < last_header.extracted_at
-                fail ArgumentError,
-                     'Update is too old, it is before the last applied update.'
-              end
-              if header.previous_file_reference != last_header.current_file_reference
-                fail ArgumentError,
-                     'Missing update(s). Last applied update is ' \
-                     "#{last_header.current_file_reference.inspect}, " \
-                     "this update requires #{header.previous_file_reference.inspect} " \
-                     'to be the previous applied update.'
-              end
+        def ensure_correct_update_order(header)
+          if last_header.nil?
+            # No data whatsoever - this must be a full extract
+            unless header.full?
+              fail ArgumentError,
+                   'Update can\'t be loaded before loading a full extract.'
             end
 
-            @last_header = header
+          elsif last_header.update? && header.update?
+            # Check against last update
+            if header.extracted_at < last_header.extracted_at
+              fail ArgumentError,
+                   'Update is too old, it is before the last applied update.'
+            end
+            if header.previous_file_reference != last_header.current_file_reference
+              fail ArgumentError,
+                   'Missing update(s). Last applied update is ' \
+                   "#{last_header.current_file_reference.inspect}, " \
+                   "this update requires #{header.previous_file_reference.inspect} " \
+                   'to be the previous applied update.'
+            end
           end
         end
         # rubocop:enable Metrics/AbcSize
@@ -137,6 +131,7 @@ module RailFeeds
 
         # Header record
         def do_header(_parser, header)
+          ensure_correct_update_order header
           reset_data if header.full?
           @last_header = header
         end

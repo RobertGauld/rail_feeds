@@ -7,28 +7,15 @@ class DummyParserForDataTests
     @events = {}
   end
 
-  def parse_cif(*files)
-    [*files].each do |file|
-      filename = File.join RSPEC_FIXTURES, 'network_rail', 'schedule', "#{file}.yaml"
-      YAML.load(File.read(filename)).each do |event, data|
-        if data.nil?
-          @procs[event].call self
-        else
-          @procs[event].call self, *data
-        end
+  def parse_cif_file(file)
+    filename = File.join RSPEC_FIXTURES, 'network_rail', 'schedule', "#{file}.yaml"
+    YAML.load(File.read(filename)).each do |event, data|
+      if data.nil?
+        @procs[event].call self
+      else
+        @procs[event].call self, *data
       end
     end
-  end
-
-  def get_headers_cif(*files)
-    headers = []
-    [*files].each do |file|
-      filename = File.join RSPEC_FIXTURES, 'network_rail', 'schedule', "#{file}.yaml"
-      YAML.load(File.read(filename)).each do |event, data|
-        headers.push data if event.eql?(:on_header)
-      end
-    end
-    headers
   end
 end
 
@@ -55,10 +42,10 @@ describe RailFeeds::NetworkRail::Schedule::Data do
     data
   end
 
-  describe '#load_cif' do
+  describe '#load_cif_file' do
     describe 'Loads data' do
       context 'A full extract' do
-        before(:each) { subject.load_cif('full') }
+        before(:each) { subject.load_cif_file('full') }
 
         describe 'Replaces data' do
           it 'Headers' do
@@ -85,7 +72,10 @@ describe RailFeeds::NetworkRail::Schedule::Data do
       end
 
       context 'An update extract' do
-        before(:each) { subject.load_cif('full', 'update') }
+        before(:each) do
+          subject.load_cif_file 'full'
+          subject.load_cif_file 'update'
+        end
 
         describe 'Updates data' do
           it 'Headers' do
@@ -114,31 +104,34 @@ describe RailFeeds::NetworkRail::Schedule::Data do
 
       describe 'Errors on incorrect sequence', :skip_load_starting_data do
         it 'Update applied after a full extract' do
-          subject.load_cif('full')
-          expect { subject.load_cif('update') }.to_not raise_error
+          subject.load_cif_file 'full'
+          expect { subject.load_cif_file('update') }.to_not raise_error
         end
 
         it 'Update applied after previous update extract' do
-          subject.load_cif('full', 'update')
-          expect { subject.load_cif('update-next') }.to_not raise_error
+          subject.load_cif_file 'full'
+          subject.load_cif_file 'update'
+          expect { subject.load_cif_file('update-next') }.to_not raise_error
         end
 
         it 'Update applied with a gap' do
-          subject.load_cif('full', 'update')
+          subject.load_cif_file 'full'
+          subject.load_cif_file 'update'
           message = 'Missing update(s). Last applied update is "DFROC1L", ' \
                     'this update requires "DFROC1M" to be the previous applied update.'
-          expect { subject.load_cif('update-gap') }.to raise_error ArgumentError, message
+          expect { subject.load_cif_file('update-gap') }.to raise_error ArgumentError, message
         end
 
         it 'Update applied too old update' do
-          subject.load_cif('full', 'update')
+          subject.load_cif_file 'full'
+          subject.load_cif_file 'update'
           message = 'Update is too old, it is before the last applied update.'
-          expect { subject.load_cif('update-old') }.to raise_error ArgumentError, message
+          expect { subject.load_cif_file('update-old') }.to raise_error ArgumentError, message
         end
 
         it 'Update applied before a full extract' do
           message = 'Update can\'t be loaded before loading a full extract.'
-          expect { subject.load_cif('update') }.to raise_error ArgumentError, message
+          expect { subject.load_cif_file('update') }.to raise_error ArgumentError, message
         end
       end
     end
@@ -146,7 +139,8 @@ describe RailFeeds::NetworkRail::Schedule::Data do
 
   it '#generate_cif' do
     lines = []
-    subject.load_cif 'full', 'update'
+    subject.load_cif_file 'full'
+    subject.load_cif_file 'update'
     subject.generate_cif { |line| lines.push line }
     expect(lines).to eq([
       '/!! Start of file',

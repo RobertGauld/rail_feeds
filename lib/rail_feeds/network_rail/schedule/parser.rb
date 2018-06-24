@@ -74,79 +74,51 @@ module RailFeeds
         end
         # rubocop:enable Metrics/ParameterLists
 
-        # Parse the data in CIF file(s).
-        # @param [IO, Array<IO>] file
-        #   The file(s) to load data from.
-        def parse_cif(*files)
-          files.each do |file|
-            logger.debug "Checking completeness of #{file.inspect}"
-            ensure_file_is_complete(file)
-          end
-
-          files.each do |file|
-            @stop_parsing = false
-            parse_cif_file file
-            if @stop_parsing.eql?(:all)
-              logger.debug 'Parsing was stopped.'
-              break
-            end
-          end
-          logger.debug 'Finished parsing all files.'
-        end
-
-        # Get just the headers for each file
-        # @param [IO, Array<IO>] file
-        #   The file(s) to load data from.
-        # @return [Array<RailFeeds::NetworkRail::Schedule::Header>]
-        def get_headers_cif(*files)
-          files.map do |file|
-            file.rewind
-            file.each_line do |line|
-              next unless line[0..1].eql?('HD')
-              break Header.from_cif(line)
-            end
-          end
-        end
-
-        # Stop the current parsing operation.
-        # @param [:file, :all] what
-        #  Whether to stop parsing the current file or all files.
-        def stop_parsing(what = :all)
-          unless %i[all file].include?(what)
-            fail ArgumentError, 'what must be either :file or :all.'
-          end
-          @stop_parsing = what
-        end
-
-        private
-
-        # rubocop:disable Metrics/AbcSize
-        # rubocop:disable Metrics/MethodLength
+        # Parse the data in CIF file.
+        # @param [IO] file
+        #   The file to load data from.
         def parse_cif_file(file)
-          file.rewind
-          file.each_line do |line|
-            catch :line_parsed do
-              UNDERSTOOD_ROWS.each do |record_type|
-                if line.start_with?(record_type)
-                  send "parse_#{record_type.downcase}_line", line.chomp
-                  throw :line_parsed
-                end
-              end
+          @file_ended = false
+          @stop_parsing = false
 
-              if line[0].eql?('/')
-                parse_comment_line line.chomp
-                throw :line_parsed
-              end
-              logger.error "Can't understand line: #{line.chomp.inspect}"
-            end
+          file.each_line do |line|
+            parse_cif_line line
+
             if @stop_parsing
               logger.debug "Parsing of file #{file} was stopped."
               break
             end
           end
+
+          fail "File is incomplete. #{file}" unless @stop_parsing || @file_ended
         end
-        # rubocop:enable Metrics/AbcSize
-        # rubocop:enable Metrics/MethodLength
+
+        # Stop parsing the current file.
+        def stop_parsing
+          @stop_parsing = true
+        end
+
+        # Parse the data on a single CIF line
+        # @param [String] line
+        def parse_cif_line(line)
+          catch :line_parsed do
+            UNDERSTOOD_ROWS.each do |record_type|
+              if line.start_with?(record_type)
+                send "parse_#{record_type.downcase}_line", line.chomp
+                throw :line_parsed
+              end
+            end
+
+            if line[0].eql?('/')
+              parse_comment_line line.chomp
+              throw :line_parsed
+            end
+
+            logger.error "Can't understand line: #{line.chomp.inspect}"
+          end
+        end
+
+        private
 
         # Header record
         def parse_hd_line(line)
@@ -199,9 +171,9 @@ module RailFeeds
         # Train schedule record - basic schedule - delete
         def parse_bsd_line(line)
           finish_current_train
-          @current_train = Train.new
-          @current_train.update_from_cif line
-          @current_train_action = :delete
+          train = Train.new
+          train.update_from_cif line
+          @on_train_delete&.call self, train
         end
 
         # Train schedule record - basic schedule - revise
@@ -232,8 +204,6 @@ module RailFeeds
           case @current_train_action
           when :new
             @on_train_new&.call self, @current_train
-          when :delete
-            @on_train_delete&.call self, @current_train
           when :revise
             @on_train_revise&.call self, @current_train
           end
@@ -244,40 +214,13 @@ module RailFeeds
         # Trailer record
         def parse_zz_line(_line)
           finish_current_train
+          @file_ended = true
           @on_trailer&.call self
         end
 
         # Comment
         def parse_comment_line(line)
           @on_comment&.call self, line[1..-1]
-        end
-
-        def ensure_file_is_complete(file)
-          readlines_backwards(file) do |line|
-            next if line[0].eql?('/') # It's a comment
-            next if line.chomp.eql?('')
-            # Fail unless this line is a vlid trailer line
-            fail "File is incomplete. #{file}" unless line.eql?("ZZ#{' ' * 78}\n")
-            break
-          end
-          file.rewind
-        end
-
-        def readlines_backwards(file)
-          file.seek(-1, IO::SEEK_END)
-          position = file.tell
-          line = +''
-
-          while position > 1
-            file.seek position
-            char = file.getc
-            if char.eql?("\n")
-              yield line.reverse
-              line = +''
-            end
-            line << char
-            position -= 1
-          end
         end
       end
       # rubocop:enable Metrics/ClassLength

@@ -35,10 +35,17 @@ RailFeeds::NetworkRail::Credentials.configure(
 
 # 2. Fetch some files
 fetcher = RailFeeds::NetworkRail::Schedule::Fetcher.new
-full_file = fetcher.fetch_all_full(:cif)
-update_file = fetcher.fetch_all_update('fri', :cif)
+
+fetcher.fetch_all_full(:cif) do |full_file|
+  ...
+end
+
+fetcher.fetch_all_update('fri', :cif) do |update_file|
+  ...
+end
 # Each of the file variables will contain a TempFile which can be used to read
-# the CIF data (or passed to the parser to make use of).
+# the CIF data (or passed to the parser to make use of). The files will be deleted
+# at the end of the block.
 ```
 
 
@@ -65,24 +72,30 @@ is supported.
   * on_train_delete(parser, instruction) - Delete an existing train schedule
 
 ``` ruby
-# 3. Parse the previously fetched files
+# 3. Parse the fetched files
 parser = RailFeeds::NetworkRail::Schedule::Parser.new(
   YOUR PROCS HERE
   e.g. on_header: my_header_proc
 )
-parser.parse_cif full_file, update_file
+fetcher.fetch_all_full(:cif) do |full_file|
+  parser.parse_cif full_file
+end
 # Your proc(s) can stop the parsing at anytime by calling parser.stop_parsing
 
 # 4. Print all the header information:
 header_proc = proc do |parser, header|
   puts header
-  parser.stop_parsing(:file)
+  parser.stop_parsing
 end
-
 parser = RailFeeds::NetworkRail::Schedule::Parser.new(
   on_header: header_proc
 )
-parser.parse_cif(full_file, update_file)
+fetcher.fetch_all_full(:cif) do |full_file|
+  parser.parse_cif_file full_file
+end
+fetcher.fetch_all_update(:cif) do |update_file|
+  parser.parse_cif_file update_file
+end
 ```
 
 
@@ -94,7 +107,13 @@ to get arrays of headers, tiplocs, associations and trains.
 ``` ruby
 # 5. Print all the headers
 # (wasteful as everything else gets loaded too)
-data = RailFeeds::NetworkRail::Schedule::
-data.load_cif(full_file, update_file)
-puts data.headers
+data = RailFeeds::NetworkRail::Schedule::Data.new
+fetcher.fetch_all_full(:cif) do |full_file|
+  data.load_cif_file full_file
+  puts data.last_header
+end
+fetcher.fetch_all_update(:cif) do |update_file|
+  data.load_cif_file update_file
+  puts data.last_header
+end
 ```

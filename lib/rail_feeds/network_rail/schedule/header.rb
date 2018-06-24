@@ -65,7 +65,7 @@ module RailFeeds
         end
 
         def hash
-          current_file_reference.dup
+          current_file_reference&.dup
         end
 
         # rubocop:disable Metrics/AbcSize

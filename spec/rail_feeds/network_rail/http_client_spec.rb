@@ -11,9 +11,14 @@ describe RailFeeds::NetworkRail::HTTPClient do
     end
 
     it 'Adds credentials when getting path' do
+      credentials = RailFeeds::NetworkRail::Credentials.new(
+        username: 'user',
+        password: 'pass'
+      )
       uri = double URI
       expect(URI).to receive(:parse).and_return(uri)
       expect(uri).to receive(:open).with(http_basic_authentication: ['user', 'pass'])
+      subject = described_class.new credentials: credentials
       expect(subject.get('path')).to be_nil
     end
 

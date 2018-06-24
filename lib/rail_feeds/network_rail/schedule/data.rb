@@ -6,6 +6,8 @@ module RailFeeds
       # rubocop:disable Metrics/ClassLength
       # A class for holding schedule data read from schedule file(s).
       class Data
+        include Logging
+
         # @!attribute [r] last_header The last header added.
         # @return [RailFeeds::NetworkRail::Schedule::Header]
         # @!attribute [r] associations
@@ -20,10 +22,10 @@ module RailFeeds
         # rubocop:disable Metrics/AbcSize
         # rubocop:disable Metrics/MethodLength
         # Initialize a new data.
-        # @param [Logger] logger
-        #   The logger for outputting events.
-        def initialize(logger: Logger.new(IO::NULL))
-          @logger = logger
+        # @param [Logger, nil] logger
+        #   The logger for outputting events, if nil the global logger is used.
+        def initialize(logger: nil)
+          self.logger = logger unless logger.nil?
           @parser = Parser.new(
             logger: logger,
             on_header: proc { |*args| do_header(*args) },
@@ -52,9 +54,9 @@ module RailFeeds
           ensure_correct_update_order(*files)
           @parser.parse_cif(*files)
 
-          @logger.info "Finished loading #{files.count} file(s)."
-          @logger.info "Currently have #{associations.count} associations, " \
-                       "#{tiplocs.count} tiplocs, #{trains.count} trains."
+          logger.info "Finished loading #{files.count} file(s)."
+          logger.info "Currently have #{associations.count} associations, " \
+                      "#{tiplocs.count} tiplocs, #{trains.count} trains."
         end
 
         # rubocop:disable Metrics/AbcSize

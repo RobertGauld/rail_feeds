@@ -7,6 +7,7 @@ module RailFeeds
   module NetworkRail
     # A wrapper class for ::Stomp::Client which provides durable subscriptions
     class StompClient
+      include Logging
       extend Forwardable
 
       HOST = 'datafeeds.networkrail.co.uk'
@@ -15,11 +16,11 @@ module RailFeeds
       # Initialize a new stomp client.
       # @param [RailFeeds::NetworkRail::Credentials] credentials
       #   The credentials for connecting to the feed.
-      # @param [Logger] logger
-      #   The logger for outputting evetns.
-      def initialize(credentials: Credentials, logger: Logger.new(IO::NULL))
+      # @param [Logger, nil] logger
+      #   The logger for outputting evetns, if nil the global logger will be used.
+      def initialize(credentials: Credentials, logger: nil)
         @credentials = credentials
-        @logger = logger
+        self.logger = logger unless logger.nil?
       end
 
       # rubocop:disable Metrics/MethodLength
@@ -39,7 +40,7 @@ module RailFeeds
             'accept-version' => '1.1',
             'heart-beat' => '5000,10000'
           },
-          logger: @logger
+          logger: logger
         }
         @client = Stomp::Client.new client_options
       end

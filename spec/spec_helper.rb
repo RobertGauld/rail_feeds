@@ -35,6 +35,10 @@ RSpec.configure do |config|
     # configuration.syntax = [:expect, :should]
     configuration.syntax = :expect
   end
+
+  config.before(:example) do
+    RailFeeds::Logging.logger = Logger.new(IO::NULL)
+  end
 end
 
 require 'rail_feeds'

@@ -6,12 +6,14 @@ module RailFeeds
       # rubocop:disable Metrics/ClassLength
       # A class for parsing schedule data read from schedule file(s).
       class Parser
+        include Logging
+
         UNDERSTOOD_ROWS = %w[HD TI TA TD AAN AAD AAR BSN BSD BSR BX LO LI LT CR ZZ].freeze
 
         # rubocop:disable Metrics/ParameterLists
         # Initialize a new data.
-        # @param [Logger] logger
-        #   The logger for outputting events.
+        # @param [Logger, nil] logger
+        #   The logger for outputting events, if nil the global logger will be used.
         # @param [Proc, #call] on_header
         #   The proc to call when the header is received.
         #   Passes self and a RailFeeds::NetworkRail::Schedule::Header.
@@ -49,14 +51,14 @@ module RailFeeds
         #   The proc to call when a comment is received.
         #   Passes self and a String.
         def initialize(
-          logger: Logger.new(IO::NULL),
+          logger: nil,
           on_header: nil, on_trailer: nil, on_comment: nil,
           on_tiploc_insert: nil, on_tiploc_amend: nil, on_tiploc_delete: nil,
           on_association_new: nil, on_association_revise: nil,
           on_association_delete: nil,
           on_train_new: nil, on_train_revise: nil, on_train_delete: nil
         )
-          @logger = logger
+          self.logger = logger unless logger.nil?
           @on_header = on_header
           @on_trailer = on_trailer
           @on_tiploc_insert = on_tiploc_insert
@@ -77,7 +79,7 @@ module RailFeeds
         #   The file(s) to load data from.
         def parse_cif(*files)
           files.each do |file|
-            @logger.debug "Checking completeness of #{file.inspect}"
+            logger.debug "Checking completeness of #{file.inspect}"
             ensure_file_is_complete(file)
           end
 
@@ -85,11 +87,11 @@ module RailFeeds
             @stop_parsing = false
             parse_cif_file file
             if @stop_parsing.eql?(:all)
-              @logger.debug 'Parsing was stopped.'
+              logger.debug 'Parsing was stopped.'
               break
             end
           end
-          @logger.debug 'Finished parsing all files.'
+          logger.debug 'Finished parsing all files.'
         end
 
         # Get just the headers for each file
@@ -135,10 +137,10 @@ module RailFeeds
                 parse_comment_line line.chomp
                 throw :line_parsed
               end
-              @logger.error "Can't understand line: #{line.chomp.inspect}"
+              logger.error "Can't understand line: #{line.chomp.inspect}"
             end
             if @stop_parsing
-              @logger.debug "Parsing of file #{file} was stopped."
+              logger.debug "Parsing of file #{file} was stopped."
               break
             end
           end
@@ -149,7 +151,7 @@ module RailFeeds
         # Header record
         def parse_hd_line(line)
           header = Header.from_cif(line)
-          @logger.info "Starting Parse. #{header}"
+          logger.info "Starting Parse. #{header}"
           @on_header&.call self, header
         end
 

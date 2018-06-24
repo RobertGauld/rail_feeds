@@ -184,7 +184,7 @@ describe RailFeeds::NetworkRail::Schedule::Parser do
     it 'Logs and ignores bad line' do
       file = StringIO.new header_line + "XX\n" + trailer_line
       logger = double Logger
-      expect(Logger).to receive(:new).and_return(logger)
+      allow(described_class).to receive(:logger).and_return(logger)
       allow(logger).to receive(:debug)
       allow(logger).to receive(:info)
       expect(logger).to receive(:error).with('Can\'t understand line: "XX"')

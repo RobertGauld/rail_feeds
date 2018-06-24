@@ -21,8 +21,3 @@ test/tmp
 test/version_tmp
 tmp
 gemfiles/*.lock
-
-# YARD artifacts
-.yardoc
-_yardoc
-doc/

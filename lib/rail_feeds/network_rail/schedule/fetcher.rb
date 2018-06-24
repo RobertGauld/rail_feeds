@@ -7,14 +7,16 @@ module RailFeeds
     module Schedule
       # A class for fetching the schedule data files.
       class Fetcher
+        include Logging
+
         # Initialize a new schedule
         # @param [RailFeeds::NetworkRail::Credentials] credentials
         #   The credentials for connecting to the feed.
-        # @param [Logger] logger
-        #   The logger for outputting events.
-        def initialize(credentials: Credentials, logger: Logger.new(IO::NULL))
+        # @param [Logger, nil] logger
+        #   The logger for outputting events, if nil the global logger will be used.
+        def initialize(credentials: Credentials, logger: nil)
           @credentials = credentials
-          @logger = logger
+          self.logger = logger unless logger.nil?
         end
 
         # Fetch a schedule.
@@ -44,7 +46,7 @@ module RailFeeds
           path = path_for_schedule(type, toc, day)
           path += '.CIF.gz' if format.eql?(:cif)
 
-          client = HTTPClient.new(credentials: @credentials, logger: @logger)
+          client = HTTPClient.new(credentials: @credentials, logger: logger)
           client.get_unzipped(path)
         end
 
@@ -106,8 +108,8 @@ module RailFeeds
         # rubocop:disable Metrics/AbcSize
         # rubocop:disable Metrics/MethodLength
         def path_for_schedule(type, toc = nil, day = nil)
-          @logger.debug "path_for_schedule #{type.inspect}, " \
-                        "#{toc.inspect}, #{day.inspect}"
+          logger.debug "path_for_schedule #{type.inspect}, " \
+                      "#{toc.inspect}, #{day.inspect}"
           # CifFileAuthenticate?type=CIF_ALL_FULL_DAILY&day=toc-full
           # CifFileAuthenticate?type=CIF_ALL_FULL_DAILY&day=toc-full.CIF.gz
           # CifFileAuthenticate?type=CIF_XX_TOC_FULL_DAILY&day=toc-full

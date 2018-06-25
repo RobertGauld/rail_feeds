@@ -19,7 +19,6 @@ and Staging (which is what is currently being developed ready for moving to mast
 ## Ruby Versions
 This gem supports the following versions of ruby, it may work on other versions but is not tested against them so don't rely on it.
 
-  * 2.3.0 - 2.3.6
   * 2.4.0 - 2.4.3
   * 2.5.0 - 2.5.1
 

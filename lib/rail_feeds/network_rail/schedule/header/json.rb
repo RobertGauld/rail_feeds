@@ -31,7 +31,7 @@ module RailFeeds
             metadata = data['Metadata']
 
             new(
-              extracted_at: Time.strptime(data['timestamp'].to_s, '%s'),
+              extracted_at: Time.strptime(data['timestamp'].to_s, '%s').utc,
               sequence: metadata['sequence']
             )
           end

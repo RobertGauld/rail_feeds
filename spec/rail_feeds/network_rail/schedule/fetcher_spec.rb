@@ -129,8 +129,8 @@ describe RailFeeds::NetworkRail::Schedule::Fetcher do
     end
 
     it 'JSON format' do
-      update_sat = StringIO.new '{"JsonTimetableV1":{"timestamp":1529103600,"Metadata":{"sequence":2193}}}' + "\n"
-      update_sun = StringIO.new '{"JsonTimetableV1":{"timestamp":1529190000,"Metadata":{"sequence":2194}}}' + "\n"
+      update_sat = StringIO.new '{"JsonTimetableV1":{"timestamp":1529190644,"Metadata":{"sequence":2193}}}' + "\n"
+      update_sun = StringIO.new '{"JsonTimetableV1":{"timestamp":1529277044,"Metadata":{"sequence":2194}}}' + "\n"
       expect(subject).to receive(:fetch_all_update).with('sat', :json).and_yield(update_sat)
       expect(subject).to receive(:fetch_all_update).with('sun', :json).and_yield(update_sun)
       expect(subject).to_not receive(:fetch_all_update).with('mon', :json)

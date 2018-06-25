@@ -8,7 +8,7 @@ describe RailFeeds::NetworkRail::Schedule::Header::CIF do
 
   describe 'Sets attributes' do
     it(':file_identity') { expect(subject.file_identity).to eq 'a' }
-    it(':extracted_at') { expect(subject.extracted_at).to eq Time.new(2003, 2, 1, 4, 5) }
+    it(':extracted_at') { expect(subject.extracted_at).to eq Time.new(2003, 2, 1, 4, 5, 0, 0) }
     it(':current_file_reference') { expect(subject.current_file_reference).to eq 'b' }
     it(':previous_file_reference') { expect(subject.previous_file_reference).to eq 'c' }
     it(':update_indicator') { expect(subject.update_indicator).to eq 'd' }

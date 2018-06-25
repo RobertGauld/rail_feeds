@@ -5,10 +5,10 @@ describe RailFeeds::NetworkRail::Schedule::Header::JSON do
 
   it '::from_json' do
     subject = described_class.from_json(
-      '{"JsonTimetableV1":{"timestamp":1529708668,"Metadata":{"sequence":2200}}}'
+      '{"JsonTimetableV1":{"timestamp":1529712268,"Metadata":{"sequence":2200}}}'
     )
 
-    expect(subject.extracted_at).to eq Time.new 2018, 6, 23, 0, 4, 28
+    expect(subject.extracted_at).to eq Time.new(2018, 6, 23, 0, 4, 28, 0)
     expect(subject.sequence).to eq 2200
     expect(subject.start_date).to eq Date.new 2018, 6, 22
   end

@@ -26,6 +26,23 @@ describe RailFeeds::NetworkRail::Schedule::Association do
       expect { described_class.from_cif('bad line') }
         .to raise_error ArgumentError, "Invalid line:\nbad line"
     end
+
+    it 'Delete line' do
+      line = 'AADW43767W43768180529                ASHFKY   T                                C'
+      subject = described_class.from_cif line
+      expect(subject.main_train_uid).to eq 'W43767'
+      expect(subject.associated_train_uid).to eq 'W43768'
+      expect(subject.start_date).to eq Date.new(2018, 5, 29)
+      expect(subject.end_date).to be_nil
+      expect(subject.days).to eq [false, false, false, false, false, false, false]
+      expect(subject.category).to be_nil
+      expect(subject.date_indicator).to be_nil
+      expect(subject.tiploc).to eq 'ASHFKY'
+      expect(subject.main_location_suffix).to be_nil
+      expect(subject.associated_location_suffix).to be_nil
+      expect(subject.type).to be_nil
+      expect(subject.stp_indicator).to eq :stp_cancellation
+    end
   end
 
   describe 'Helper methods' do

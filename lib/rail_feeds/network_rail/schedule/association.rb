@@ -74,14 +74,14 @@ module RailFeeds
             main_train_uid: line[3..8].strip,
             associated_train_uid: line[9..14].strip,
             start_date: Schedule.make_date(line[15..20]),
-            end_date: Schedule.make_date(line[21..26]),
+            end_date: Schedule.make_date(line[21..26], allow_nil: line[2].eql?('D')),
             days: days_from_cif(line[27..33]),
-            category: line[34..35].strip,
-            date_indicator: line[36].strip,
+            category: Schedule.nil_or_strip(line[34..35]),
+            date_indicator: Schedule.nil_or_strip(line[36]),
             tiploc: line[37..43].strip,
             main_location_suffix: Schedule.nil_or_i(line[44]),
             associated_location_suffix: Schedule.nil_or_i(line[45]),
-            type: line[47].strip,
+            type: Schedule.nil_or_strip(line[47]),
             stp_indicator: stp_indicator_from_cif(line[79])
           )
         end

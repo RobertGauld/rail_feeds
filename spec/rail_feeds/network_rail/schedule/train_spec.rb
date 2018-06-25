@@ -115,7 +115,7 @@ describe RailFeeds::NetworkRail::Schedule::Train do
       expect(subject.journey).to eq [:change]
     end
 
-    it '#journey contains locations and chane en routes' do
+    it '#journey contains locations and change en routes' do
       expect(RailFeeds::NetworkRail::Schedule::Train::Location)
         .to receive(:from_cif).with('LO').and_return(:origin)
       expect(RailFeeds::NetworkRail::Schedule::Train::Location)
@@ -135,6 +135,32 @@ describe RailFeeds::NetworkRail::Schedule::Train do
       line = 'bad line'
       expect { subject.update_from_cif line }
         .to raise_error ArgumentError, 'Improper line type ba: bad line'
+    end
+
+    it 'Delete line' do
+      line = 'BSDC77714180526                                                                P'
+      subject.update_from_cif line
+      expect(subject.uid).to eq 'C77714'
+      expect(subject.start_date).to eq Date.new(2018, 5, 26)
+      expect(subject.end_date).to be_nil
+      expect(subject.days).to eq [false, false, false, false, false, false, false]
+      expect(subject.run_on_bank_holiday).to be_nil
+      expect(subject.status).to be_nil
+      expect(subject.category).to be_nil
+      expect(subject.signalling_headcode).to be_nil
+      expect(subject.reservation_headcode).to be_nil
+      expect(subject.service_code).to be_nil
+      expect(subject.portion_id).to be_nil
+      expect(subject.power_type).to be_nil
+      expect(subject.timing_load).to be_nil
+      expect(subject.speed).to be_nil
+      expect(subject.operating_characteristics).to be_nil
+      expect(subject.seating_class).to be_nil
+      expect(subject.sleeping_class).to be_nil
+      expect(subject.reservations).to be_nil
+      expect(subject.catering).to be_nil
+      expect(subject.branding).to be_nil
+      expect(subject.stp_indicator).to eq :permanent
     end
   end
 

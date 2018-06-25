@@ -161,23 +161,23 @@ module RailFeeds
         def update_basic_information(line)
           self.uid = line[3..8].strip
           self.start_date = Schedule.make_date line[9..14]
-          self.end_date = Schedule.make_date line[15..20]
+          self.end_date = Schedule.make_date line[15..20], allow_nil: line[2].eql?('D')
           self.days = days_from_cif line[21..27]
           self.run_on_bank_holiday = Schedule.nil_or_strip line[28]
-          self.status = line[29]
-          self.category = line[30..31]
+          self.status = Schedule.nil_or_strip(line[29])
+          self.category = Schedule.nil_or_strip(line[30..31])
           self.signalling_headcode = Schedule.nil_or_strip line[32..35]
           self.reservation_headcode = Schedule.nil_or_i line[36..39]
           self.service_code = Schedule.nil_or_i line[41..48]
           self.portion_id = Schedule.nil_or_strip line[49]
-          self.power_type = line[50..52].strip
+          self.power_type = Schedule.nil_or_strip(line[50..52])
           self.timing_load = Schedule.nil_or_strip line[53..56].strip
-          self.speed = line[57..59].to_i
+          self.speed = Schedule.nil_or_i(line[57..59])
           self.operating_characteristics = Schedule.nil_or_strip line[60..65].strip
           self.seating_class = Schedule.nil_or_strip line[66]
           self.sleeping_class = Schedule.nil_or_strip line[67]
           self.reservations = Schedule.nil_or_strip line[68]
-          self.catering = line[70..73].strip
+          self.catering = Schedule.nil_or_strip(line[70..73])
           self.branding = Schedule.nil_or_strip line[74..77].strip
           self.stp_indicator = stp_indicator_from_cif line[79]
         end

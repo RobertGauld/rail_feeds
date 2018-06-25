@@ -23,7 +23,8 @@ module RailFeeds
         value.strip
       end
 
-      def self.make_date(value)
+      def self.make_date(value, allow_nil: false)
+        return nil if allow_nil && value.strip.empty?
         return Date.new(9999, 12, 31) if value.eql?('999999')
         Date.strptime(value, '%y%m%d')
       end

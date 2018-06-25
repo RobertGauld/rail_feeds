@@ -40,9 +40,10 @@ module RailFeeds
       #   @yieldparam [Zlib::GzipReader] reader The unzippable content of the file.
       def get_unzipped(path)
         logger.debug "get_unzipped(#{path.inspect})"
-        gz_file = get(path)
-        logger.debug "gz_file = #{gz_file.inspect}"
-        yield Zlib::GzipReader.open(gz_file.path)
+        get(path) do |gz_file|
+          logger.debug "gz_file = #{gz_file.inspect}"
+          yield Zlib::GzipReader.open(gz_file.path)
+        end
       end
     end
   end

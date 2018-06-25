@@ -28,5 +28,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rspec', '>= 3.7', '< 4'
   s.add_development_dependency 'rubocop', '~> 0.57.1'
   s.add_development_dependency 'simplecov', '~> 0.7'
+  s.add_development_dependency 'timecop', '~> 0.5'
 end
-

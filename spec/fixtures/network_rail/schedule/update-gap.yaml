@@ -1,7 +1,7 @@
 ---
 
 - - :on_header
-  - !ruby/object:RailFeeds::NetworkRail::Schedule::Header
+  - !ruby/object:RailFeeds::NetworkRail::Schedule::Header::CIF
     current_file_reference: DFROC1N
     previous_file_reference: DFROC1M
     update_indicator: U

@@ -22,7 +22,7 @@ describe RailFeeds::NetworkRail::Schedule do
   describe '::make_date' do
     context 'Empty value' do
       it 'Empty values not allowed' do
-        expect { described_class.make_date('      ') }.to raise_error ArgumentError, 'invalid date'
+        expect { described_class.make_date('      ') }.to raise_error ArgumentError
       end
       it 'Empty values allowed' do
         expect(described_class.make_date('      ', allow_nil: true)).to be_nil

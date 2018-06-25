@@ -81,7 +81,7 @@ describe RailFeeds::NetworkRail::Schedule::Parser do
     it 'Calls on_header proc' do
       expect(on_header_proc).to receive(:call).with(
         instance_of(RailFeeds::NetworkRail::Schedule::Parser),
-        instance_of(RailFeeds::NetworkRail::Schedule::Header)
+        instance_of(RailFeeds::NetworkRail::Schedule::Header::CIF)
       )
       subject.parse_cif_line header_line
     end

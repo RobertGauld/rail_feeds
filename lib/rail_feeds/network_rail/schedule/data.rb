@@ -9,7 +9,7 @@ module RailFeeds
         include Logging
 
         # @!attribute [r] last_header The last header added.
-        # @return [RailFeeds::NetworkRail::Schedule::Header]
+        # @return [RailFeeds::NetworkRail::Schedule::Header::CIF]
         # @!attribute [r] associations
         # @return [Array<RailFeeds::NetworkRail::Schedule::Association>]
         # @!attribute [r] tiplocs
@@ -63,7 +63,7 @@ module RailFeeds
         def generate_cif
           fail 'No loaded data' if last_header.nil?
 
-          header = Header.new(
+          header = Header::CIF.new(
             extracted_at: last_header.extracted_at,
             update_indicator: 'F',
             start_date: last_header.start_date,
@@ -80,6 +80,29 @@ module RailFeeds
           yield "/!! End of file\n"
         end
         # rubocop:enable Metrics/AbcSize
+
+        # Fetch data over the web.
+        # Gets the feed of all trains.
+        # @param [RailFeeds::NetworkRail::Credentials] credentials
+        #   The credentials for connecting to the feed.
+        # @return [RailFeeds::NetworkRail::Schedule::Header::CIF]
+        #   The header of the last file added.
+        def fetch_data(credentials: Credentials)
+          fetcher = Fetcher.new credentials: credentials
+
+          method = if last_header.nil? ||
+                      last_header.extracted_at.to_date < Date.today - 6
+                     # Need to get a full andthen updates
+                     :fetch_all
+                   else
+                     # Can only get updates
+                     :fetch_all_updates
+                   end
+
+          fetcher.send(method, :cif) do |file|
+            load_cif_file file
+          end
+        end
 
         # Inplace sort the various data arrays
         def sort!

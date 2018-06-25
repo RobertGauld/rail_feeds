@@ -48,12 +48,9 @@ describe RailFeeds::NetworkRail::HTTPClient do
   end
 
   describe '#get_unzipped' do
-    before :each do
-      expect(subject).to receive(:get).and_return(temp_file)
-    end
-
     it 'Returns what Zlib::GzipReader.open does' do
       reader = double Zlib::GzipReader
+      expect(subject).to receive(:get).with('path').and_yield(temp_file)
       expect(temp_file).to receive(:path).and_return('gz_file_path')
       expect(Zlib::GzipReader).to receive(:open).with('gz_file_path').and_return(reader)
       expect { |a| subject.get_unzipped('path', &a) }.to yield_with_args(reader)

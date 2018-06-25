@@ -171,6 +171,47 @@ describe RailFeeds::NetworkRail::Schedule::Data do
     ].map { |i| "#{i}\n" })
   end
 
+  describe '#fetch_data' do
+    let(:fetcher) { double RailFeeds::NetworkRail::Schedule::Fetcher }
+    before :each do
+      expect(RailFeeds::NetworkRail::Schedule::Fetcher)
+        .to receive(:new).and_return(fetcher)
+    end
+
+    it 'Gets a full update if empty of data', :skip_load_starting_data do
+      full_file = StringIO.new
+      update_file = StringIO.new
+
+      expect(fetcher).to receive(:fetch_all).and_yield(full_file).and_yield(update_file)
+      expect(subject).to receive(:load_cif_file).with(full_file)
+      expect(subject).to receive(:load_cif_file).with(update_file)
+
+      subject.fetch_data
+    end
+
+    it 'Gets a full update if not updated in last week' do
+      Timecop.freeze 2018, 6, 21
+      full_file = StringIO.new
+      update_file = StringIO.new
+
+      expect(fetcher).to receive(:fetch_all).and_yield(full_file).and_yield(update_file)
+      expect(subject).to receive(:load_cif_file).with(full_file)
+      expect(subject).to receive(:load_cif_file).with(update_file)
+
+      subject.fetch_data
+    end
+
+    it 'Just gets updates if updated in last week' do
+      Timecop.freeze 2018, 6, 20
+      update_file = StringIO.new
+
+      expect(fetcher).to receive(:fetch_all_updates).and_yield(update_file)
+      expect(subject).to receive(:load_cif_file).with(update_file)
+
+      subject.fetch_data
+    end
+  end
+
   it '#sort!' do
     expect(subject.associations).to receive(:sort!)
     expect(subject.tiplocs).to receive(:sort!)

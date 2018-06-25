@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'timecop'
 require 'yaml'
 
 require 'simplecov'
@@ -39,6 +40,8 @@ RSpec.configure do |config|
   config.before(:example) do
     RailFeeds::Logging.logger = Logger.new(IO::NULL)
   end
+
+  config.after(:each) { Timecop.return }
 end
 
 require 'rail_feeds'

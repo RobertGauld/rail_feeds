@@ -101,19 +101,13 @@ end
 
 ## Just getting the data
 The RailFeeds::NetworkRail::Schedule::Data class can be used to avoid
-directly using the parser should you wish. You'll end up the abillity
-to get arrays of headers, tiplocs, associations and trains.
+directly using the parser and fetcher should you wish. You'll end up
+with the abillity to get arrays of headers, tiplocs, associations and
+trains at the expense of everything being loaded into RAM as once.
 
 ``` ruby
-# 5. Print all the headers
-# (wasteful as everything else gets loaded too)
 data = RailFeeds::NetworkRail::Schedule::Data.new
-fetcher.fetch_all_full(:cif) do |full_file|
-  data.load_cif_file full_file
-  puts data.last_header
-end
-fetcher.fetch_all_update(:cif) do |update_file|
-  data.load_cif_file update_file
-  puts data.last_header
-end
+data.fetch_data
+# Uses the fetcher to get the relevant full and/or update files to
+load the most up to date full schedule.
 ```

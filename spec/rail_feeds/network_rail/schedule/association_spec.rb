@@ -117,6 +117,15 @@ describe RailFeeds::NetworkRail::Schedule::Association do
     expect(subject.to_cif).to eq "#{line}\n"
   end
 
+  describe '#hash' do
+    it 'Uses tiploc, main_location_suffix and associated_location_suffix' do
+      subject.tiploc = 'TIPLOC'
+      subject.main_location_suffix = 1
+      subject.associated_location_suffix = 2
+      expect(subject.hash).to eq 'TIPLOC-1-2'
+    end
+  end
+
   describe '#<=>' do
     let(:association1) { described_class.new start_date: Date.new(2000, 1, 1) }
     let(:association2) { described_class.new start_date: Date.new(2000, 1, 2) }

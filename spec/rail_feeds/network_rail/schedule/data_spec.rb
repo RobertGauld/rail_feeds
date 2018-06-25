@@ -35,9 +35,9 @@ describe RailFeeds::NetworkRail::Schedule::Data do
       data.tiplocs.clear
       data.trains.clear
       data.instance_exec(starting_data[:last_header]) { |h| @last_header = h }
-      starting_data[:associations].each { |i| data.associations.push i }
-      starting_data[:trains].each { |i| data.trains.push i }
-      starting_data[:tiplocs].each { |i| data.tiplocs.push i }
+      starting_data[:associations].each { |i| data.associations[i.hash] = i }
+      starting_data[:trains].each { |i| data.trains[i.hash] = i }
+      starting_data[:tiplocs].each { |i| data.tiplocs[i.hash] = i }
     end
     data
   end
@@ -53,16 +53,16 @@ describe RailFeeds::NetworkRail::Schedule::Data do
           end
 
           it 'Tiplocs' do
-            expect(subject.tiplocs.map(&:tiploc)).to eq ['1', '2', '3']
+            expect(subject.tiplocs.values.map(&:tiploc)).to eq ['1', '2', '3']
           end
 
           it 'Associations' do
-            expect(subject.associations.map(&:main_location_suffix)).to eq ['a', 'b', 'c']
-            expect(subject.associations.map(&:category)).to eq ['JJ', 'JJ', 'JJ']
+            expect(subject.associations.values.map(&:main_location_suffix)).to eq ['a', 'b', 'c']
+            expect(subject.associations.values.map(&:category)).to eq ['JJ', 'JJ', 'JJ']
           end
 
           it 'Trains' do
-            expect(subject.trains.map(&:signalling_headcode)).to eq [
+            expect(subject.trains.values.map(&:signalling_headcode)).to eq [
               '1A11',
               '2B22',
               '3C33'
@@ -83,16 +83,16 @@ describe RailFeeds::NetworkRail::Schedule::Data do
           end
 
           it 'Tiplocs' do
-            expect(subject.tiplocs.map(&:tiploc)).to eq ['1', '3a', '4', '5a']
+            expect(subject.tiplocs.values.map(&:tiploc)).to eq ['1', '3a', '4', '5a']
           end
 
           it 'Associations' do
-            expect(subject.associations.map(&:main_location_suffix)).to eq ['a', 'c', 'd', 'e']
-            expect(subject.associations.map(&:category)).to eq ['JJ', 'VV', 'JJ', 'JJ']
+            expect(subject.associations.values.map(&:main_location_suffix)).to eq ['a', 'c', 'd', 'e']
+            expect(subject.associations.values.map(&:category)).to eq ['JJ', 'VV', 'JJ', 'JJ']
           end
 
           it 'Trains' do
-            expect(subject.trains.map(&:signalling_headcode)).to eq [
+            expect(subject.trains.values.map(&:signalling_headcode)).to eq [
               '1A11',
               '3c33',
               '4D44',
@@ -210,12 +210,5 @@ describe RailFeeds::NetworkRail::Schedule::Data do
 
       subject.fetch_data
     end
-  end
-
-  it '#sort!' do
-    expect(subject.associations).to receive(:sort!)
-    expect(subject.tiplocs).to receive(:sort!)
-    expect(subject.trains).to receive(:sort!)
-    expect { subject.sort! }.to_not raise_error
   end
 end

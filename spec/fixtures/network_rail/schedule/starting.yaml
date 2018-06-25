@@ -40,7 +40,7 @@
   transaction_type: N
 
 :tiplocs:
-  '1': !ruby/object:RailFeeds::NetworkRail::Schedule::Tiploc
+- !ruby/object:RailFeeds::NetworkRail::Schedule::Tiploc
     tiploc: '1'
     nlc: 1
     nlc_check_char: a
@@ -48,7 +48,7 @@
     tps_description: Tps 1
     stanox: 1
     crs: 1
-  '2': !ruby/object:RailFeeds::NetworkRail::Schedule::Tiploc
+- !ruby/object:RailFeeds::NetworkRail::Schedule::Tiploc
     tiploc: '2'
     nlc: 2
     nlc_check_char: b

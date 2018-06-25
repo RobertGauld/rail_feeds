@@ -145,6 +145,10 @@ module RailFeeds
           start_date <=> other&.start_date
         end
 
+        def hash
+          "#{tiploc}-#{main_location_suffix}-#{associated_location_suffix}"
+        end
+
         # rubocop:disable Metrics/AbcSize
         # rubocop:disable Metrics/MethodLength
         def to_cif

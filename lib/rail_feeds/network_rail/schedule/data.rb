@@ -11,11 +11,11 @@ module RailFeeds
         # @!attribute [r] last_header The last header added.
         # @return [RailFeeds::NetworkRail::Schedule::Header::CIF]
         # @!attribute [r] associations
-        # @return [Array<RailFeeds::NetworkRail::Schedule::Association>]
+        # @return [Hash<RailFeeds::NetworkRail::Schedule::Association>]
         # @!attribute [r] tiplocs
-        # @return [Array<RailFeeds::NetworkRail::Schedule::Tiploc>]
+        # @return [Hash<RailFeeds::NetworkRail::Schedule::Tiploc>]
         # @!attribute [r] trains
-        # @return [Array<RailFeeds::NetworkRail::Schedule::Train>]
+        # @return [Hash<RailFeeds::NetworkRail::Schedule::Train>]
 
         attr_accessor :last_header, :associations, :tiplocs, :trains
 
@@ -73,9 +73,9 @@ module RailFeeds
           yield "/!! Start of file\n"
           yield "/!! Generated: #{header.extracted_at.utc&.strftime('%d/%m/%Y %H:%M')}\n"
           yield header.to_cif
-          tiplocs.sort.each { |tiploc| yield tiploc.to_cif }
-          associations.sort.each { |association| yield association.to_cif }
-          trains.sort.each { |train| train.to_cif.each_line { |line| yield line } }
+          tiplocs.values.sort.each { |tiploc| yield tiploc.to_cif }
+          associations.values.sort.each { |association| yield association.to_cif }
+          trains.values.sort.each { |train| train.to_cif.each_line { |line| yield line } }
           yield "ZZ#{' ' * 78}\n"
           yield "/!! End of file\n"
         end
@@ -104,20 +104,13 @@ module RailFeeds
           end
         end
 
-        # Inplace sort the various data arrays
-        def sort!
-          associations.sort!
-          tiplocs.sort!
-          trains.sort!
-        end
-
         private
 
         def reset_data
           @last_header = nil
-          @associations = []
-          @tiplocs = []
-          @trains = []
+          @associations = {}
+          @tiplocs = {}
+          @trains = {}
         end
 
         # rubocop:disable Metrics/AbcSize
@@ -161,65 +154,47 @@ module RailFeeds
 
         # TIPLOC Insert record
         def do_tiploc_insert(_parser, tiploc)
-          tiplocs.push tiploc
+          tiplocs[tiploc.hash] = tiploc
         end
 
         # TIPLOC Amend record
-        def do_tiploc_amend(parser, tiploc_id, tiploc)
-          index = tiplocs.index do |t|
-            t.tiploc.eql?(tiploc_id)
-          end
-
-          if index.nil?
-            do_tiploc_insert parser, tiploc
-          else
-            tiplocs[index] = tiploc
-          end
+        def do_tiploc_amend(_parser, tiploc_id, tiploc)
+          tiplocs[tiploc_id] = tiploc
         end
 
         # TIPLOC Delete record
         def do_tiploc_delete(_parser, tiploc)
-          tiplocs.delete tiploc
+          tiplocs.delete tiploc.hash
         end
 
         # Association New record
         def do_association_new(_parser, association)
-          associations.push association
+          associations[association.hash] = association
         end
 
         # Association Revise record
-        def do_association_revise(parser, association)
-          index = associations.index(association)
-          if index.nil?
-            do_association_new parser, association
-          else
-            associations[index] = association
-          end
+        def do_association_revise(_parser, association)
+          associations[association.hash] = association
         end
 
         # Association Delete record
         def do_association_delete(_parser, association)
-          associations.delete association
+          associations.delete association.hash
         end
 
         # New Train received
         def do_train_new(_parser, train)
-          trains.push train
+          trains[train.hash] = train
         end
 
         # Revise Train received
-        def do_train_revise(parser, train)
-          index = trains.index(train)
-          if index.nil?
-            do_train_new parser, train
-          else
-            trains[index] = train
-          end
+        def do_train_revise(_parser, train)
+          trains[train.hash] = train
         end
 
         # Delete Train record
         def do_train_delete(_parser, train)
-          trains.delete train
+          trains.delete train.hash
         end
 
         # Trailer record

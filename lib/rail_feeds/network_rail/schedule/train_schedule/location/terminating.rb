@@ -3,7 +3,7 @@
 module RailFeeds
   module NetworkRail
     module Schedule
-      class Train
+      class TrainSchedule
         class Location
           # A class for holding info about a particular train's terminating location
           class Terminating < Location

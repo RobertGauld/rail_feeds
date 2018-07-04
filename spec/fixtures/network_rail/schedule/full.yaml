@@ -37,20 +37,20 @@
     category: JJ
     days: [true, true, true, true, true, false, false]
 
-- - :on_train_new
-  - !ruby/object:RailFeeds::NetworkRail::Schedule::Train
+- - :on_train_schedule_new
+  - !ruby/object:RailFeeds::NetworkRail::Schedule::TrainSchedule
     uid: 1
     signalling_headcode: '1A11'
     days: [true, true, true, true, true, false, false]
     journey: []
-- - :on_train_new
-  - !ruby/object:RailFeeds::NetworkRail::Schedule::Train
+- - :on_train_schedule_new
+  - !ruby/object:RailFeeds::NetworkRail::Schedule::TrainSchedule
     uid: 2
     signalling_headcode: '2B22'
     days: [true, true, true, true, true, false, false]
     journey: []
-- - :on_train_new
-  - !ruby/object:RailFeeds::NetworkRail::Schedule::Train
+- - :on_train_schedule_new
+  - !ruby/object:RailFeeds::NetworkRail::Schedule::TrainSchedule
     uid: 3
     signalling_headcode: '3C33'
     days: [true, true, true, true, true, false, false]

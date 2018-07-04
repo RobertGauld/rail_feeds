@@ -3,15 +3,15 @@
 require 'date'
 require 'time'
 
-require_relative 'train/change_en_route'
-require_relative 'train/location'
+require_relative 'train_schedule/change_en_route'
+require_relative 'train_schedule/location'
 
 module RailFeeds
   module NetworkRail
     module Schedule
       # rubocop:disable Metrics/ClassLength
       # A class for holding information about a particular train
-      class Train
+      class TrainSchedule
         include Comparable
         include Schedule::Days
         include Schedule::STPIndicator

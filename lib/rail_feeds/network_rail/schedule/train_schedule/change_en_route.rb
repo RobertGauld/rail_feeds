@@ -3,7 +3,7 @@
 module RailFeeds
   module NetworkRail
     module Schedule
-      class Train
+      class TrainSchedule
         # A class for holding information about a particular train's change en route
         class ChangeEnRoute
           # @!attribute [rw] tiploc
@@ -85,9 +85,9 @@ module RailFeeds
           # rubocop:disable Metrics/AbcSize
           # rubocop:disable Metrics/MethodLength
           # Apply these changes to a train.
-          # @param [RailFeeds::NetworkRail::Schedule::Train] train
+          # @param [RailFeeds::NetworkRail::Schedule::TrainSchedule] train
           #   The train to apply the changes to.
-          # @return [RailFeeds::NetworkRail::Schedule::Train]
+          # @return [RailFeeds::NetworkRail::Schedule::TrainSchedule]
           #   The train the changes were applied to.
           def apply_to(train)
             train.category = category

@@ -36,7 +36,12 @@ describe RailFeeds::NetworkRail::Schedule::Data do
       data.trains.clear
       data.instance_exec(starting_data[:last_header]) { |h| @last_header = h }
       starting_data[:associations].each { |i| data.associations[i.hash] = i }
-      starting_data[:trains].each { |i| data.trains[i.hash] = i }
+      starting_data[:trains].each do |uid, schedules|
+        data.trains[uid] = []
+        schedules.each do |i|
+          data.trains[uid].push i
+        end
+      end
       starting_data[:tiplocs].each { |i| data.tiplocs[i.hash] = i }
     end
     data
@@ -62,7 +67,7 @@ describe RailFeeds::NetworkRail::Schedule::Data do
           end
 
           it 'Trains' do
-            expect(subject.trains.values.map(&:signalling_headcode)).to eq [
+            expect(subject.trains.values.flatten.map(&:signalling_headcode)).to eq [
               '1A11',
               '2B22',
               '3C33'
@@ -92,7 +97,7 @@ describe RailFeeds::NetworkRail::Schedule::Data do
           end
 
           it 'Trains' do
-            expect(subject.trains.values.map(&:signalling_headcode)).to eq [
+            expect(subject.trains.values.flatten.map(&:signalling_headcode)).to eq [
               '1A11',
               '3c33',
               '4D44',

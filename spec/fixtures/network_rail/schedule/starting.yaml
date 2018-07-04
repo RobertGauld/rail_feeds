@@ -58,73 +58,74 @@
     crs: 2
 
 :trains:
-- !ruby/object:RailFeeds::NetworkRail::Schedule::Train
-  journey:
-  - !ruby/object:RailFeeds::NetworkRail::Schedule::Train::Location::Origin
-    scheduled_departure: '1111'
-    public_departure: '1111'
-    tiploc_with_suffix: 1
-  - !ruby/object:RailFeeds::NetworkRail::Schedule::Train::Location::Terminating
-    scheduled_arrival: '2222'
-    public_arrival: '2222'
-    tiploc_with_suffix: 2
-  uid: 1
-  category: 
-  status: 
-  stp_indicator: 
-  portion_id: 
-  reservation_headcode: 
-  signalling_headcode: 1A11
-  service_code: 
-  start_date: 2018-06-14
-  end_date: 2019-06-13
-  days: [true, true, true, true, true, true, false, false]
-  run_on_bank_holiday: ''
-  power_type: DMU
-  timing_load: 
-  speed: 75
-  operating_characteristics: 
-  seating_class: B
-  sleeping_class: 
-  reservations: 
-  catering: 
-  branding: 
-  uic_code: 
-  atoc_code: 
-  applicable_timetable: Y
-  transaction_type: N
-- !ruby/object:RailFeeds::NetworkRail::Schedule::Train
-  journey:
-  - !ruby/object:RailFeeds::NetworkRail::Schedule::Train::Location::Origin
-    scheduled_departure: '1111'
-    public_departure: '1111'
-    tiploc_with_suffix: 2
-  - !ruby/object:RailFeeds::NetworkRail::Schedule::Train::Location::Terminating
-    scheduled_arrival: '2222'
-    public_arrival: '2222'
-    tiploc_with_suffix: 1
-  uid: 1
-  category: 
-  status: 
-  stp_indicator: 
-  portion_id: 
-  reservation_headcode: 
-  signalling_headcode: 1A11
-  service_code: 
-  start_date: 2018-06-14
-  end_date: 2019-06-13
-  days: [true, true, true, true, true, true, false, false]
-  run_on_bank_holiday: ''
-  power_type: DMU
-  timing_load: 
-  speed: 75
-  operating_characteristics: 
-  seating_class: B
-  sleeping_class: 
-  reservations: 
-  catering: 
-  branding: 
-  uic_code: 
-  atoc_code: 
-  applicable_timetable: Y
-  transaction_type: N
+  '1':
+  - !ruby/object:RailFeeds::NetworkRail::Schedule::TrainSchedule
+    journey:
+    - !ruby/object:RailFeeds::NetworkRail::Schedule::TrainSchedule::Location::Origin
+      scheduled_departure: '1111'
+      public_departure: '1111'
+      tiploc_with_suffix: 1
+    - !ruby/object:RailFeeds::NetworkRail::Schedule::TrainSchedule::Location::Terminating
+      scheduled_arrival: '2222'
+      public_arrival: '2222'
+      tiploc_with_suffix: 2
+    uid: 1
+    category: 
+    status: 
+    stp_indicator: 
+    portion_id: 
+    reservation_headcode: 
+    signalling_headcode: 1A11
+    service_code: 
+    start_date: 2018-06-14
+    end_date: 2019-06-13
+    days: [true, true, true, true, true, true, false, false]
+    run_on_bank_holiday: ''
+    power_type: DMU
+    timing_load: 
+    speed: 75
+    operating_characteristics: 
+    seating_class: B
+    sleeping_class: 
+    reservations: 
+    catering: 
+    branding: 
+    uic_code: 
+    atoc_code: 
+    applicable_timetable: Y
+    transaction_type: N
+  - !ruby/object:RailFeeds::NetworkRail::Schedule::TrainSchedule
+    journey:
+    - !ruby/object:RailFeeds::NetworkRail::Schedule::TrainSchedule::Location::Origin
+      scheduled_departure: '1111'
+      public_departure: '1111'
+      tiploc_with_suffix: 2
+    - !ruby/object:RailFeeds::NetworkRail::Schedule::TrainSchedule::Location::Terminating
+      scheduled_arrival: '2222'
+      public_arrival: '2222'
+      tiploc_with_suffix: 1
+    uid: 1
+    category: 
+    status: 
+    stp_indicator: 
+    portion_id: 
+    reservation_headcode: 
+    signalling_headcode: 1A11
+    service_code: 
+    start_date: 2018-06-14
+    end_date: 2019-06-13
+    days: [true, true, true, true, true, true, false, false]
+    run_on_bank_holiday: ''
+    power_type: DMU
+    timing_load: 
+    speed: 75
+    operating_characteristics: 
+    seating_class: B
+    sleeping_class: 
+    reservations: 
+    catering: 
+    branding: 
+    uic_code: 
+    atoc_code: 
+    applicable_timetable: Y
+    transaction_type: N

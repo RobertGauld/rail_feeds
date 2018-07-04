@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-describe RailFeeds::NetworkRail::Schedule::Train::Location::Origin do
-  subject { described_class.new tiploc: 'aaaaaaa', tiploc_suffix: 1 }
+describe RailFeeds::NetworkRail::Schedule::TrainSchedule::Location::Terminating do
+  subject { described_class.new tiploc: 'bbbbbbb', tiploc_suffix: 2 }
   let(:line) do
-    'LOttttttt1dddddDDDDPlaLin2H3 aaaaaaaaaaaa45                                     '
+    'LTttttttt1aaaaaAAAAPlaPataaaaaaaaaaaa                                           '
   end
 
   describe '::from_cif' do
@@ -12,14 +12,11 @@ describe RailFeeds::NetworkRail::Schedule::Train::Location::Origin do
 
       expect(subject.tiploc).to eq 'ttttttt'
       expect(subject.tiploc_suffix).to eq 1
-      expect(subject.scheduled_departure).to eq 'ddddd'
-      expect(subject.public_departure).to eq 'DDDD'
+      expect(subject.scheduled_arrival).to eq 'aaaaa'
+      expect(subject.public_arrival).to eq 'AAAA'
       expect(subject.platform).to eq 'Pla'
-      expect(subject.line).to eq 'Lin'
-      expect(subject.engineering_allowance).to eq 2.5
-      expect(subject.pathing_allowance).to eq 3.0
+      expect(subject.path).to eq 'Pat'
       expect(subject.activity).to eq 'aaaaaaaaaaaa'
-      expect(subject.performance_allowance).to eq 45.0
     end
 
     it 'Fails for invalid line' do
@@ -35,7 +32,7 @@ describe RailFeeds::NetworkRail::Schedule::Train::Location::Origin do
 
   describe '#hash' do
     it 'Uses tiploc and tiploc_suffix' do
-      expect(subject.hash).to eq 'aaaaaaa-1'
+      expect(subject.hash).to eq 'bbbbbbb-2'
     end
   end
 

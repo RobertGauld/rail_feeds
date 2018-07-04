@@ -65,44 +65,44 @@
     days: [true, true, true, true, true, false, false]
 
 # New train
-- - :on_train_new
-  - !ruby/object:RailFeeds::NetworkRail::Schedule::Train
+- - :on_train_schedule_new
+  - !ruby/object:RailFeeds::NetworkRail::Schedule::TrainSchedule
     uid: 4
     signalling_headcode: '4D44'
     days: [true, true, true, true, true, false, false]
     journey:
-    - !ruby/object:RailFeeds::NetworkRail::Schedule::Train::Location::Origin
+    - !ruby/object:RailFeeds::NetworkRail::Schedule::TrainSchedule::Location::Origin
       scheduled_departure: '1111'
       public_departure: '1111'
       tiploc: 1
-    - !ruby/object:RailFeeds::NetworkRail::Schedule::Train::ChangeEnRoute
+    - !ruby/object:RailFeeds::NetworkRail::Schedule::TrainSchedule::ChangeEnRoute
       tiploc: 2
-    - !ruby/object:RailFeeds::NetworkRail::Schedule::Train::Location::Intermediate
+    - !ruby/object:RailFeeds::NetworkRail::Schedule::TrainSchedule::Location::Intermediate
       scheduled_departure: '1111'
       public_departure: '1111'
       tiploc: 2
-    - !ruby/object:RailFeeds::NetworkRail::Schedule::Train::Location::Terminating
+    - !ruby/object:RailFeeds::NetworkRail::Schedule::TrainSchedule::Location::Terminating
       scheduled_arrival: '2222'
       public_arrival: '2222'
       tiploc: 3
 # Delete existing train
-- - :on_train_delete
-  - !ruby/object:RailFeeds::NetworkRail::Schedule::Train
+- - :on_train_schedule_delete
+  - !ruby/object:RailFeeds::NetworkRail::Schedule::TrainSchedule
     uid: 2
 # Delete nonexisting train
-- - :on_train_delete
-  - !ruby/object:RailFeeds::NetworkRail::Schedule::Train
+- - :on_train_schedule_delete
+  - !ruby/object:RailFeeds::NetworkRail::Schedule::TrainSchedule
     uid: 22
 # Revise existing train
-- - :on_train_revise
-  - !ruby/object:RailFeeds::NetworkRail::Schedule::Train
+- - :on_train_schedule_revise
+  - !ruby/object:RailFeeds::NetworkRail::Schedule::TrainSchedule
     uid: 3
     signalling_headcode: '3c33'
     days: [true, true, true, true, true, false, false]
     journey: []
 # Revise nonexisting train
-- - :on_train_revise
-  - !ruby/object:RailFeeds::NetworkRail::Schedule::Train
+- - :on_train_schedule_revise
+  - !ruby/object:RailFeeds::NetworkRail::Schedule::TrainSchedule
     uid: 5
     signalling_headcode: '5E55'
     days: [true, true, true, true, true, false, false]

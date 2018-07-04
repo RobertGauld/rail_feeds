@@ -9,9 +9,9 @@ describe RailFeeds::NetworkRail::Schedule::Parser do
   let(:on_association_new_proc) { proc { fail 'Called on_association_new_proc!' } }
   let(:on_association_revise_proc) { proc { fail 'Called on_association_revise_proc!' } }
   let(:on_association_delete_proc) { proc { fail 'Called on_association_delete_proc!' } }
-  let(:on_train_new_proc) { proc { fail 'Called on_train_new_proc!' } }
-  let(:on_train_revise_proc) { proc { fail 'Called on_train_revise_proc!' } }
-  let(:on_train_delete_proc) { proc { fail 'Called on_train_delete_proc!' } }
+  let(:on_train_schedule_new_proc) { proc { fail 'Called on_train_schedule_new_proc!' } }
+  let(:on_train_schedule_revise_proc) { proc { fail 'Called on_train_schedule_revise_proc!' } }
+  let(:on_train_schedule_delete_proc) { proc { fail 'Called on_train_schedule_delete_proc!' } }
   let(:on_comment_proc) { proc { fail 'Called on_comment_proc!' } }
   subject do
     described_class.new(
@@ -23,9 +23,9 @@ describe RailFeeds::NetworkRail::Schedule::Parser do
       on_association_new: on_association_new_proc,
       on_association_revise: on_association_revise_proc,
       on_association_delete: on_association_delete_proc,
-      on_train_new: on_train_new_proc,
-      on_train_revise: on_train_revise_proc,
-      on_train_delete: on_train_delete_proc,
+      on_train_schedule_new: on_train_schedule_new_proc,
+      on_train_schedule_revise: on_train_schedule_revise_proc,
+      on_train_schedule_delete: on_train_schedule_delete_proc,
       on_comment: on_comment_proc
     )
   end
@@ -47,7 +47,7 @@ describe RailFeeds::NetworkRail::Schedule::Parser do
   let(:association_delete_line) do
     "AAD            0102030405060101010                                             P\n"
   end
-  let(:train_new_lines) do
+  let(:train_schedule_new_lines) do
     [
       format('%-79s', 'BSN      010203040506') + 'P',
       format('%-80s', 'BX'),
@@ -60,7 +60,7 @@ describe RailFeeds::NetworkRail::Schedule::Parser do
       format('%-80s', 'LT')
     ].join("\n") + "\n"
   end
-  let(:train_revise_lines) do
+  let(:train_schedule_revise_lines) do
     [
       format('%-79s', 'BSR      010203040506') + 'P',
       format('%-80s', 'BX'),
@@ -73,7 +73,7 @@ describe RailFeeds::NetworkRail::Schedule::Parser do
       format('%-80s', 'LT')
     ].join("\n") + "\n"
   end
-  let(:train_delete_line) { format('%-79.79s', 'BSD      010203040506') + "P\n" }
+  let(:train_schedule_delete_line) { format('%-79.79s', 'BSD      010203040506') + "P\n" }
 
   let(:smallest_file) { StringIO.new header_line + trailer_line }
 
@@ -142,11 +142,11 @@ describe RailFeeds::NetworkRail::Schedule::Parser do
     end
 
     it 'Calls on_train_delete proc' do
-      expect(on_train_delete_proc).to receive(:call).with(
+      expect(on_train_schedule_delete_proc).to receive(:call).with(
         instance_of(RailFeeds::NetworkRail::Schedule::Parser),
-        instance_of(RailFeeds::NetworkRail::Schedule::Train)
+        instance_of(RailFeeds::NetworkRail::Schedule::TrainSchedule)
       )
-      subject.parse_cif_line train_delete_line
+      subject.parse_cif_line train_schedule_delete_line
     end
 
     it 'Calls on_comment proc' do
@@ -170,27 +170,27 @@ describe RailFeeds::NetworkRail::Schedule::Parser do
   describe '#parse_cif_file' do
     it 'Calls on_train_new proc' do
       allow(on_trailer_proc).to receive(:call)
-      expect(on_train_new_proc).to receive(:call).with(
+      expect(on_train_schedule_new_proc).to receive(:call).with(
         instance_of(RailFeeds::NetworkRail::Schedule::Parser),
-        instance_of(RailFeeds::NetworkRail::Schedule::Train)
+        instance_of(RailFeeds::NetworkRail::Schedule::TrainSchedule)
       ).twice
-      subject.parse_cif_file StringIO.new(train_new_lines + trailer_line)
+      subject.parse_cif_file StringIO.new(train_schedule_new_lines + trailer_line)
     end
 
     it 'Calls on_train_revise proc' do
       allow(on_trailer_proc).to receive(:call)
-      expect(on_train_revise_proc).to receive(:call).with(
+      expect(on_train_schedule_revise_proc).to receive(:call).with(
         instance_of(RailFeeds::NetworkRail::Schedule::Parser),
-        instance_of(RailFeeds::NetworkRail::Schedule::Train)
+        instance_of(RailFeeds::NetworkRail::Schedule::TrainSchedule)
       ).twice
-      subject.parse_cif_file StringIO.new(train_revise_lines + trailer_line)
+      subject.parse_cif_file StringIO.new(train_schedule_revise_lines + trailer_line)
     end
 
     it 'Created trains have locations' do
       trains = []
       train_proc = proc { |_parser, train| trains.push train }
-      subject = described_class.new(on_train_new: train_proc)
-      subject.parse_cif_file StringIO.new(header_line + train_new_lines + trailer_line)
+      subject = described_class.new(on_train_schedule_new: train_proc)
+      subject.parse_cif_file StringIO.new(header_line + train_schedule_new_lines + trailer_line)
       expect(trains.map { |t| t.journey.count }).to eq [3, 2]
     end
 

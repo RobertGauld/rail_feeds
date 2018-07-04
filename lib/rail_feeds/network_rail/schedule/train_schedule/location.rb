@@ -7,7 +7,7 @@ require_relative 'location/terminating'
 module RailFeeds
   module NetworkRail
     module Schedule
-      class Train
+      class TrainSchedule
         # A class for holding information about a particular train's particular location
         class Location
           # @!attribute [rw] tiploc

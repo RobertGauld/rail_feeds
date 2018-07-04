@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe RailFeeds::NetworkRail::Schedule::Train do
+describe RailFeeds::NetworkRail::Schedule::TrainSchedule do
   let(:line_basic) do
     'BSNa123450102030405061010101bscciiii2222111111111pPPPtttt333ooooooSFR catebran P'
   end
@@ -72,7 +72,7 @@ describe RailFeeds::NetworkRail::Schedule::Train do
 
     it 'Origin location' do
       line = 'LO'
-      expect(RailFeeds::NetworkRail::Schedule::Train::Location)
+      expect(RailFeeds::NetworkRail::Schedule::TrainSchedule::Location)
         .to receive(:from_cif).with(line).and_return(:origin)
       subject.update_from_cif line
       expect(subject.journey).to eq [:origin]
@@ -80,7 +80,7 @@ describe RailFeeds::NetworkRail::Schedule::Train do
 
     it 'Intermediate location' do
       line = 'LI'
-      expect(RailFeeds::NetworkRail::Schedule::Train::Location)
+      expect(RailFeeds::NetworkRail::Schedule::TrainSchedule::Location)
         .to receive(:from_cif).with(line).and_return(:intermediate)
       subject.update_from_cif line
       expect(subject.journey).to eq [:intermediate]
@@ -88,18 +88,18 @@ describe RailFeeds::NetworkRail::Schedule::Train do
 
     it 'Terminating location' do
       line = 'LT'
-      expect(RailFeeds::NetworkRail::Schedule::Train::Location)
+      expect(RailFeeds::NetworkRail::Schedule::TrainSchedule::Location)
         .to receive(:from_cif).with(line).and_return(:terminating)
       subject.update_from_cif line
       expect(subject.journey).to eq [:terminating]
     end
 
     it 'Series of locations' do
-      expect(RailFeeds::NetworkRail::Schedule::Train::Location)
+      expect(RailFeeds::NetworkRail::Schedule::TrainSchedule::Location)
         .to receive(:from_cif).with('LO').and_return(:origin)
-      expect(RailFeeds::NetworkRail::Schedule::Train::Location)
+      expect(RailFeeds::NetworkRail::Schedule::TrainSchedule::Location)
         .to receive(:from_cif).with('LI').and_return(:intermediate)
-      expect(RailFeeds::NetworkRail::Schedule::Train::Location)
+      expect(RailFeeds::NetworkRail::Schedule::TrainSchedule::Location)
         .to receive(:from_cif).with('LT').and_return(:terminating)
       subject.update_from_cif 'LO'
       subject.update_from_cif 'LI'
@@ -109,20 +109,20 @@ describe RailFeeds::NetworkRail::Schedule::Train do
 
     it 'Change en route' do
       line = 'CR'
-      expect(RailFeeds::NetworkRail::Schedule::Train::ChangeEnRoute)
+      expect(RailFeeds::NetworkRail::Schedule::TrainSchedule::ChangeEnRoute)
         .to receive(:from_cif).with(line).and_return(:change)
       subject.update_from_cif line
       expect(subject.journey).to eq [:change]
     end
 
     it '#journey contains locations and change en routes' do
-      expect(RailFeeds::NetworkRail::Schedule::Train::Location)
+      expect(RailFeeds::NetworkRail::Schedule::TrainSchedule::Location)
         .to receive(:from_cif).with('LO').and_return(:origin)
-      expect(RailFeeds::NetworkRail::Schedule::Train::Location)
+      expect(RailFeeds::NetworkRail::Schedule::TrainSchedule::Location)
         .to receive(:from_cif).with('LI').and_return(:intermediate)
-      expect(RailFeeds::NetworkRail::Schedule::Train::Location)
+      expect(RailFeeds::NetworkRail::Schedule::TrainSchedule::Location)
         .to receive(:from_cif).with('LT').and_return(:terminating)
-      expect(RailFeeds::NetworkRail::Schedule::Train::ChangeEnRoute)
+      expect(RailFeeds::NetworkRail::Schedule::TrainSchedule::ChangeEnRoute)
         .to receive(:from_cif).with('CR').and_return(:change)
       subject.update_from_cif 'LO'
       subject.update_from_cif 'CR'
@@ -165,10 +165,10 @@ describe RailFeeds::NetworkRail::Schedule::Train do
   end
 
   it '#to_cif' do
-    origin = double RailFeeds::NetworkRail::Schedule::Train::Location::Origin
-    change = double RailFeeds::NetworkRail::Schedule::Train::ChangeEnRoute
-    intermediate = double RailFeeds::NetworkRail::Schedule::Train::Location::Intermediate
-    terminating = double RailFeeds::NetworkRail::Schedule::Train::Location::Terminating
+    origin = double RailFeeds::NetworkRail::Schedule::TrainSchedule::Location::Origin
+    change = double RailFeeds::NetworkRail::Schedule::TrainSchedule::ChangeEnRoute
+    intermediate = double RailFeeds::NetworkRail::Schedule::TrainSchedule::Location::Intermediate
+    terminating = double RailFeeds::NetworkRail::Schedule::TrainSchedule::Location::Terminating
     subject.journey = [origin, change, intermediate, terminating]
 
     expect(origin).to receive(:to_cif).and_return("origin\n")

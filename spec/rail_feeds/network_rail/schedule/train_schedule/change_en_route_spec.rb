@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe RailFeeds::NetworkRail::Schedule::Train::ChangeEnRoute do
+describe RailFeeds::NetworkRail::Schedule::TrainSchedule::ChangeEnRoute do
   let(:line) do
     'CRttttttt4ccssss1111 22222222pPPPtttt333ooooooelr CCCCBBBB    uuuuu             '
   end
@@ -57,7 +57,7 @@ describe RailFeeds::NetworkRail::Schedule::Train::ChangeEnRoute do
   end
 
   it '#apply_to' do
-    train = double RailFeeds::NetworkRail::Schedule::Train
+    train = double RailFeeds::NetworkRail::Schedule::TrainSchedule
     expect(train).to receive(:category=).with('cc')
     expect(train).to receive(:signalling_headcode=).with('ssss')
     expect(train).to receive(:reservation_headcode=).with(1111)

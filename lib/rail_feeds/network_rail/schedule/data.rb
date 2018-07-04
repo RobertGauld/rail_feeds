@@ -15,7 +15,8 @@ module RailFeeds
         # @!attribute [r] tiplocs
         # @return [Hash<RailFeeds::NetworkRail::Schedule::Tiploc>]
         # @!attribute [r] trains
-        # @return [Hash<RailFeeds::NetworkRail::Schedule::Train>]
+        # @return [Hash{String=>RailFeeds::NetworkRail::Schedule::TrainSchedule}]
+        # Schedules grouped by the train's UID
 
         attr_accessor :last_header, :associations, :tiplocs, :trains
 
@@ -36,9 +37,9 @@ module RailFeeds
             on_association_new: proc { |*args| do_association_new(*args) },
             on_association_revise: proc { |*args| do_association_revise(*args) },
             on_association_delete: proc { |*args| do_association_delete(*args) },
-            on_train_new: proc { |*args| do_train_new(*args) },
-            on_train_revise: proc { |*args| do_train_revise(*args) },
-            on_train_delete: proc { |*args| do_train_delete(*args) }
+            on_train_schedule_new: proc { |*args| do_train_schedule_new(*args) },
+            on_train_schedule_revise: proc { |*args| do_train_schedule_revise(*args) },
+            on_train_schedule_delete: proc { |*args| do_train_schedule_delete(*args) }
           )
           reset_data
         end
@@ -58,6 +59,7 @@ module RailFeeds
         end
 
         # rubocop:disable Metrics/AbcSize
+        # rubocop:disable Metrics/MethodLength
         # Get the contained data in CIF format
         # Expects a block to receive each line
         def generate_cif
@@ -75,11 +77,14 @@ module RailFeeds
           yield header.to_cif
           tiplocs.values.sort.each { |tiploc| yield tiploc.to_cif }
           associations.values.sort.each { |association| yield association.to_cif }
-          trains.values.sort.each { |train| train.to_cif.each_line { |line| yield line } }
+          trains.values.flatten.sort.each do |train_schedule|
+            train_schedule.to_cif.each_line { |line| yield line }
+          end
           yield "ZZ#{' ' * 78}\n"
           yield "/!! End of file\n"
         end
         # rubocop:enable Metrics/AbcSize
+        # rubocop:enable Metrics/MethodLength
 
         # Fetch data over the web.
         # Gets the feed of all trains.
@@ -183,18 +188,22 @@ module RailFeeds
         end
 
         # New Train received
-        def do_train_new(_parser, train)
-          trains[train.hash] = train
+        def do_train_schedule_new(_parser, train_schedule)
+          trains[train_schedule.uid] ||= []
+          trains[train_schedule.uid].push train_schedule
         end
 
         # Revise Train received
-        def do_train_revise(_parser, train)
-          trains[train.hash] = train
+        def do_train_schedule_revise(parser, train_schedule)
+          trains[train_schedule.uid] ||= []
+          index = trains[train_schedule.uid].index train_schedule
+          return do_train_schedule_new(parser, train_schedule) if index.nil?
+          trains[train_schedule.uid][index] = train_schedule
         end
 
         # Delete Train record
-        def do_train_delete(_parser, train)
-          trains.delete train.hash
+        def do_train_schedule_delete(_parser, train_schedule)
+          trains[train_schedule.uid]&.delete train_schedule
         end
 
         # Trailer record

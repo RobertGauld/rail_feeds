@@ -35,15 +35,15 @@ module RailFeeds
         # @param [Proc, #call] on_association_delete
         #   The proc to call when an existing association should be deleted.
         #   Passes self and a RailFeeds::NetworkRail::Schedule::Association.
-        # @param [Proc, #call] on_train_new
+        # @param [Proc, #call] on_train_schedule_new
         #   The proc to call when a new train schedule is received.
-        #   Passes self and a RailFeeds::NetworkRail::Schedule::Train::New.
-        # @param [Proc, #call] on_train_revise
+        #   Passes self and a RailFeeds::NetworkRail::Schedule::TrainSchedule::New.
+        # @param [Proc, #call] on_train_schedule_revise
         #   The proc to call when a revision to an existing train schedule is received.
-        #   Passes self and a RailFeeds::NetworkRail::Schedule::Train::Revise.
-        # @param [Proc, #call] on_train_delete
-        #   The proc to call when an existing train shcedule should be deleted.
-        #   Passes self and a RailFeeds::NetworkRail::Schedule::Train::Delete.
+        #   Passes self and a RailFeeds::NetworkRail::Schedule::TrainSchedule::Revise.
+        # @param [Proc, #call] on_train_schedule_delete
+        #   The proc to call when an existing train schedule should be deleted.
+        #   Passes self and a RailFeeds::NetworkRail::Schedule::TrainSchedule::Delete.
         # @param [Proc, #call] on_trailer
         #   The proc to call when the trailer (end of file record) is received.
         #   Passes self.
@@ -55,8 +55,8 @@ module RailFeeds
           on_header: nil, on_trailer: nil, on_comment: nil,
           on_tiploc_insert: nil, on_tiploc_amend: nil, on_tiploc_delete: nil,
           on_association_new: nil, on_association_revise: nil,
-          on_association_delete: nil,
-          on_train_new: nil, on_train_revise: nil, on_train_delete: nil
+          on_association_delete: nil, on_train_schedule_new: nil,
+          on_train_schedule_revise: nil, on_train_schedule_delete: nil
         )
           self.logger = logger unless logger.nil?
           @on_header = on_header
@@ -67,9 +67,9 @@ module RailFeeds
           @on_association_new = on_association_new
           @on_association_revise = on_association_revise
           @on_association_delete = on_association_delete
-          @on_train_new = on_train_new
-          @on_train_revise = on_train_revise
-          @on_train_delete = on_train_delete
+          @on_train_schedule_new = on_train_schedule_new
+          @on_train_schedule_revise = on_train_schedule_revise
+          @on_train_schedule_delete = on_train_schedule_delete
           @on_comment = on_comment
         end
         # rubocop:enable Metrics/ParameterLists
@@ -163,7 +163,7 @@ module RailFeeds
         # Train schedule record - basic schedule - new
         def parse_bsn_line(line)
           finish_current_train
-          @current_train = Train.new
+          @current_train = TrainSchedule.new
           @current_train.update_from_cif line
           @current_train_action = :new
         end
@@ -171,15 +171,15 @@ module RailFeeds
         # Train schedule record - basic schedule - delete
         def parse_bsd_line(line)
           finish_current_train
-          train = Train.new
+          train = TrainSchedule.new
           train.update_from_cif line
-          @on_train_delete&.call self, train
+          @on_train_schedule_delete&.call self, train
         end
 
         # Train schedule record - basic schedule - revise
         def parse_bsr_line(line)
           finish_current_train
-          @current_train = Train.new
+          @current_train = TrainSchedule.new
           @current_train.update_from_cif line
           @current_train_action = :revise
         end
@@ -203,9 +203,9 @@ module RailFeeds
 
           case @current_train_action
           when :new
-            @on_train_new&.call self, @current_train
+            @on_train_schedule_new&.call self, @current_train
           when :revise
-            @on_train_revise&.call self, @current_train
+            @on_train_schedule_revise&.call self, @current_train
           end
 
           @current_train = nil

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe RailFeeds::NetworkRail::Schedule::Train::Location::Intermediate do
+describe RailFeeds::NetworkRail::Schedule::TrainSchedule::Location::Intermediate do
   subject { described_class.new tiploc: 'ccccccc', tiploc_suffix: 3 }
   let(:line) do
     'LIttttttt1aaaaadddddpppppAAAADDDDPlaLinPataaaaaaaaaaaa123456                    '

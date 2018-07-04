@@ -41,7 +41,7 @@ gem 'rail_feeds', '~> 0.1'
 ## Documentation & Versioning
 
 Documentation can be found on [rubydoc.info](http://rubydoc.info/github/robertgauld/rail_feeds/master/frames)
-Some guides can be found in the [doc folder of the repo](https://github.com/robertgauld/rail_feeds/tree/master/doc).
+Some guides can be found in the [doc folder of the repo](https://github.com/robertgauld/rail_feeds/tree/master/doc/guides).
 
 We follow the [Semantic Versioning](http://semver.org/) concept.
 
@@ -57,11 +57,21 @@ We follow the [Semantic Versioning](http://semver.org/) concept.
 
 ### Feeds
 
-| Source        | Feed                                 | Status                                     |
-| ------------- | ------------------------------------ | ------------------------------------------ |
-| Network Rail  | Real Time Public Performance Measure | Todo                                       |
-| Network Rail  | Schedule                             | Can fetch, parse and dump CIF files.       |
-| Network Rail  | Temporary Speed Restriction          | Todo                                       |
-| Network Rail  | Train Describer                      | Todo                                       |
-| Network Rail  | Train Movements                      | Todo                                       |
-| Network Rail  | Very Short Term Planning             | Todo                                       |
+| Source        | Client | Feed                                 | Status                                     |
+| ------------- | ------ | ------------------------------------ | ------------------------------------------ |
+| Network Rail  | stomp  | Real Time Public Performance Measure | Todo                                       |
+| Network Rail  | stomp  | Temporary Speed Restriction          | Todo                                       |
+| Network Rail  | stomp  | Train Describer                      | Todo                                       |
+| Network Rail  | stomp  | Train Movements                      | Todo                                       |
+| Network Rail  | stomp  | Very Short Term Planning             | Todo                                       |
+| Network Rail  | http   | Schedule                             | Can fetch, parse and dump CIF files.       |
+| Network Rail  | http   | CORPUS (location data)               | Can fetch and parse.                       |
+| Network Rail  | http   | SMART (berth stepping data)          | Can fetch and parse                        |
+| Network Rail  | http   | Train Planning Data                  | Todo                                       |
+| Network Rail  | http   | Train Planning Network Model         | Todo                                       |
+| National Rail | stomp  | Darwin Push Port                     |                                            |
+| National Rail | stomp  | Darwin Timetable Feed                |                                            |
+| National Rail | stomp  | Knowledgebase                        |                                            |
+| National Rail | http   | Knowledgebase                        |                                            |
+| National Rail | soap   | Darwin Webservice                    |                                            |
+| National Rail | rest   | Historical Service Performance       |                                            |

@@ -5,6 +5,7 @@ require_relative 'network_rail/http_client'
 require_relative 'network_rail/stomp_client'
 require_relative 'network_rail/corpus'
 require_relative 'network_rail/schedule'
+require_relative 'network_rail/smart'
 
 module RailFeeds
   module NetworkRail # :nodoc:

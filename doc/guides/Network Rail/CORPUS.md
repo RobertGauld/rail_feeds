@@ -15,7 +15,6 @@ You'll get an array of a data struct with the following attributes:
 * nlc_short_description - 16 character version (e.g. "ENERGLYN & C PK")
 
 ```ruby
-
 # Get data from a previously saved file
 data = RailFeeds::NetworkRail::CORPUS.load_file('PATH TO FILE.json.gz')
 
@@ -28,4 +27,4 @@ RailFeeds::NetworkRail::Credentials.configure(
   password: 'YOUR PASSWORD HERE'
 )
 data = RailFeeds::NetworkRail::CORPUS.fetch_data
-`
+```

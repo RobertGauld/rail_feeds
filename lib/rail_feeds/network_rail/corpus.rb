@@ -4,7 +4,7 @@ require 'json'
 
 module RailFeeds
   module NetworkRail
-    # A module for getting data out of the CORPUS data.
+    # A module for getting information out of the CORPUS data.
     module CORPUS
       Data = Struct.new(
         :tiploc, :stanox, :crs, :uic, :nlc, :nlc_description, :nlc_short_description

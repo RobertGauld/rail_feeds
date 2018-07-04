@@ -20,30 +20,39 @@ module RailFeeds
         self.logger = logger unless logger.nil?
       end
 
-      # Get path from network rail server.
+      # Fetch path from network rail server.
       # @param [String] path
-      #   The path to get.
+      #   The path to fetch.
       # @yield [file] Once the block has run the temp file will be deleted.
       #   @yieldparam [Tempfile] file The content of the file.
-      def get(path)
-        logger.debug "get(#{path.inspect})"
-        uri = URI("https://#{HOST}/#{path}")
-        file = uri.open(http_basic_authentication: @credentials.to_a)
+      def fetch(path)
+        file = download path
         yield file
-        file.delete
+      ensure
+        file&.delete
       end
 
-      # Get path from network rail server and unzip it.
+      # Fetch path from network rail server and unzip it.
       # @param [String] path
-      #   The path to get.
+      #   The path to fetch.
       # @yield [reader] Once the block has run the temp file will be deleted.
       #   @yieldparam [Zlib::GzipReader] reader The unzippable content of the file.
-      def get_unzipped(path)
+      def fetch_unzipped(path)
         logger.debug "get_unzipped(#{path.inspect})"
         get(path) do |gz_file|
           logger.debug "gz_file = #{gz_file.inspect}"
           yield Zlib::GzipReader.open(gz_file.path)
         end
+      end
+
+      # Get path from network rail server.
+      # @param [String] path
+      #   The path to download.
+      # @return [Tempfile] The downloaded file
+      def download(path)
+        logger.debug "download(#{path.inspect})"
+        uri = URI("https://#{HOST}/#{path}")
+        uri.open(http_basic_authentication: @credentials.to_a)
       end
     end
   end

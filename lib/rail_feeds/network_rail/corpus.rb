@@ -27,7 +27,7 @@ module RailFeeds
       # @return [Array<RailFeeds::NetworkRail::CORPUS::Data>]
       def self.fetch_data(credentials: Credentials)
         client = HTTPClient.new(credentials: credentials)
-        client.get_unzipped('ntrod/SupportingFileAuthenticate?type=CORPUS') do |file|
+        client.fetch_unzipped('ntrod/SupportingFileAuthenticate?type=CORPUS') do |file|
           break parse_json file.read
         end
       end

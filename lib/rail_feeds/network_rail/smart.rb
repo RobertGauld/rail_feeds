@@ -45,7 +45,7 @@ module RailFeeds
       # @return [Array<RailFeeds::NetworkRail::SMART::Step>]
       def self.fetch_data(credentials: Credentials)
         client = HTTPClient.new(credentials: credentials)
-        client.get_unzipped('ntrod/SupportingFileAuthenticate?type=SMART') do |file|
+        client.fetch_unzipped('ntrod/SupportingFileAuthenticate?type=SMART') do |file|
           break parse_json file.read
         end
       end

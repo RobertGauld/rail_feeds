@@ -114,7 +114,7 @@ describe RailFeeds::NetworkRail::SMART do
     expect(RailFeeds::NetworkRail::HTTPClient)
       .to receive(:new).with(credentials: RailFeeds::NetworkRail::Credentials)
                        .and_return(http_client)
-    expect(http_client).to receive(:get_unzipped)
+    expect(http_client).to receive(:fetch_unzipped)
       .with('ntrod/SupportingFileAuthenticate?type=SMART')
       .and_yield(reader)
     expect(reader).to receive(:read).and_return(json)

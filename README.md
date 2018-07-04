@@ -57,21 +57,21 @@ We follow the [Semantic Versioning](http://semver.org/) concept.
 
 ### Feeds
 
-| Source        | Client | Feed                                 | Status                                     |
-| ------------- | ------ | ------------------------------------ | ------------------------------------------ |
-| Network Rail  | stomp  | Real Time Public Performance Measure | Todo                                       |
-| Network Rail  | stomp  | Temporary Speed Restriction          | Todo                                       |
-| Network Rail  | stomp  | Train Describer                      | Todo                                       |
-| Network Rail  | stomp  | Train Movements                      | Todo                                       |
-| Network Rail  | stomp  | Very Short Term Planning             | Todo                                       |
-| Network Rail  | http   | Schedule                             | Can fetch, parse and dump CIF files.       |
-| Network Rail  | http   | CORPUS (location data)               | Can fetch and parse.                       |
-| Network Rail  | http   | SMART (berth stepping data)          | Can fetch and parse                        |
-| Network Rail  | http   | Train Planning Data                  | Todo                                       |
-| Network Rail  | http   | Train Planning Network Model         | Todo                                       |
-| National Rail | stomp  | Darwin Push Port                     |                                            |
-| National Rail | stomp  | Darwin Timetable Feed                |                                            |
-| National Rail | stomp  | Knowledgebase                        |                                            |
-| National Rail | http   | Knowledgebase                        |                                            |
-| National Rail | soap   | Darwin Webservice                    |                                            |
-| National Rail | rest   | Historical Service Performance       |                                            |
+| Source        | Client | Feed                                 | Status                                         |
+| ------------- | ------ | ------------------------------------ | ---------------------------------------------- |
+| Network Rail  | stomp  | Real Time Public Performance Measure | Todo                                           |
+| Network Rail  | stomp  | Temporary Speed Restriction          | Todo                                           |
+| Network Rail  | stomp  | Train Describer                      | Todo                                           |
+| Network Rail  | stomp  | Train Movements                      | Todo                                           |
+| Network Rail  | stomp  | Very Short Term Planning             | Todo                                           |
+| Network Rail  | http   | Schedule                             | Can download, fetch, parse and dump CIF files. |
+| Network Rail  | http   | CORPUS (location data)               | Can download, fetch and parse.                 |
+| Network Rail  | http   | SMART (berth stepping data)          | Can download, fetch and parse.                 |
+| Network Rail  | http   | Train Planning Data                  | Todo                                           |
+| Network Rail  | http   | Train Planning Network Model         | Todo                                           |
+| National Rail | stomp  | Darwin Push Port                     |                                                |
+| National Rail | stomp  | Darwin Timetable Feed                |                                                |
+| National Rail | stomp  | Knowledgebase                        |                                                |
+| National Rail | http   | Knowledgebase                        |                                                |
+| National Rail | soap   | Darwin Webservice                    |                                                |
+| National Rail | rest   | Historical Service Performance       |                                                |

@@ -15,6 +15,10 @@ You'll get an array of a data struct with the following attributes:
 * nlc_short_description - 16 character version (e.g. "ENERGLYN & C PK")
 
 ```ruby
+# Download the CORPUS data and get the data from it
+temp_file = RailFeeds::NetworkRail::CORPUS.download
+data = RailFeeds::NetworkRail::CORPUS.load_file(temp_file.path)
+
 # Get data from a previously saved file
 data = RailFeeds::NetworkRail::CORPUS.load_file('PATH TO FILE.json.gz')
 

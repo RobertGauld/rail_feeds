@@ -10,6 +10,14 @@ module RailFeeds
         :tiploc, :stanox, :crs, :uic, :nlc, :nlc_description, :nlc_short_description
       )
 
+      # Download the current CORPUS data.
+      # @param [RailFeeds::NetworkRail::Credentials] credentials
+      # @return [Tempfile]
+      def self.download(credentials: Credentials)
+        client = HTTPClient.new(credentials: credentials)
+        client.download 'ntrod/SupportingFileAuthenticate?type=CORPUS'
+      end
+
       # Load CORPUS data from either a .json or .json.gz file.
       # @param [String] file The path of the file to open.
       # @return [Array<RailFeeds::NetworkRail::CORPUS::Data>]

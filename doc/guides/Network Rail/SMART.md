@@ -17,6 +17,10 @@ get an array of the steps in both the up and down direction as well as a list of
 reachable in each direction.
 
 ```ruby
+# Download the SMART data and get the data from it
+temp_file = RailFeeds::NetworkRail::SMART.download
+step_data = RailFeeds::NetworkRail::SMART.load_file(temp_file.path)
+
 # Get the SMART data from a previously saved file
 step_data = RailFeeds::NetworkRail::SMART.load_file('PATH TO FILE.json.gz')
 

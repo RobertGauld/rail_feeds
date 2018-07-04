@@ -28,6 +28,14 @@ module RailFeeds
         :id, :up_steps, :down_steps, :up_berths, :down_berths
       )
 
+      # Download the current SMART data.
+      # @param [RailFeeds::NetworkRail::Credentials] credentials
+      # @return [Tempfile]
+      def self.download(credentials: Credentials)
+        client = HTTPClient.new(credentials: credentials)
+        client.download 'ntrod/SupportingFileAuthenticate?type=SMART'
+      end
+
       # Load SMART data from either a .json or .json.gz file.
       # @param [String] file The path of the file to open.
       # @return [Array<RailFeeds::NetworkRail::SMART::Step>]

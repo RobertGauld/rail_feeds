@@ -9,6 +9,27 @@ describe RailFeeds::NetworkRail::CORPUS do
   let(:http_client) { double RailFeeds::NetworkRail::HTTPClient }
   let(:reader) { double Zlib::GzipReader }
 
+  describe '::download' do
+    let(:http_client) { double RailFeeds::NetworkRail::HTTPClient }
+    let(:temp_file) { double Tempfile }
+
+    it 'Using default credentials' do
+      expect(RailFeeds::NetworkRail::HTTPClient).to receive(:new)
+        .with(credentials: RailFeeds::NetworkRail::Credentials).and_return(http_client)
+      expect(http_client).to receive(:download)
+        .with('ntrod/SupportingFileAuthenticate?type=CORPUS').and_return(temp_file)
+      expect(described_class.download).to eq temp_file
+    end
+
+    it 'Using passed credentials' do
+      credentials = double RailFeeds::NetworkRail::Credentials
+      expect(RailFeeds::NetworkRail::HTTPClient).to receive(:new)
+        .with(credentials: credentials).and_return(http_client)
+      expect(http_client).to receive(:download).and_return(temp_file)
+      expect(described_class.download(credentials: credentials)).to eq temp_file
+    end
+  end
+
   describe '::load_file' do
     it 'json file' do
       expect(Zlib::GzipReader).to receive(:open).with('filename') { fail Zlib::GzipFile::Error }

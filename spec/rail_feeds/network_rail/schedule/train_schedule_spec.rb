@@ -18,7 +18,7 @@ describe RailFeeds::NetworkRail::Schedule::TrainSchedule do
       start_date: Date.new(2001, 2, 3),
       end_date: Date.new(2004, 5, 6),
       days: [true, false, true, false, true, false, true],
-      run_on_bank_holiday: 'b',
+      bank_holiday_running: 'b',
       status: 's',
       category: 'cc',
       signalling_headcode: 'iiii',
@@ -51,7 +51,7 @@ describe RailFeeds::NetworkRail::Schedule::TrainSchedule do
     expect(subject.start_date).to eq Date.new(2018, 5, 21)
     expect(subject.end_date).to eq Date.new(2018, 12, 7)
     expect(subject.days).to eq [true, true, true, true, true, false, false]
-    expect(subject.run_on_bank_holiday).to eq 'B'
+    expect(subject.bank_holiday_running).to eq 'B'
     expect(subject.power_type).to eq 'EMU'
     expect(subject.timing_load).to eq '483'
     expect(subject.speed).to eq 45
@@ -75,7 +75,7 @@ describe RailFeeds::NetworkRail::Schedule::TrainSchedule do
       expect(subject.start_date).to eq Date.new(2001, 2, 3)
       expect(subject.end_date).to eq Date.new(2004, 5, 6)
       expect(subject.days).to eq [true, false, true, false, true, false, true]
-      expect(subject.run_on_bank_holiday).to eq 'b'
+      expect(subject.bank_holiday_running).to eq 'b'
       expect(subject.status).to eq 's'
       expect(subject.category).to eq 'cc'
       expect(subject.signalling_headcode).to eq 'iiii'
@@ -174,7 +174,7 @@ describe RailFeeds::NetworkRail::Schedule::TrainSchedule do
       expect(subject.start_date).to eq Date.new(2018, 5, 26)
       expect(subject.end_date).to be_nil
       expect(subject.days).to eq [false, false, false, false, false, false, false]
-      expect(subject.run_on_bank_holiday).to be_nil
+      expect(subject.bank_holiday_running).to be_nil
       expect(subject.status).to be_nil
       expect(subject.category).to be_nil
       expect(subject.signalling_headcode).to be_nil

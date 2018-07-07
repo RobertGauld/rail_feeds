@@ -44,7 +44,7 @@ module RailFeeds
         # @!attribute [rw] days
         #   @return [Array<Boolean>] The days on which the service runs.
         #   [Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday]
-        # @!attribute [rw] run_on_bank_holiday
+        # @!attribute [rw] bank_holiday_running
         #   @return [String, nil] Whether the service runs on bank holidays.
         #   * X - does not run on specified bank holiday Mondays.
         #   * G - does not run on Glasgow bank holidays.
@@ -95,7 +95,7 @@ module RailFeeds
 
         attr_accessor :uid, :category, :status,
                       :reservation_headcode, :signalling_headcode, :service_code,
-                      :start_date, :end_date, :run_on_bank_holiday,
+                      :start_date, :end_date, :bank_holiday_running,
                       :power_type, :timing_load, :speed, :operating_characteristics,
                       :seating_class, :sleeping_class, :reservations, :catering,
                       :branding, :uic, :atoc, :applicable_timetable, :journey
@@ -150,7 +150,7 @@ module RailFeeds
             start_date: Date.parse(data['schedule_start_date']),
             end_date: data['schedule_end_date'] ? Date.parse(data['schedule_end_date']) : nil,
             days: days_from_cif(data['schedule_days_runs']),
-            run_on_bank_holiday: Schedule.nil_or_strip(data['CIF_bank_holiday_running']),
+            bank_holiday_running: Schedule.nil_or_strip(data['CIF_bank_holiday_running']),
             power_type: Schedule.nil_or_strip(data.dig('schedule_segment', 'CIF_power_type')),
             timing_load: Schedule.nil_or_strip(data.dig('schedule_segment', 'CIF_timing_load')),
             speed: Schedule.nil_or_i(data.dig('schedule_segment', 'CIF_speed')),
@@ -184,7 +184,7 @@ module RailFeeds
         def to_json
           {
             'JsonScheduleV1' => {
-              'CIF_bank_holiday_running' => run_on_bank_holiday,
+              'CIF_bank_holiday_running' => bank_holiday_running,
               'CIF_stp_indicator' => stp_indicator_to_cif,
               'CIF_train_uid' => uid,
               'applicable_timetable' => (applicable_timetable ? 'Y' : 'N'),
@@ -246,7 +246,7 @@ module RailFeeds
           self.start_date = Schedule.make_date line[9..14]
           self.end_date = Schedule.make_date line[15..20], allow_nil: line[2].eql?('D')
           self.days = days_from_cif line[21..27]
-          self.run_on_bank_holiday = Schedule.nil_or_strip line[28]
+          self.bank_holiday_running = Schedule.nil_or_strip line[28]
           self.status = Schedule.nil_or_strip(line[29])
           self.category = Schedule.nil_or_strip(line[30..31])
           self.signalling_headcode = Schedule.nil_or_strip line[32..35]
@@ -283,7 +283,7 @@ module RailFeeds
             format('%-6.6s', end_date&.strftime('%y%m%d')),
             # rubocop:enable Style/FormatStringToken
             days_to_cif,
-            format('%-1.1s', run_on_bank_holiday),
+            format('%-1.1s', bank_holiday_running),
             format('%-1.1s', status),
             format('%-2.2s', category),
             format('%-4.4s', signalling_headcode),

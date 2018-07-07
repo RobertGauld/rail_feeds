@@ -41,7 +41,7 @@ module RailFeeds
 
           # TIPLOC Insert record
           def parse_ti_line(line)
-            @on_tiploc_insert&.call self, Tiploc.from_cif(line)
+            @on_tiploc_create&.call self, Tiploc.from_cif(line)
           end
 
           # TIPLOC Amend record
@@ -49,7 +49,7 @@ module RailFeeds
             tiploc = Tiploc.from_cif(line)
             old_id = tiploc.tiploc
             tiploc.tiploc = line[2..8].strip
-            @on_tiploc_amend&.call self, old_id, tiploc
+            @on_tiploc_update&.call self, old_id, tiploc
           end
 
           # TIPLOC Delete record
@@ -59,12 +59,12 @@ module RailFeeds
 
           # Association New record
           def parse_aan_line(line)
-            @on_association_new&.call self, Association.from_cif(line)
+            @on_association_create&.call self, Association.from_cif(line)
           end
 
           # Association Revise record
           def parse_aar_line(line)
-            @on_association_revise&.call self, Association.from_cif(line)
+            @on_association_update&.call self, Association.from_cif(line)
           end
 
           # Association Delete record
@@ -77,7 +77,7 @@ module RailFeeds
             finish_current_train
             @current_train = TrainSchedule.new
             @current_train.update_from_cif line
-            @current_train_action = :new
+            @current_train_action = :create
           end
 
           # Train schedule record - basic schedule - delete
@@ -93,7 +93,7 @@ module RailFeeds
             finish_current_train
             @current_train = TrainSchedule.new
             @current_train.update_from_cif line
-            @current_train_action = :revise
+            @current_train_action = :update
           end
 
           # Train schedule record - basic schedule extra details
@@ -114,10 +114,10 @@ module RailFeeds
             return if @current_train.nil?
 
             case @current_train_action
-            when :new
-              @on_train_schedule_new&.call self, @current_train
-            when :revise
-              @on_train_schedule_revise&.call self, @current_train
+            when :create
+              @on_train_schedule_create&.call self, @current_train
+            when :update
+              @on_train_schedule_update&.call self, @current_train
             end
 
             @current_train = nil

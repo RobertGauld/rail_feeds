@@ -3,28 +3,28 @@
 describe RailFeeds::NetworkRail::Schedule::Parser::CIF do
   let(:on_header_proc) { proc { fail 'Called on_header_proc!' } }
   let(:on_trailer_proc) { proc { fail 'Called on_trailer_proc!' } }
-  let(:on_tiploc_insert_proc) { proc { fail 'Called on_tiploc_insert_proc!' } }
-  let(:on_tiploc_amend_proc) { proc { fail 'Called on_tiploc_amend_proc!' } }
+  let(:on_tiploc_create_proc) { proc { fail 'Called on_tiploc_create_proc!' } }
+  let(:on_tiploc_update_proc) { proc { fail 'Called on_tiploc_update_proc!' } }
   let(:on_tiploc_delete_proc) { proc { fail 'Called on_tiploc_delete_proc!' } }
-  let(:on_association_new_proc) { proc { fail 'Called on_association_new_proc!' } }
-  let(:on_association_revise_proc) { proc { fail 'Called on_association_revise_proc!' } }
+  let(:on_association_create_proc) { proc { fail 'Called on_association_create_proc!' } }
+  let(:on_association_update_proc) { proc { fail 'Called on_association_update_proc!' } }
   let(:on_association_delete_proc) { proc { fail 'Called on_association_delete_proc!' } }
-  let(:on_train_schedule_new_proc) { proc { fail 'Called on_train_schedule_new_proc!' } }
-  let(:on_train_schedule_revise_proc) { proc { fail 'Called on_train_schedule_revise_proc!' } }
+  let(:on_train_schedule_create_proc) { proc { fail 'Called on_train_schedule_create_proc!' } }
+  let(:on_train_schedule_update_proc) { proc { fail 'Called on_train_schedule_update_proc!' } }
   let(:on_train_schedule_delete_proc) { proc { fail 'Called on_train_schedule_delete_proc!' } }
   let(:on_comment_proc) { proc { fail 'Called on_comment_proc!' } }
   subject do
     described_class.new(
       on_header: on_header_proc,
       on_trailer: on_trailer_proc,
-      on_tiploc_insert: on_tiploc_insert_proc,
-      on_tiploc_amend: on_tiploc_amend_proc,
+      on_tiploc_create: on_tiploc_create_proc,
+      on_tiploc_update: on_tiploc_update_proc,
       on_tiploc_delete: on_tiploc_delete_proc,
-      on_association_new: on_association_new_proc,
-      on_association_revise: on_association_revise_proc,
+      on_association_create: on_association_create_proc,
+      on_association_update: on_association_update_proc,
       on_association_delete: on_association_delete_proc,
-      on_train_schedule_new: on_train_schedule_new_proc,
-      on_train_schedule_revise: on_train_schedule_revise_proc,
+      on_train_schedule_create: on_train_schedule_create_proc,
+      on_train_schedule_update: on_train_schedule_update_proc,
       on_train_schedule_delete: on_train_schedule_delete_proc,
       on_comment: on_comment_proc
     )
@@ -35,19 +35,19 @@ describe RailFeeds::NetworkRail::Schedule::Parser::CIF do
   end
   let(:comment_line) { "/this is a comment\n" }
   let(:trailer_line) { "ZZ#{' ' * 78}\n" }
-  let(:tiploc_insert_line) { "TI#{' ' * 78}\n" }
-  let(:tiploc_amend_line) { "TA#{' ' * 78}\n" }
+  let(:tiploc_create_line) { "TI#{' ' * 78}\n" }
+  let(:tiploc_update_line) { "TA#{' ' * 78}\n" }
   let(:tiploc_delete_line) { "TD#{' ' * 78}\n" }
-  let(:association_new_line) do
+  let(:association_create_line) do
     "AAN            0102030405060101010                                             P\n"
   end
-  let(:association_revise_line) do
+  let(:association_update_line) do
     "AAR            0102030405060101010                                             P\n"
   end
   let(:association_delete_line) do
     "AAD            0102030405060101010                                             P\n"
   end
-  let(:train_schedule_new_lines) do
+  let(:train_schedule_create_lines) do
     [
       format('%-79s', 'BSN      010203040506') + 'P',
       format('%-80s', 'BX'),
@@ -60,7 +60,7 @@ describe RailFeeds::NetworkRail::Schedule::Parser::CIF do
       format('%-80s', 'LT')
     ].join("\n") + "\n"
   end
-  let(:train_schedule_revise_lines) do
+  let(:train_schedule_update_lines) do
     [
       format('%-79s', 'BSR      010203040506') + 'P',
       format('%-80s', 'BX'),
@@ -92,21 +92,21 @@ describe RailFeeds::NetworkRail::Schedule::Parser::CIF do
       subject.parse_line trailer_line
     end
 
-    it 'Calls on_tiploc_insert proc' do
-      expect(on_tiploc_insert_proc).to receive(:call).with(
+    it 'Calls on_tiploc_create proc' do
+      expect(on_tiploc_create_proc).to receive(:call).with(
         instance_of(RailFeeds::NetworkRail::Schedule::Parser::CIF),
         instance_of(RailFeeds::NetworkRail::Schedule::Tiploc)
       )
-      subject.parse_line tiploc_insert_line
+      subject.parse_line tiploc_create_line
     end
 
-    it 'Calls on_tiploc_amend proc' do
-      expect(on_tiploc_amend_proc).to receive(:call).with(
+    it 'Calls on_tiploc_update proc' do
+      expect(on_tiploc_update_proc).to receive(:call).with(
         instance_of(RailFeeds::NetworkRail::Schedule::Parser::CIF),
         instance_of(String),
         instance_of(RailFeeds::NetworkRail::Schedule::Tiploc)
       )
-      subject.parse_line tiploc_amend_line
+      subject.parse_line tiploc_update_line
     end
 
     it 'Calls on_tiploc_delete proc' do
@@ -117,20 +117,20 @@ describe RailFeeds::NetworkRail::Schedule::Parser::CIF do
       subject.parse_line tiploc_delete_line
     end
 
-    it 'Calls on_association_new proc' do
-      expect(on_association_new_proc).to receive(:call).with(
+    it 'Calls on_association_create proc' do
+      expect(on_association_create_proc).to receive(:call).with(
         instance_of(RailFeeds::NetworkRail::Schedule::Parser::CIF),
         instance_of(RailFeeds::NetworkRail::Schedule::Association)
       )
-      subject.parse_line association_new_line
+      subject.parse_line association_create_line
     end
 
-    it 'Calls on_association_revise proc' do
-      expect(on_association_revise_proc).to receive(:call).with(
+    it 'Calls on_association_update proc' do
+      expect(on_association_update_proc).to receive(:call).with(
         instance_of(RailFeeds::NetworkRail::Schedule::Parser::CIF),
         instance_of(RailFeeds::NetworkRail::Schedule::Association)
       )
-      subject.parse_line association_revise_line
+      subject.parse_line association_update_line
     end
 
     it 'Calls on_association_delete proc' do
@@ -168,29 +168,29 @@ describe RailFeeds::NetworkRail::Schedule::Parser::CIF do
   end
 
   describe '#parse_file' do
-    it 'Calls on_train_new proc' do
+    it 'Calls on_train_create proc' do
       allow(on_trailer_proc).to receive(:call)
-      expect(on_train_schedule_new_proc).to receive(:call).with(
+      expect(on_train_schedule_create_proc).to receive(:call).with(
         instance_of(RailFeeds::NetworkRail::Schedule::Parser::CIF),
         instance_of(RailFeeds::NetworkRail::Schedule::TrainSchedule)
       ).twice
-      subject.parse_file StringIO.new(train_schedule_new_lines + trailer_line)
+      subject.parse_file StringIO.new(train_schedule_create_lines + trailer_line)
     end
 
-    it 'Calls on_train_revise proc' do
+    it 'Calls on_train_update proc' do
       allow(on_trailer_proc).to receive(:call)
-      expect(on_train_schedule_revise_proc).to receive(:call).with(
+      expect(on_train_schedule_update_proc).to receive(:call).with(
         instance_of(RailFeeds::NetworkRail::Schedule::Parser::CIF),
         instance_of(RailFeeds::NetworkRail::Schedule::TrainSchedule)
       ).twice
-      subject.parse_file StringIO.new(train_schedule_revise_lines + trailer_line)
+      subject.parse_file StringIO.new(train_schedule_update_lines + trailer_line)
     end
 
     it 'Created trains have locations' do
       trains = []
       train_proc = proc { |_parser, train| trains.push train }
-      subject = described_class.new(on_train_schedule_new: train_proc)
-      subject.parse_file StringIO.new(header_line + train_schedule_new_lines + trailer_line)
+      subject = described_class.new(on_train_schedule_create: train_proc)
+      subject.parse_file StringIO.new(header_line + train_schedule_create_lines + trailer_line)
       expect(trains.map { |t| t.journey.count }).to eq [3, 2]
     end
   end

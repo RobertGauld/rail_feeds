@@ -42,7 +42,7 @@ module RailFeeds
 
             case hash['transaction_type'].downcase
             when 'create'
-              @on_tiploc_insert&.call self, Tiploc.from_json(line)
+              @on_tiploc_create&.call self, Tiploc.from_json(line)
             when 'update'
               fail 'no idea what this hash looks like'
             when 'delete'
@@ -58,7 +58,7 @@ module RailFeeds
 
             case hash['transaction_type'].downcase
             when 'create'
-              @on_association_new&.call self, Association.from_json(line)
+              @on_association_create&.call self, Association.from_json(line)
             when 'delete'
               @on_association_delete&.call self, Association.from_json(line)
             else
@@ -73,7 +73,7 @@ module RailFeeds
 
             case hash['transaction_type'].downcase
             when 'create'
-              @on_train_schedule_new&.call self, TrainSchedule.from_json(line)
+              @on_train_schedule_create&.call self, TrainSchedule.from_json(line)
             when 'delete'
               @on_train_schedule_delete&.call self, TrainSchedule.from_json(line)
             else

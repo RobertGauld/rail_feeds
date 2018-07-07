@@ -3,28 +3,28 @@
 describe RailFeeds::NetworkRail::Schedule::Parser::JSON do
   let(:on_header_proc) { proc { fail 'Called on_header_proc!' } }
   let(:on_trailer_proc) { proc { fail 'Called on_trailer_proc!' } }
-  let(:on_tiploc_insert_proc) { proc { fail 'Called on_tiploc_insert_proc!' } }
-  let(:on_tiploc_amend_proc) { proc { fail 'Called on_tiploc_amend_proc!' } }
+  let(:on_tiploc_create_proc) { proc { fail 'Called on_tiploc_create_proc!' } }
+  let(:on_tiploc_update_proc) { proc { fail 'Called on_tiploc_update_proc!' } }
   let(:on_tiploc_delete_proc) { proc { fail 'Called on_tiploc_delete_proc!' } }
-  let(:on_association_new_proc) { proc { fail 'Called on_association_new_proc!' } }
-  let(:on_association_revise_proc) { proc { fail 'Called on_association_revise_proc!' } }
+  let(:on_association_create_proc) { proc { fail 'Called on_association_create_proc!' } }
+  let(:on_association_update_proc) { proc { fail 'Called on_association_update_proc!' } }
   let(:on_association_delete_proc) { proc { fail 'Called on_association_delete_proc!' } }
-  let(:on_train_schedule_new_proc) { proc { fail 'Called on_train_schedule_new_proc!' } }
-  let(:on_train_schedule_revise_proc) { proc { fail 'Called on_train_schedule_revise_proc!' } }
+  let(:on_train_schedule_create_proc) { proc { fail 'Called on_train_schedule_create_proc!' } }
+  let(:on_train_schedule_update_proc) { proc { fail 'Called on_train_schedule_update_proc!' } }
   let(:on_train_schedule_delete_proc) { proc { fail 'Called on_train_schedule_delete_proc!' } }
   let(:on_comment_proc) { proc { fail 'Called on_comment_proc!' } }
   subject do
     described_class.new(
       on_header: on_header_proc,
       on_trailer: on_trailer_proc,
-      on_tiploc_insert: on_tiploc_insert_proc,
-      on_tiploc_amend: on_tiploc_amend_proc,
+      on_tiploc_create: on_tiploc_create_proc,
+      on_tiploc_update: on_tiploc_update_proc,
       on_tiploc_delete: on_tiploc_delete_proc,
-      on_association_new: on_association_new_proc,
-      on_association_revise: on_association_revise_proc,
+      on_association_create: on_association_create_proc,
+      on_association_update: on_association_update_proc,
       on_association_delete: on_association_delete_proc,
-      on_train_schedule_new: on_train_schedule_new_proc,
-      on_train_schedule_revise: on_train_schedule_revise_proc,
+      on_train_schedule_create: on_train_schedule_create_proc,
+      on_train_schedule_update: on_train_schedule_update_proc,
       on_train_schedule_delete: on_train_schedule_delete_proc,
       on_comment: on_comment_proc
     )
@@ -50,11 +50,11 @@ describe RailFeeds::NetworkRail::Schedule::Parser::JSON do
       subject.parse_line line
     end
 
-    it 'Calls on_tiploc_insert proc' do
+    it 'Calls on_tiploc_create proc' do
       line = '{"TiplocV1":{"transaction_type":"Create","tiploc_code":"SCAREXS","nalco"' \
              ':"818502","stanox":"16203","crs_code":null,"description":null,' \
              '"tps_description":"SCARBOROUGH EXCURSION SDGS"}}'
-      expect(on_tiploc_insert_proc).to receive(:call).with(
+      expect(on_tiploc_create_proc).to receive(:call).with(
         instance_of(RailFeeds::NetworkRail::Schedule::Parser::JSON),
         instance_of(RailFeeds::NetworkRail::Schedule::Tiploc)
       )
@@ -86,14 +86,14 @@ describe RailFeeds::NetworkRail::Schedule::Parser::JSON do
       expect { subject.parse_line line }.to_not raise_error
     end
 
-    it 'Calls on_association_new proc' do
+    it 'Calls on_association_create proc' do
       line = '{"JsonAssociationV1":{"transaction_type":"Create","main_train_uid":' \
              '"C66471","assoc_train_uid":"C65170","assoc_start_date":' \
              '"2018-08-05T00:00:00Z","assoc_end_date":"2018-09-02T00:00:00Z",' \
              '"assoc_days":"0000001","category":"NP","date_indicator":"S","location"' \
              ':"NTNG","base_location_suffix":null,"assoc_location_suffix":null,' \
              '"diagram_type":"T","CIF_stp_indicator":"P"}}'
-      expect(on_association_new_proc).to receive(:call).with(
+      expect(on_association_create_proc).to receive(:call).with(
         instance_of(RailFeeds::NetworkRail::Schedule::Parser::JSON),
         instance_of(RailFeeds::NetworkRail::Schedule::Association)
       )
@@ -133,9 +133,9 @@ describe RailFeeds::NetworkRail::Schedule::Parser::JSON do
       subject.parse_line line
     end
 
-    it 'Calls on_train_new proc' do
+    it 'Calls on_train_create proc' do
       allow(on_trailer_proc).to receive(:call)
-      expect(on_train_schedule_new_proc).to receive(:call).with(
+      expect(on_train_schedule_create_proc).to receive(:call).with(
         instance_of(RailFeeds::NetworkRail::Schedule::Parser::JSON),
         instance_of(RailFeeds::NetworkRail::Schedule::TrainSchedule)
       )
@@ -157,7 +157,7 @@ describe RailFeeds::NetworkRail::Schedule::Parser::JSON do
     it 'Created trains have locations' do
       trains = []
       train_proc = proc { |_parser, train| trains.push train }
-      subject = described_class.new(on_train_schedule_new: train_proc)
+      subject = described_class.new(on_train_schedule_create: train_proc)
       line = File.read(File.join(RSPEC_FIXTURES, 'network_rail', 'schedule', 'parser', 'train_create.json'))
       subject.parse_line String.new line
       expect(trains.map { |t| t.journey.count }).to eq [8]

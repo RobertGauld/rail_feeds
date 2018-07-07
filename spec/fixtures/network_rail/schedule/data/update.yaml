@@ -10,7 +10,7 @@
     end_date: 2019-06-18
 
 # Insert new tiploc
-- - :on_tiploc_insert
+- - :on_tiploc_create
   - !ruby/object:RailFeeds::NetworkRail::Schedule::Tiploc
     tiploc: '4'
 # Delete existing tiploc
@@ -22,18 +22,18 @@
   - !ruby/object:RailFeeds::NetworkRail::Schedule::Tiploc
     tiploc: '22'
 # Amend existing tiploc
-- - :on_tiploc_amend
+- - :on_tiploc_update
   - - '3'
     - !ruby/object:RailFeeds::NetworkRail::Schedule::Tiploc
       tiploc: '3a'
 # Amend nonexisting tiploc
-- - :on_tiploc_amend
+- - :on_tiploc_update
   - - '5'
     - !ruby/object:RailFeeds::NetworkRail::Schedule::Tiploc
       tiploc: '5a'
 
 # New association
-- - :on_association_new
+- - :on_association_create
   - !ruby/object:RailFeeds::NetworkRail::Schedule::Association
     tiploc: '4'
     main_location_suffix: 'd'
@@ -50,14 +50,14 @@
     tiploc: '22'
     main_location_suffix: 'D'
 # Revise existing association
-- - :on_association_revise
+- - :on_association_update
   - !ruby/object:RailFeeds::NetworkRail::Schedule::Association
     tiploc: '3'
     main_location_suffix: 'c'
     category: VV    
     days: [true, true, true, true, true, false, false]
 # Revise nonexisting association
-- - :on_association_revise
+- - :on_association_update
   - !ruby/object:RailFeeds::NetworkRail::Schedule::Association
     tiploc: '5'
     main_location_suffix: 'e'
@@ -65,7 +65,7 @@
     days: [true, true, true, true, true, false, false]
 
 # New train
-- - :on_train_schedule_new
+- - :on_train_schedule_create
   - !ruby/object:RailFeeds::NetworkRail::Schedule::TrainSchedule
     uid: 4
     signalling_headcode: '4D44'
@@ -94,14 +94,14 @@
   - !ruby/object:RailFeeds::NetworkRail::Schedule::TrainSchedule
     uid: 22
 # Revise existing train
-- - :on_train_schedule_revise
+- - :on_train_schedule_update
   - !ruby/object:RailFeeds::NetworkRail::Schedule::TrainSchedule
     uid: 3
     signalling_headcode: '3c33'
     days: [true, true, true, true, true, false, false]
     journey: []
 # Revise nonexisting train
-- - :on_train_schedule_revise
+- - :on_train_schedule_update
   - !ruby/object:RailFeeds::NetworkRail::Schedule::TrainSchedule
     uid: 5
     signalling_headcode: '5E55'

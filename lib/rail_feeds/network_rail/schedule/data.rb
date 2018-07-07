@@ -31,14 +31,14 @@ module RailFeeds
             logger: logger,
             on_header: proc { |*args| do_header(*args) },
             on_trailer: proc { |*args| do_trailer(*args) },
-            on_tiploc_insert: proc { |*args| do_tiploc_insert(*args) },
-            on_tiploc_amend: proc { |*args| do_tiploc_amend(*args) },
+            on_tiploc_create: proc { |*args| do_tiploc_create(*args) },
+            on_tiploc_update: proc { |*args| do_tiploc_update(*args) },
             on_tiploc_delete: proc { |*args| do_tiploc_delete(*args) },
-            on_association_new: proc { |*args| do_association_new(*args) },
-            on_association_revise: proc { |*args| do_association_revise(*args) },
+            on_association_create: proc { |*args| do_association_create(*args) },
+            on_association_update: proc { |*args| do_association_update(*args) },
             on_association_delete: proc { |*args| do_association_delete(*args) },
-            on_train_schedule_new: proc { |*args| do_train_schedule_new(*args) },
-            on_train_schedule_revise: proc { |*args| do_train_schedule_revise(*args) },
+            on_train_schedule_create: proc { |*args| do_train_schedule_create(*args) },
+            on_train_schedule_update: proc { |*args| do_train_schedule_update(*args) },
             on_train_schedule_delete: proc { |*args| do_train_schedule_delete(*args) }
           )
           reset_data
@@ -158,12 +158,12 @@ module RailFeeds
         end
 
         # TIPLOC Insert record
-        def do_tiploc_insert(_parser, tiploc)
+        def do_tiploc_create(_parser, tiploc)
           tiplocs[tiploc.hash] = tiploc
         end
 
         # TIPLOC Amend record
-        def do_tiploc_amend(_parser, tiploc_id, tiploc)
+        def do_tiploc_update(_parser, tiploc_id, tiploc)
           tiplocs[tiploc_id] = tiploc
         end
 
@@ -173,12 +173,12 @@ module RailFeeds
         end
 
         # Association New record
-        def do_association_new(_parser, association)
+        def do_association_create(_parser, association)
           associations[association.hash] = association
         end
 
         # Association Revise record
-        def do_association_revise(_parser, association)
+        def do_association_update(_parser, association)
           associations[association.hash] = association
         end
 
@@ -188,16 +188,16 @@ module RailFeeds
         end
 
         # New Train received
-        def do_train_schedule_new(_parser, train_schedule)
+        def do_train_schedule_create(_parser, train_schedule)
           trains[train_schedule.uid] ||= []
           trains[train_schedule.uid].push train_schedule
         end
 
         # Revise Train received
-        def do_train_schedule_revise(parser, train_schedule)
+        def do_train_schedule_update(parser, train_schedule)
           trains[train_schedule.uid] ||= []
           index = trains[train_schedule.uid].index train_schedule
-          return do_train_schedule_new(parser, train_schedule) if index.nil?
+          return do_train_schedule_create(parser, train_schedule) if index.nil?
           trains[train_schedule.uid][index] = train_schedule
         end
 

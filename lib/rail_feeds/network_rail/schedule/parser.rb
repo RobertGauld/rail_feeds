@@ -18,28 +18,28 @@ module RailFeeds
         # @param [Proc, #call] on_header
         #   The proc to call when the header is received.
         #   Passes self and a RailFeeds::NetworkRail::Schedule::Header.
-        # @param [Proc, #call] on_tiploc_insert
+        # @param [Proc, #call] on_tiploc_create
         #   The proc to call when a tiploc insertion is received.
         #   Passes self and a RailFeeds::NetworkRail::Schedule::Tiploc::Insert.
-        # @param [Proc, #call] on_tiploc_amend
+        # @param [Proc, #call] on_tiploc_update
         #   The proc to call when an amendment to an existing tiploc is received.
         #   Passes self, tiploc_id and a RailFeeds::NetworkRail::Schedule::Tiploc::Ammend.
         # @param [Proc, #call] on_tiploc_delete
         #   The proc to call when an existing tiploc should be deleted.
         #   Passes self and a tiploc_id.
-        # @param [Proc, #call] on_association_new
+        # @param [Proc, #call] on_association_create
         #   The proc to call when a new association is received.
         #   Passes self and a RailFeeds::NetworkRail::Schedule::Association.
-        # @param [Proc, #call] on_association_revise
+        # @param [Proc, #call] on_association_update
         #   The proc to call when a revision to an existing association is received.
         #   Passes self and a RailFeeds::NetworkRail::Schedule::Association.
         # @param [Proc, #call] on_association_delete
         #   The proc to call when an existing association should be deleted.
         #   Passes self and a RailFeeds::NetworkRail::Schedule::Association.
-        # @param [Proc, #call] on_train_schedule_new
+        # @param [Proc, #call] on_train_schedule_create
         #   The proc to call when a new train schedule is received.
         #   Passes self and a RailFeeds::NetworkRail::Schedule::TrainSchedule::New.
-        # @param [Proc, #call] on_train_schedule_revise
+        # @param [Proc, #call] on_train_schedule_update
         #   The proc to call when a revision to an existing train schedule is received.
         #   Passes self and a RailFeeds::NetworkRail::Schedule::TrainSchedule::Revise.
         # @param [Proc, #call] on_train_schedule_delete
@@ -54,22 +54,22 @@ module RailFeeds
         def initialize(
           logger: nil,
           on_header: nil, on_trailer: nil, on_comment: nil,
-          on_tiploc_insert: nil, on_tiploc_amend: nil, on_tiploc_delete: nil,
-          on_association_new: nil, on_association_revise: nil,
-          on_association_delete: nil, on_train_schedule_new: nil,
-          on_train_schedule_revise: nil, on_train_schedule_delete: nil
+          on_tiploc_create: nil, on_tiploc_update: nil, on_tiploc_delete: nil,
+          on_association_create: nil, on_association_update: nil,
+          on_association_delete: nil, on_train_schedule_create: nil,
+          on_train_schedule_update: nil, on_train_schedule_delete: nil
         )
           self.logger = logger unless logger.nil?
           @on_header = on_header
           @on_trailer = on_trailer
-          @on_tiploc_insert = on_tiploc_insert
-          @on_tiploc_amend = on_tiploc_amend
+          @on_tiploc_create = on_tiploc_create
+          @on_tiploc_update = on_tiploc_update
           @on_tiploc_delete = on_tiploc_delete
-          @on_association_new = on_association_new
-          @on_association_revise = on_association_revise
+          @on_association_create = on_association_create
+          @on_association_update = on_association_update
           @on_association_delete = on_association_delete
-          @on_train_schedule_new = on_train_schedule_new
-          @on_train_schedule_revise = on_train_schedule_revise
+          @on_train_schedule_create = on_train_schedule_create
+          @on_train_schedule_update = on_train_schedule_update
           @on_train_schedule_delete = on_train_schedule_delete
           @on_comment = on_comment
         end

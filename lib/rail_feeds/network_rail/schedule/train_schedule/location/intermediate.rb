@@ -89,6 +89,28 @@ module RailFeeds
             end
             # rubocop:enable Metrics/AbcSize
             # rubocop:enable Metrics/MethodLength
+
+            # rubocop:disable Metrics/MethodLength
+            def to_hash_for_json
+              {
+                location_type: 'LI',
+                record_identity: 'LI',
+                tiploc_code: tiploc,
+                tiploc_instance: tiploc_suffix,
+                arrival: scheduled_arrival,
+                departure: scheduled_departure,
+                pass: scheduled_pass,
+                public_arrival: public_arrival,
+                public_departure: public_departure,
+                platform: platform,
+                line: line,
+                path: path,
+                engineering_allowance: allowance_json(engineering_allowance),
+                pathing_allowance: allowance_json(pathing_allowance),
+                performance_allowance: allowance_json(performance_allowance)
+              }
+            end
+            # rubocop:enable Metrics/MethodLength
           end
         end
       end

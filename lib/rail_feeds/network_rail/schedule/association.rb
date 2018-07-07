@@ -3,6 +3,7 @@
 module RailFeeds
   module NetworkRail
     module Schedule
+      # rubocop:disable Metrics/ClassLength
       # A class for holding information about an association between many trains.
       class Association
         include Comparable
@@ -40,10 +41,6 @@ module RailFeeds
         #   @return [String, nil]
         #   Together with the tiploc uniquely identifies the association
         #   on the associated_uid.
-        # @!attribute [rw] type
-        #   @return [String] The type of association:
-        #   * P - passenger use
-        #   * O - operating use
         # @!attribute [rw] stp_indicator
         #   @return [String]
         #   * C - cancellation of permanent schedule
@@ -52,7 +49,7 @@ module RailFeeds
         #   * P - permanent
 
         attr_accessor :main_train_uid, :associated_train_uid, :category,
-                      :start_date, :end_date, :date_indicator, :type,
+                      :start_date, :end_date, :date_indicator,
                       :tiploc, :main_location_suffix, :associated_location_suffix
         # Attributes from modules :days, :stp_indicator
 
@@ -81,12 +78,32 @@ module RailFeeds
             tiploc: line[37..43].strip,
             main_location_suffix: Schedule.nil_or_i(line[44]),
             associated_location_suffix: Schedule.nil_or_i(line[45]),
-            type: Schedule.nil_or_strip(line[47]),
             stp_indicator: stp_indicator_from_cif(line[79])
           )
         end
         # rubocop:enable Metrics/AbcSize
         # rubocop:enable Metrics/MethodLength
+
+        # rubocop:disable Metrics/AbcSize
+        # Initialize a new association from a JSON file line
+        def self.from_json(line)
+          data = ::JSON.parse(line)['JsonAssociationV1']
+
+          new(
+            main_train_uid: data['main_train_uid'],
+            associated_train_uid: data['assoc_train_uid'],
+            start_date: Date.parse(data['assoc_start_date']),
+            end_date: data['assoc_end_date'] ? Date.parse(data['assoc_end_date']) : nil,
+            days: days_from_cif(data['assoc_days']),
+            category: Schedule.nil_or_strip(data['category']),
+            date_indicator: Schedule.nil_or_strip(data['date_indicator']),
+            tiploc: data['location'],
+            main_location_suffix: Schedule.nil_or_i(data['base_location_suffix']),
+            associated_location_suffix: Schedule.nil_or_i(data['assoc_location_suffix']),
+            stp_indicator: stp_indicator_from_cif(data['CIF_stp_indicator'])
+          )
+        end
+        # rubocop:enable Metrics/AbcSize
 
         # Test if this is a join association.
         def join?
@@ -118,14 +135,6 @@ module RailFeeds
           date_indicator.eql?('P')
         end
 
-        def passenger_use?
-          type.eql?('P')
-        end
-
-        def operating_use?
-          type.eql?('O')
-        end
-
         # Uniquely identifies the event on the main_train_uid
         def main_train_event_id
           "#{tiploc}-#{main_location_suffix}"
@@ -150,7 +159,6 @@ module RailFeeds
         end
 
         # rubocop:disable Metrics/AbcSize
-        # rubocop:disable Metrics/MethodLength
         def to_cif
           format('%-80.80s', [
             'AAN',
@@ -166,15 +174,35 @@ module RailFeeds
             format('%-7.7s', tiploc),
             format('%-1.1s', main_location_suffix),
             format('%-1.1s', associated_location_suffix),
-            'T',
-            format('%-1.1s', type),
-            '                               ',
+            'T                                ',
             stp_indicator_to_cif
           ].join) + "\n"
         end
         # rubocop:enable Metrics/AbcSize
+
+        # rubocop:disable Metrics/MethodLength
+        def to_json
+          {
+            'JsonAssociationV1' => {
+              'transaction_type' => 'Create',
+              'main_train_uid' => main_train_uid,
+              'assoc_train_uid' => associated_train_uid,
+              'assoc_start_date' => start_date.strftime('%Y-%m-%dT00:00:00Z'),
+              'assoc_end_date' => end_date.strftime('%Y-%m-%dT00:00:00Z'),
+              'assoc_days' => days_to_cif,
+              'category' => category,
+              'date_indicator' => date_indicator,
+              'location' => tiploc,
+              'base_location_suffix' => main_location_suffix,
+              'assoc_location_suffix' => associated_location_suffix,
+              'diagram_type' => 'T',
+              'CIF_stp_indicator' => stp_indicator_to_cif
+            }
+          }.to_json
+        end
         # rubocop:enable Metrics/MethodLength
       end
+      # rubocop:enable Metrics/ClassLength
     end
   end
 end

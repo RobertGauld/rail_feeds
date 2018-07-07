@@ -2,10 +2,14 @@
 
 describe RailFeeds::NetworkRail::Schedule::TrainSchedule do
   let(:line_basic) do
-    'BSNa123450102030405061010101bscciiii2222111111111pPPPtttt333ooooooSFR catebran P'
+    'BSNa123450102030405061010101bscciiii2222111111111 PPPtttt333ooooooSFR catebran P'
   end
   let(:line_extra) do
     'BX    11111TTY                                                                  '
+  end
+  let :json do
+    file = File.join RSPEC_FIXTURES, 'network_rail', 'schedule', 'train_schedule', 'json-data.yaml'
+    YAML.load(File.read(file)).to_json
   end
 
   subject do
@@ -20,7 +24,6 @@ describe RailFeeds::NetworkRail::Schedule::TrainSchedule do
       signalling_headcode: 'iiii',
       reservation_headcode: 2222,
       service_code: 11111111,
-      portion_id: 'p',
       power_type: 'PPP',
       timing_load: 'tttt',
       speed: 333,
@@ -37,6 +40,34 @@ describe RailFeeds::NetworkRail::Schedule::TrainSchedule do
     )
   end
 
+  it '::from_json' do
+    subject = described_class.from_json json
+    expect(subject.uid).to eq 'W20309'
+    expect(subject.category).to eq 'OO'
+    expect(subject.status).to eq 'S'
+    expect(subject.reservation_headcode).to eq 1234
+    expect(subject.signalling_headcode).to eq '2U10'
+    expect(subject.service_code).to eq '24627006'
+    expect(subject.start_date).to eq Date.new(2018, 5, 21)
+    expect(subject.end_date).to eq Date.new(2018, 12, 7)
+    expect(subject.days).to eq [true, true, true, true, true, false, false]
+    expect(subject.run_on_bank_holiday).to eq 'B'
+    expect(subject.power_type).to eq 'EMU'
+    expect(subject.timing_load).to eq '483'
+    expect(subject.speed).to eq 45
+    expect(subject.operating_characteristics).to eq 'OPER-CHAR'
+    expect(subject.seating_class).to eq 'S'
+    expect(subject.sleeping_class).to eq 'B'
+    expect(subject.reservations).to eq 'R'
+    expect(subject.catering).to eq 'C'
+    expect(subject.branding).to eq 'Br'
+    expect(subject.uic).to eq 12345
+    expect(subject.atoc).to eq 'IL'
+    expect(subject.applicable_timetable).to eq true
+    expect(subject.stp_indicator).to eq :permanent
+    expect(subject.journey.size).to eq 3
+  end
+
   describe '#update_from_line' do
     it 'Standard information' do
       subject.update_from_cif line_basic
@@ -50,7 +81,6 @@ describe RailFeeds::NetworkRail::Schedule::TrainSchedule do
       expect(subject.signalling_headcode).to eq 'iiii'
       expect(subject.reservation_headcode).to eq 2222
       expect(subject.service_code).to eq 11111111
-      expect(subject.portion_id).to eq 'p'
       expect(subject.power_type).to eq 'PPP'
       expect(subject.timing_load).to eq 'tttt'
       expect(subject.speed).to eq 333
@@ -150,7 +180,6 @@ describe RailFeeds::NetworkRail::Schedule::TrainSchedule do
       expect(subject.signalling_headcode).to be_nil
       expect(subject.reservation_headcode).to be_nil
       expect(subject.service_code).to be_nil
-      expect(subject.portion_id).to be_nil
       expect(subject.power_type).to be_nil
       expect(subject.timing_load).to be_nil
       expect(subject.speed).to be_nil
@@ -184,6 +213,11 @@ describe RailFeeds::NetworkRail::Schedule::TrainSchedule do
       'intermediate',
       'terminating'
     ].map { |i| "#{i}\n" }.join
+  end
+
+  it '#to_json' do
+    subject = described_class.from_json json
+    expect(subject.to_json).to eq json
   end
 
   describe '#<=>' do

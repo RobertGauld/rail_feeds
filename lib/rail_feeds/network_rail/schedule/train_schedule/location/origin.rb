@@ -67,6 +67,22 @@ module RailFeeds
               ].join) + "\n"
             end
             # rubocop:enable Metrics/AbcSize
+
+            def to_hash_for_json
+              {
+                location_type: 'LO',
+                record_identity: 'LO',
+                tiploc_code: tiploc,
+                tiploc_instance: tiploc_suffix,
+                departure: scheduled_departure,
+                public_departure: public_departure,
+                platform: platform,
+                line: line,
+                engineering_allowance: allowance_json(engineering_allowance),
+                pathing_allowance: allowance_json(pathing_allowance),
+                performance_allowance: allowance_json(performance_allowance)
+              }
+            end
           end
         end
       end

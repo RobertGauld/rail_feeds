@@ -147,6 +147,10 @@ module RailFeeds
           def hash
             "#{tiploc}-#{tiploc_suffix}"
           end
+
+          def to_hash_for_json
+            nil
+          end
         end
       end
     end

@@ -8,7 +8,7 @@ module RailFeeds
   module NetworkRail
     module Schedule
       class TrainSchedule
-        # A class for holding information about a particular train's particular location
+        # A class for holding information about a particular train's particular location.
         class Location
           # @!attribute [rw] tiploc
           #   @return [String] The location where the change occurs.
@@ -58,6 +58,13 @@ module RailFeeds
           private_class_method :parse_allowance
 
           def allowance_cif(value)
+            i = value.to_i
+            f = value.to_f - i
+            f.eql?(0.5) ? "#{i}H" : i.to_s
+          end
+
+          def allowance_json(value)
+            return nil if value.nil?
             i = value.to_i
             f = value.to_f - i
             f.eql?(0.5) ? "#{i}H" : i.to_s

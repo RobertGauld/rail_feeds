@@ -27,7 +27,7 @@ module RailFeeds
         #   The logger for outputting events, if nil the global logger is used.
         def initialize(logger: nil)
           self.logger = logger unless logger.nil?
-          @parser = Parser.new(
+          @parser = Parser::CIF.new(
             logger: logger,
             on_header: proc { |*args| do_header(*args) },
             on_trailer: proc { |*args| do_trailer(*args) },

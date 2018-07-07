@@ -1,0 +1,67 @@
+---
+JsonScheduleV1:
+  CIF_bank_holiday_running: B
+  CIF_stp_indicator: P
+  CIF_train_uid: W20309
+  applicable_timetable: Y
+  atoc_code: IL
+  schedule_start_date: "2018-05-21"
+  train_status: S
+  transaction_type: Create
+  schedule_days_runs: "1111100"
+  schedule_end_date: "2018-12-07"
+  new_schedule_segment:
+    traction_class: ""
+    uic_code: "12345"
+  schedule_segment:
+    signalling_id: 2U10
+    CIF_train_category: "OO"
+    CIF_headcode: "1234"
+    CIF_course_indicator:
+    CIF_train_service_code: "24627006"
+    CIF_business_sector: ??
+    CIF_power_type: EMU
+    CIF_timing_load: "483"
+    CIF_speed: "045"
+    CIF_operating_characteristics: OPER-CHAR
+    CIF_train_class: S
+    CIF_sleepers: B
+    CIF_reservations: R
+    CIF_connection_indicator:
+    CIF_catering_code: C
+    CIF_service_branding: Br
+    schedule_location:
+    - location_type: LO
+      record_identity: LO
+      tiploc_code: SHANKLN
+      tiploc_instance:
+      departure: "0718"
+      public_departure: "0718"
+      platform: P
+      line: L
+      engineering_allowance: "1"
+      pathing_allowance: "1H"
+      performance_allowance: "2"
+    - location_type: LI
+      record_identity: LI
+      tiploc_code: LAKEIOW
+      tiploc_instance: nil
+      arrival: "0720"
+      departure: "0721"
+      pass: "0722"
+      public_arrival: "0720"
+      public_departure: "0721"
+      platform: P
+      line: L
+      path: p
+      engineering_allowance:
+      pathing_allowance:
+      performance_allowance:
+    - location_type: LT
+      record_identity: LT
+      tiploc_code: RYDP
+      tiploc_instance:
+      arrival: "0742"
+      public_arrival: "0742"
+      platform: P
+      path: p

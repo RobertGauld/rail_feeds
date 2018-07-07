@@ -73,7 +73,7 @@ is supported.
 
 ``` ruby
 # 3. Parse the fetched files
-parser = RailFeeds::NetworkRail::Schedule::Parser.new(
+parser = RailFeeds::NetworkRail::Schedule::Parser::CIF.new(
   YOUR PROCS HERE
   e.g. on_header: my_header_proc
 )

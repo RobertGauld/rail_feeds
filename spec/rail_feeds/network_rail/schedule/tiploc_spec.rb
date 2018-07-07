@@ -2,7 +2,7 @@
 
 describe RailFeeds::NetworkRail::Schedule::Tiploc do
   let(:line) do
-    'TIttttttt  123456ATPS Description           54321    CrsNLC Description         '
+    'TIttttttt  123456 TPS Description           54321    CrsNLC Description         '
   end
   subject { described_class.from_cif line }
 
@@ -10,11 +10,10 @@ describe RailFeeds::NetworkRail::Schedule::Tiploc do
     it 'Sets attributes' do
       expect(subject.tiploc).to eq 'ttttttt'
       expect(subject.nlc).to eq 123456
-      expect(subject.nlc_check_char).to eq 'A'
-      expect(subject.tps_description).to eq 'TPS Description'
       expect(subject.stanox).to eq 54321
       expect(subject.crs).to eq 'Crs'
       expect(subject.nlc_description).to eq 'NLC Description'
+      expect(subject.tps_description).to eq 'TPS Description'
     end
 
     it 'Fails for invalid line' do
@@ -23,8 +22,30 @@ describe RailFeeds::NetworkRail::Schedule::Tiploc do
     end
   end
 
+  it '::from_json' do
+    subject = described_class.from_json(
+      '{"TiplocV1":{"transaction_type":"Create","tiploc_code":"SCARTMD",' \
+      '"nalco":"818503","stanox":"16204","crs_code":"crs","description":"desc",' \
+      '"tps_description":"SCARBOROUGH TMD"}}'
+    )
+
+    expect(subject.tiploc).to eq 'SCARTMD'
+    expect(subject.nlc).to eq 818503
+    expect(subject.stanox).to eq 16204
+    expect(subject.crs).to eq 'crs'
+    expect(subject.nlc_description).to eq 'desc'
+    expect(subject.tps_description).to eq 'SCARBOROUGH TMD'
+  end
+
   it '#to_cif' do
     expect(subject.to_cif).to eq "#{line}\n"
+  end
+
+  it '#to_json' do
+    expect(subject.to_json).to eq '{"TiplocV1":{"transaction_type":"Create","tiploc_co' \
+                                  'de":"ttttttt","nalco":"123456","stanox":"54321",' \
+                                  '"crs_code":"Crs","description":"NLC Description",' \
+                                  '"tps_description":"TPS Description"}}'
   end
 
   describe '#hash' do

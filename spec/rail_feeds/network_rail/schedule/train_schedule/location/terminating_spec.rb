@@ -30,6 +30,20 @@ describe RailFeeds::NetworkRail::Schedule::TrainSchedule::Location::Terminating 
     expect(subject.to_cif).to eq "#{line}\n"
   end
 
+  it '#to_hash_for_json' do
+    subject = described_class.from_cif line
+    expect(subject.to_hash_for_json).to eq(
+      location_type: 'LT',
+      record_identity: 'LT',
+      tiploc_code: 'ttttttt',
+      tiploc_instance: 1,
+      arrival: 'aaaaa',
+      public_arrival: 'AAAA',
+      platform: 'Pla',
+      path: 'Pat'
+    )
+  end
+
   describe '#hash' do
     it 'Uses tiploc and tiploc_suffix' do
       expect(subject.hash).to eq 'bbbbbbb-2'

@@ -51,6 +51,19 @@ module RailFeeds
                 format('%-12.12s', activity)
               ].join) + "\n"
             end
+
+            def to_hash_for_json
+              {
+                location_type: 'LT',
+                record_identity: 'LT',
+                tiploc_code: tiploc,
+                tiploc_instance: tiploc_suffix,
+                arrival: scheduled_arrival,
+                public_arrival: public_arrival,
+                platform: platform,
+                path: path
+              }
+            end
           end
         end
       end

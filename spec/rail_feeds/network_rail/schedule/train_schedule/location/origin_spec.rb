@@ -33,6 +33,23 @@ describe RailFeeds::NetworkRail::Schedule::TrainSchedule::Location::Origin do
     expect(subject.to_cif).to eq "#{line}\n"
   end
 
+  it '#to_hash_for_json' do
+    subject = described_class.from_cif line
+    expect(subject.to_hash_for_json).to eq(
+      location_type: 'LO',
+      record_identity: 'LO',
+      tiploc_code: 'ttttttt',
+      tiploc_instance: 1,
+      departure: 'ddddd',
+      public_departure: 'DDDD',
+      platform: 'Pla',
+      line: 'Lin',
+      engineering_allowance: '2H',
+      pathing_allowance: '3',
+      performance_allowance: '45'
+    )
+  end
+
   describe '#hash' do
     it 'Uses tiploc and tiploc_suffix' do
       expect(subject.hash).to eq 'aaaaaaa-1'

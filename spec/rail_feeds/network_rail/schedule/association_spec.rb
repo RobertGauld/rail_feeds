@@ -2,7 +2,7 @@
 
 describe RailFeeds::NetworkRail::Schedule::Association do
   let(:line) do
-    'AANmmmmmmaaaaaa0102030405060101010AcDTTTTTTT12Ta                               P'
+    'AANmmmmmmaaaaaa0102030405060101010AcDTTTTTTT12T                                P'
   end
   subject { described_class.from_cif line }
 
@@ -18,7 +18,6 @@ describe RailFeeds::NetworkRail::Schedule::Association do
       expect(subject.tiploc).to eq 'TTTTTTT'
       expect(subject.main_location_suffix).to eq 1
       expect(subject.associated_location_suffix).to eq 2
-      expect(subject.type).to eq 'a'
       expect(subject.stp_indicator).to eq :permanent
     end
 
@@ -40,9 +39,30 @@ describe RailFeeds::NetworkRail::Schedule::Association do
       expect(subject.tiploc).to eq 'ASHFKY'
       expect(subject.main_location_suffix).to be_nil
       expect(subject.associated_location_suffix).to be_nil
-      expect(subject.type).to be_nil
       expect(subject.stp_indicator).to eq :stp_cancellation
     end
+  end
+
+  it '::from_json' do
+    subject = described_class.from_json(
+      '{"JsonAssociationV1":{"transaction_type":"Create","main_train_uid":"C69888",' \
+      '"assoc_train_uid":"C69870","assoc_start_date":"2018-10-08T00:00:00Z",' \
+      '"assoc_end_date":"2018-12-07T00:00:00Z","assoc_days":"1111100","category":"NP",' \
+      '"date_indicator":"S","location":"NTNG","base_location_suffix":null,' \
+      '"assoc_location_suffix":null,"diagram_type":"T","CIF_stp_indicator":"P"}}'
+    )
+
+    expect(subject.main_train_uid).to eq 'C69888'
+    expect(subject.associated_train_uid).to eq 'C69870'
+    expect(subject.start_date).to eq Date.new(2018, 10, 8)
+    expect(subject.end_date).to eq Date.new(2018, 12, 7)
+    expect(subject.days).to eq [true, true, true, true, true, false, false]
+    expect(subject.category).to eq 'NP'
+    expect(subject.date_indicator).to eq 'S'
+    expect(subject.tiploc).to eq 'NTNG'
+    expect(subject.main_location_suffix).to be_nil
+    expect(subject.associated_location_suffix).to be_nil
+    expect(subject.stp_indicator).to eq :permanent
   end
 
   describe 'Helper methods' do
@@ -88,18 +108,6 @@ describe RailFeeds::NetworkRail::Schedule::Association do
       it { should be_over_previous_midnight }
     end
 
-    context 'Passenger use' do
-      before(:each) { subject.type = 'P' }
-      it { should be_passenger_use }
-      it { should_not be_operating_use }
-    end
-
-    context 'Operating use' do
-      before(:each) { subject.type = 'O' }
-      it { should_not be_passenger_use }
-      it { should be_operating_use }
-    end
-
     it '#main_train_event_id' do
       subject.tiploc = 'TTTTTTT'
       subject.main_location_suffix = 1
@@ -115,6 +123,17 @@ describe RailFeeds::NetworkRail::Schedule::Association do
 
   it '#to_cif' do
     expect(subject.to_cif).to eq "#{line}\n"
+  end
+
+  it '#to_json' do
+    expect(subject.to_json).to eq '{"JsonAssociationV1":{"transaction_type":"Create",' \
+                                  '"main_train_uid":"mmmmmm","assoc_train_uid":"aaaaaa",' \
+                                  '"assoc_start_date":"2001-02-03T00:00:00Z",' \
+                                  '"assoc_end_date":"2004-05-06T00:00:00Z",' \
+                                  '"assoc_days":"0101010","category":"Ac",' \
+                                  '"date_indicator":"D","location":"TTTTTTT",' \
+                                  '"base_location_suffix":1,"assoc_location_suffix":2,' \
+                                  '"diagram_type":"T","CIF_stp_indicator":"P"}}'
   end
 
   describe '#hash' do

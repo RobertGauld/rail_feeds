@@ -86,6 +86,10 @@ describe RailFeeds::NetworkRail::Schedule::TrainSchedule::ChangeEnRoute do
     expect(subject.to_cif).to eq "#{line}\n"
   end
 
+  it '#to_hash_for_json' do
+    expect(subject.to_hash_for_json).to be_nil
+  end
+
   describe '#==' do
     let(:change1) { described_class.new tiploc: 'a', tiploc_suffix: 1 }
     let(:change2) { described_class.new tiploc: 'a', tiploc_suffix: 1 }

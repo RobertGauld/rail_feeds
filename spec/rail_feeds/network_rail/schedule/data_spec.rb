@@ -8,7 +8,7 @@ class DummyParserForDataTests
   end
 
   def parse_cif_file(file)
-    filename = File.join RSPEC_FIXTURES, 'network_rail', 'schedule', "#{file}.yaml"
+    filename = File.join RSPEC_FIXTURES, 'network_rail', 'schedule', 'data', "#{file}.yaml"
     YAML.load(File.read(filename)).each do |event, data|
       if data.nil?
         @procs[event].call self
@@ -21,7 +21,7 @@ end
 
 describe RailFeeds::NetworkRail::Schedule::Data do
   before :each do
-    expect(RailFeeds::NetworkRail::Schedule::Parser).to receive(:new) do |**args|
+    expect(RailFeeds::NetworkRail::Schedule::Parser::CIF).to receive(:new) do |**args|
       DummyParserForDataTests.new(**args)
     end
   end
@@ -29,7 +29,7 @@ describe RailFeeds::NetworkRail::Schedule::Data do
     data = described_class.new
     unless example.metadata[:skip_load_starting_data]
       # Populate with starting data
-      filename = File.join RSPEC_FIXTURES, 'network_rail', 'schedule', 'starting.yaml'
+      filename = File.join RSPEC_FIXTURES, 'network_rail', 'schedule', 'data', 'starting.yaml'
       starting_data = YAML.load(File.read(filename))
       data.associations.clear
       data.tiplocs.clear

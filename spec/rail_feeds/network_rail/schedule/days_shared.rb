@@ -78,4 +78,22 @@ shared_examples 'it has a days array' do
       expect(subject.sundays?).to be true
     end
   end
+
+  describe 'Conversion methods' do
+    it '#days_to_cif' do
+      expect(described_class.days_to_cif([true, true, true, true, true, true, true])).to eq '1111111'
+      expect(described_class.days_to_cif([false, false, false, false, false, false, false])).to eq '0000000'
+    end
+
+    describe '#days_from_cif' do
+      it 'String of 1 or 0' do
+        expect(described_class.days_from_cif('1111111')).to eq [true, true, true, true, true, true, true]
+        expect(described_class.days_from_cif('0000000')).to eq [false, false, false, false, false, false, false]
+      end
+
+      it 'nil' do
+        expect(described_class.days_from_cif(nil)).to eq [nil, nil, nil, nil, nil, nil, nil]
+      end
+    end
+  end
 end

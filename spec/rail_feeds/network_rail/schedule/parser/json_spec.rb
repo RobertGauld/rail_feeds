@@ -61,9 +61,6 @@ describe RailFeeds::NetworkRail::Schedule::Parser::JSON do
       subject.parse_line line
     end
 
-    it 'Calls on_tiploc_amend proc'
-    # Waiting for information on JSON format for this data.
-
     it 'Calls on_tiploc_delete proc' do
       line = '{"TiplocV1":{"transaction_type":"Delete","tiploc_code":"SCAREXS","nalco"' \
              ':"818502","stanox":"16203","crs_code":null,"description":null,' \

@@ -43,8 +43,6 @@ module RailFeeds
             case hash['transaction_type'].downcase
             when 'create'
               @on_tiploc_create&.call self, Tiploc.from_json(line)
-            when 'update'
-              fail 'no idea what this hash looks like'
             when 'delete'
               @on_tiploc_delete&.call self, hash['tiploc_code']
             else

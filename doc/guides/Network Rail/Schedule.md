@@ -49,6 +49,31 @@ end
 ```
 
 
+## Downloading files
+
+The RailFeeds::NetworkRail::Schedule::Fetcher class can be used to download these files
+from Network Rail, you'll need to be registered for their data feeds and have
+subscribed to the schedule you're interested in.
+
+``` ruby
+# 1. Require the gem and configure your credentials.
+require 'rail_feeds'
+
+RailFeeds::NetworkRail::Credentials.configure(
+  username: 'YOUR USERNAME HERE',
+  password: 'YOUR PASSWORD HERE'
+)
+
+# 2. Download some files
+fetcher = RailFeeds::NetworkRail::Schedule::Fetcher.new
+
+fetcher.download_all_full(:cif, 'PATH TO DOWNLOAD TO')
+fetcher.download_all_update('fri', :cif, 'PATH TO DOWNLOAD TO')
+
+# Each of the files will be a gzipped version of the CIF formatted schedule.
+```
+
+
 ## Parsing CIF files
 
 The RailFeeds::NetworkRail::Schedule::Parser class can be used to

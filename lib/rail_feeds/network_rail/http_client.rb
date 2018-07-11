@@ -21,38 +21,36 @@ module RailFeeds
       end
 
       # Fetch path from network rail server.
-      # @param [String] path
-      #   The path to fetch.
+      # @param [String] path The path to fetch.
       # @yield [file] Once the block has run the temp file will be deleted.
       #   @yieldparam [Tempfile] file The content of the file.
       def fetch(path)
-        file = download path
-        yield file
-      ensure
-        file&.delete
+        logger.debug "fetch(#{path.inspect})"
+        uri = URI("https://#{HOST}/#{path}")
+        yield uri.open(http_basic_authentication: @credentials.to_a)
       end
 
       # Fetch path from network rail server and unzip it.
-      # @param [String] path
-      #   The path to fetch.
+      # @param [String] path The path to fetch.
       # @yield [reader] Once the block has run the temp file will be deleted.
       #   @yieldparam [Zlib::GzipReader] reader The unzippable content of the file.
       def fetch_unzipped(path)
         logger.debug "get_unzipped(#{path.inspect})"
-        get(path) do |gz_file|
-          logger.debug "gz_file = #{gz_file.inspect}"
+        fetch(path) do |gz_file|
           yield Zlib::GzipReader.open(gz_file.path)
         end
       end
 
-      # Get path from network rail server.
-      # @param [String] path
-      #   The path to download.
-      # @return [Tempfile] The downloaded file
-      def download(path)
-        logger.debug "download(#{path.inspect})"
-        uri = URI("https://#{HOST}/#{path}")
-        uri.open(http_basic_authentication: @credentials.to_a)
+      # Download path from netwrok rail server.
+      # @param [String] path The path to download.
+      # @param [String] file The path to the file to save the contents in.
+      def download(path, file)
+        logger.debug "download(#{path.inspect}, #{file.inspect})"
+        fetch(path) do |src|
+          File.open(file, 'w') do |dst|
+            IO.copy_stream src, dst
+          end
+        end
       end
     end
   end

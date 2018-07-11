@@ -18,7 +18,7 @@ reachable in each direction.
 
 ```ruby
 # Download the SMART data and get the data from it
-temp_file = RailFeeds::NetworkRail::SMART.download
+temp_file = RailFeeds::NetworkRail::SMART.fetch
 step_data = RailFeeds::NetworkRail::SMART.load_file(temp_file.path)
 
 # Get the SMART data from a previously saved file

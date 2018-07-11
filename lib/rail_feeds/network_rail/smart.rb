@@ -30,10 +30,19 @@ module RailFeeds
 
       # Download the current SMART data.
       # @param [RailFeeds::NetworkRail::Credentials] credentials
-      # @return [Tempfile]
-      def self.download(credentials: Credentials)
+      # @param [String] file
+      #   The path to the file to save the .json.gz download in.
+      def self.download(file, credentials: Credentials)
         client = HTTPClient.new(credentials: credentials)
-        client.download 'ntrod/SupportingFileAuthenticate?type=SMART'
+        client.download 'ntrod/SupportingFileAuthenticate?type=SMART', file
+      end
+
+      # Fetch the current SMART data.
+      # @param [RailFeeds::NetworkRail::Credentials] credentials
+      # @return [Tempfile]
+      def self.fetch(credentials: Credentials)
+        client = HTTPClient.new(credentials: credentials)
+        client.fetch 'ntrod/SupportingFileAuthenticate?type=SMART'
       end
 
       # Load SMART data from either a .json or .json.gz file.

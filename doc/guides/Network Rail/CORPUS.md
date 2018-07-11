@@ -16,7 +16,7 @@ You'll get an array of a data struct with the following attributes:
 
 ```ruby
 # Download the CORPUS data and get the data from it
-temp_file = RailFeeds::NetworkRail::CORPUS.download
+temp_file = RailFeeds::NetworkRail::CORPUS.fetch
 data = RailFeeds::NetworkRail::CORPUS.load_file(temp_file.path)
 
 # Get data from a previously saved file

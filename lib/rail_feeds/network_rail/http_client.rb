@@ -27,7 +27,16 @@ module RailFeeds
       def fetch(path)
         logger.debug "fetch(#{path.inspect})"
         uri = URI("https://#{HOST}/#{path}")
-        yield uri.open(http_basic_authentication: @credentials.to_a)
+        opened_uri = uri.open(http_basic_authentication: @credentials.to_a)
+
+        if opened_uri.is_a?(StringIO)
+          data = opened_uri
+          opened_uri = Tempfile.open 'rail_feeds-network_rail-http_client'
+          opened_uri.write data
+          opened_uri.rewind
+        end
+
+        yield opened_uri
       end
 
       # Fetch path from network rail server and unzip it.
@@ -37,7 +46,8 @@ module RailFeeds
       def fetch_unzipped(path)
         logger.debug "get_unzipped(#{path.inspect})"
         fetch(path) do |gz_file|
-          yield Zlib::GzipReader.open(gz_file.path)
+          reader = Zlib::GzipReader.new gz_file
+          yield reader
         end
       end
 

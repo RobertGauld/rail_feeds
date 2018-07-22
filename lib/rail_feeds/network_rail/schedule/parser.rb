@@ -75,7 +75,7 @@ module RailFeeds
         end
         # rubocop:enable Metrics/ParameterLists
 
-        # Parse the data in CIF file.
+        # Parse the data in file.
         # @param [IO] file
         #   The file to load data from.
         def parse_file(file)

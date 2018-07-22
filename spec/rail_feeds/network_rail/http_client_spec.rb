@@ -45,10 +45,25 @@ describe RailFeeds::NetworkRail::HTTPClient do
   end
 
   describe '#fetch' do
-    it 'Yields what uri.open does' do
-      expect(URI).to receive(:parse).with('https://datafeeds.networkrail.co.uk/path').and_return(uri)
-      expect(uri).to receive(:open).and_return(temp_file)
-      expect { |a| subject.fetch('path', &a) }.to yield_with_args(temp_file)
+    describe 'Yields a TempFile' do
+      it 'When uri.open gives a TempFile' do
+        expect(URI).to receive(:parse).with('https://datafeeds.networkrail.co.uk/path').and_return(uri)
+        expect(uri).to receive(:open).and_return(temp_file)
+        expect { |a| subject.fetch('path', &a) }.to yield_with_args(temp_file)
+      end
+
+      it 'When uri.open gives a StringIO' do
+        string_io = StringIO.new 'TEST DATA'
+        expect(URI).to receive(:parse).with('https://datafeeds.networkrail.co.uk/path').and_return(uri)
+        expect(uri).to receive(:open).and_return(string_io)
+
+        # Contents of Tempfile should be what is in the returned StringIO
+        expect(Tempfile).to receive(:open).and_return(temp_file)
+        expect(temp_file).to receive(:write).with(string_io)
+        expect(temp_file).to receive(:rewind)
+
+        expect { |a| subject.fetch('path', &a) }.to yield_with_args(temp_file)
+      end
     end
 
     it 'Adds credentials when getting path' do
@@ -80,8 +95,7 @@ describe RailFeeds::NetworkRail::HTTPClient do
     it 'Returns what Zlib::GzipReader.open does' do
       reader = double Zlib::GzipReader
       expect(subject).to receive(:fetch).with('path').and_yield(temp_file)
-      expect(temp_file).to receive(:path).and_return('gz_file_path')
-      expect(Zlib::GzipReader).to receive(:open).with('gz_file_path').and_return(reader)
+      expect(Zlib::GzipReader).to receive(:new).with(temp_file).and_return(reader)
       expect { |a| subject.fetch_unzipped('path', &a) }.to yield_with_args(reader)
     end
   end

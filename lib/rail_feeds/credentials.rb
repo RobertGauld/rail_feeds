@@ -34,6 +34,36 @@ module RailFeeds
       @password = password.to_s.clone
     end
 
+    # Get an array of [username, password].
+    # @return [Array<String>]
+    def to_a
+      [username, password]
+    end
+
+    # Get a hash of { username: ?, password: ? }.
+    # @return [Hash<Symbol => String>]
+    def to_h
+      {
+        username: username,
+        password: password
+      }
+    end
+
+    # Get an array of [username, password].
+    # @return [Array<String>]
+    def self.to_a
+      [username, password]
+    end
+
+    # Get a hash of { username: ?, password: ? }.
+    # @return [Hash<Symbol => String>]
+    def self.to_h
+      {
+        username: username,
+        password: password
+      }
+    end
+
     def self.username
       @username.clone
     end

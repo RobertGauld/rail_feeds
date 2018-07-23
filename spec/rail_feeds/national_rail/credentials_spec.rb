@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe RailFeeds::NetworkRail::Credentials do
+describe RailFeeds::NationalRail::Credentials do
   it 'Is a RailFeeds::Credentials' do
     expect(described_class).to be < RailFeeds::Credentials
   end

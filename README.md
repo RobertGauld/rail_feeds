@@ -50,10 +50,10 @@ We follow the [Semantic Versioning](http://semver.org/) concept.
 
 ### Sources
 
-| Source        | Module                  | Module Alias | Support                    |
-| ------------- | ----------------------- | ------------ | -------------------------- |
-| Network Rail  | RailFeeds::NetworkRail  | NetRailFeeds | Being developed            |
-| National Rail | RailFeeds::NationalRail | NatRailFeeds | None yet - any volunteers? |
+| Source        | Module                  | Module Alias | Support         |
+| ------------- | ----------------------- | ------------ | --------------- |
+| Network Rail  | RailFeeds::NetworkRail  | NetRailFeeds | Being developed |
+| National Rail | RailFeeds::NationalRail | NatRailFeeds |                 |
 
 ### Feeds
 

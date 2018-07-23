@@ -53,16 +53,10 @@ describe RailFeeds::NetworkRail::HTTPClient do
       end
 
       it 'When uri.open gives a StringIO' do
-        string_io = StringIO.new 'TEST DATA'
+        string_io = double StringIO
         expect(URI).to receive(:parse).with('https://datafeeds.networkrail.co.uk/path').and_return(uri)
         expect(uri).to receive(:open).and_return(string_io)
-
-        # Contents of Tempfile should be what is in the returned StringIO
-        expect(Tempfile).to receive(:open).and_return(temp_file)
-        expect(temp_file).to receive(:write).with(string_io)
-        expect(temp_file).to receive(:rewind)
-
-        expect { |a| subject.fetch('path', &a) }.to yield_with_args(temp_file)
+        expect { |a| subject.fetch('path', &a) }.to yield_with_args(string_io)
       end
     end
 

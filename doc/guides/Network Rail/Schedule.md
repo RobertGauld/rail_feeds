@@ -36,14 +36,14 @@ RailFeeds::NetworkRail::Credentials.configure(
 # 2. Fetch some files
 fetcher = RailFeeds::NetworkRail::Schedule::Fetcher.new
 
-fetcher.fetch_all_full(:cif) do |full_file|
+fetcher.fetch_all_full(:cif) do |full_file_as_an_io|
   ...
 end
 
-fetcher.fetch_all_update('fri', :cif) do |update_file|
+fetcher.fetch_all_update('fri', :cif) do |update_file_as_an_io|
   ...
 end
-# Each of the file variables will contain a TempFile which can be used to read
+# Each of the file variables will contain an IO object which can be used to read
 # the CIF data (or passed to the parser to make use of). The files will be deleted
 # at the end of the block.
 ```

@@ -23,20 +23,11 @@ module RailFeeds
       # Fetch path from network rail server.
       # @param [String] path The path to fetch.
       # @yield [file] Once the block has run the temp file will be deleted.
-      #   @yieldparam [Tempfile] file The content of the file.
+      #   @yieldparam [IO] file Either a Tempfile or StringIO.
       def fetch(path)
         logger.debug "fetch(#{path.inspect})"
         uri = URI("https://#{HOST}/#{path}")
-        opened_uri = uri.open(http_basic_authentication: @credentials.to_a)
-
-        if opened_uri.is_a?(StringIO)
-          data = opened_uri
-          opened_uri = Tempfile.open 'rail_feeds-network_rail-http_client'
-          opened_uri.write data
-          opened_uri.rewind
-        end
-
-        yield opened_uri
+        yield uri.open(http_basic_authentication: @credentials.to_a)
       end
 
       # Fetch path from network rail server and unzip it.

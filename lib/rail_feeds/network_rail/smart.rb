@@ -39,7 +39,7 @@ module RailFeeds
 
       # Fetch the current SMART data.
       # @param [RailFeeds::NetworkRail::Credentials] credentials
-      # @return [Tempfile]
+      # @return [IO]
       def self.fetch(credentials: Credentials)
         client = HTTPClient.new(credentials: credentials)
         client.fetch 'ntrod/SupportingFileAuthenticate?type=SMART'

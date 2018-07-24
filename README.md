@@ -72,6 +72,6 @@ We follow the [Semantic Versioning](http://semver.org/) concept.
 | National Rail | stomp  | Darwin Push Port                     |                                      |
 | National Rail | stomp  | Darwin Timetable Feed                |                                      |
 | National Rail | stomp  | Knowledgebase                        |                                      |
-| National Rail | http   | Knowledgebase                        |                                      |
+| National Rail | http   | Knowledgebase                        | Can download, fetch and parse NSI.   |
 | National Rail | soap   | Darwin Webservice                    |                                      |
 | National Rail | rest   | Historical Service Performance       |                                      |

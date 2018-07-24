@@ -34,16 +34,16 @@ module RailFeeds
         # @param [RailFeeds::NationalRail::Credentials] credentials
         # @param [String] file
         #   The path to the file to save the .xml download in.
-        def self.download(file, credentials: Credentials)
-          client = HTTPClient.new(credentials)
+        def self.download(file, credentials = Credentials)
+          client = HTTPClient.new(credentials: credentials)
           client.download 'darwin/api/staticfeeds/4.0/serviceIndicators', file
         end
 
         # Fetch the current data.
         # @param [RailFeeds::NationalRail::Credentials] credentials
         # @return [IO]
-        def self.fetch(credentials: Credentials, &block)
-          client = HTTPClient.new(credentials)
+        def self.fetch(credentials = Credentials, &block)
+          client = HTTPClient.new(credentials: credentials)
           client.fetch 'darwin/api/staticfeeds/4.0/serviceIndicators', &block
         end
 
@@ -60,7 +60,7 @@ module RailFeeds
         #  The credentials to authenticate with.
         # @return
         #   [Array<RailFeeds::NationalRail::KnowledgeBase::NationalServiceIndicator::TOC>]
-        def self.fetch_data(credentials: Credentials)
+        def self.fetch_data(credentials = Credentials)
           fetch(credentials: credentials) do |file|
             parse_xml file.read
           end

@@ -1,4 +1,4 @@
-# Network Rail Schedule
+# Network Rail - Schedule
 
 The schedule files from Network Rail contain:
 

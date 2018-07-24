@@ -1,4 +1,4 @@
-# Network Rail CORPUS (Codes for Operations, Retail & Planning – a Unified Solution)
+# Network Rail - CORPUS (Codes for Operations, Retail & Planning – a Unified Solution)
 
 The CORPUS data is a list of indentification information for locations around the network.
 See <https://wiki.openraildata.com/index.php/Reference_Data#CORPUS:_Location_Reference_Data>
@@ -16,13 +16,17 @@ You'll get an array of a data struct with the following attributes:
 
 ```ruby
 # Download the CORPUS data and get the data from it
+RailFeeds::NetworkRail::Credentials.configure(
+  username: 'YOUR USERNAME HERE',
+  password: 'YOUR PASSWORD HERE'
+)
 temp_file = RailFeeds::NetworkRail::CORPUS.fetch
-data = RailFeeds::NetworkRail::CORPUS.load_file(temp_file.path)
+data = RailFeeds::NetworkRail::CORPUS.load_file(temp_file)
 
 # Get data from a previously saved file
 data = RailFeeds::NetworkRail::CORPUS.load_file('PATH TO FILE.json.gz')
 
-# Get data from a previously saved and extracted file
+# Get data from a previously saved and unzipped file
 data = RailFeeds::NetworkRail::CORPUS.load_file('PATH TO FILE.json')
 
 # Get data by fetching it from the web

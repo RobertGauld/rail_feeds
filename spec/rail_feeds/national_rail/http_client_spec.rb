@@ -31,7 +31,7 @@ describe RailFeeds::NationalRail::HTTPClient do
       end
 
       it 'Getting the token' do
-        subject = described_class.new(RailFeeds::Credentials.new(username: '', password: ''))
+        subject = described_class.new(credentials: RailFeeds::Credentials.new(username: '', password: ''))
         response = double Net::HTTPCreated
         expect(response).to receive(:value)
         expect(response).to receive(:body).and_return('{"token":"TOKEN"}')

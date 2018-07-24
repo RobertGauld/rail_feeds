@@ -14,7 +14,7 @@ module RailFeeds
       # @param [RailFeeds::NetworkRail::Credentials] credentials
       # @param [String] file
       #   The path to the file to save the .json.gz download in.
-      def self.download(file, credentials: Credentials)
+      def self.download(file, credentials = Credentials)
         client = HTTPClient.new(credentials: credentials)
         client.download 'ntrod/SupportingFileAuthenticate?type=CORPUS', file
       end
@@ -22,7 +22,7 @@ module RailFeeds
       # Fetch the current CORPUS data.
       # @param [RailFeeds::NetworkRail::Credentials] credentials
       # @return [IO]
-      def self.fetch(credentials: Credentials)
+      def self.fetch(credentials = Credentials)
         client = HTTPClient.new(credentials: credentials)
         client.fetch 'ntrod/SupportingFileAuthenticate?type=CORPUS'
       end
@@ -42,7 +42,7 @@ module RailFeeds
       # @param [RailFeeds::NetworkRail::Credentials] credentials
       #  The credentials to authenticate with.
       # @return [Array<RailFeeds::NetworkRail::CORPUS::Data>]
-      def self.fetch_data(credentials: Credentials)
+      def self.fetch_data(credentials = Credentials)
         client = HTTPClient.new(credentials: credentials)
         client.fetch_unzipped('ntrod/SupportingFileAuthenticate?type=CORPUS') do |file|
           break parse_json file.read

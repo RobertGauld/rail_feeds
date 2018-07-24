@@ -40,7 +40,7 @@ describe RailFeeds::HTTPClient do
       expect(uri).to receive(:open)
         .with(http_basic_authentication: ['user', 'pass'])
         .and_return(temp_file)
-      subject = described_class.new credentials
+      subject = described_class.new credentials: credentials
       subject.fetch('path') {}
     end
 
@@ -51,7 +51,7 @@ describe RailFeeds::HTTPClient do
       )
       expect(URI).to receive(:parse).and_return(uri)
       expect(uri).to receive(:open).and_return(temp_file)
-      subject = described_class.new credentials
+      subject = described_class.new credentials: credentials
       expect { subject.fetch('path') {} }.to_not raise_error
     end
 

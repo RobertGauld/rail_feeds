@@ -26,7 +26,7 @@ describe RailFeeds::NetworkRail::CORPUS do
       expect(RailFeeds::NetworkRail::HTTPClient).to receive(:new)
         .with(credentials: credentials).and_return(http_client)
       expect(http_client).to receive(:download)
-      described_class.download 'file', credentials: credentials
+      described_class.download 'file', credentials
     end
   end
 
@@ -47,7 +47,7 @@ describe RailFeeds::NetworkRail::CORPUS do
       expect(RailFeeds::NetworkRail::HTTPClient).to receive(:new)
         .with(credentials: credentials).and_return(http_client)
       expect(http_client).to receive(:fetch).and_return(temp_file)
-      expect(described_class.fetch(credentials: credentials)).to eq temp_file
+      expect(described_class.fetch(credentials)).to eq temp_file
     end
   end
 

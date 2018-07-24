@@ -38,7 +38,7 @@ describe RailFeeds::NationalRail::KnowledgeBase::NationalServiceIndicator do
   describe '::download' do
     it 'Using default credentials' do
       expect(RailFeeds::NationalRail::HTTPClient).to receive(:new)
-        .with(RailFeeds::NationalRail::Credentials).and_return(http_client)
+        .with(credentials: RailFeeds::NationalRail::Credentials).and_return(http_client)
       expect(http_client).to receive(:download)
         .with('darwin/api/staticfeeds/4.0/serviceIndicators', 'file')
       described_class.download 'file'
@@ -47,16 +47,16 @@ describe RailFeeds::NationalRail::KnowledgeBase::NationalServiceIndicator do
     it 'Using passed credentials' do
       credentials = double RailFeeds::NationalRail::Credentials
       expect(RailFeeds::NationalRail::HTTPClient).to receive(:new)
-        .with(credentials).and_return(http_client)
+        .with(credentials: credentials).and_return(http_client)
       expect(http_client).to receive(:download)
-      described_class.download 'file', credentials: credentials
+      described_class.download 'file', credentials
     end
   end
 
   describe '::fetch' do
     it 'Using default credentials' do
       expect(RailFeeds::NationalRail::HTTPClient).to receive(:new)
-        .with(RailFeeds::NationalRail::Credentials).and_return(http_client)
+        .with(credentials: RailFeeds::NationalRail::Credentials).and_return(http_client)
       expect(http_client).to receive(:fetch)
         .with('darwin/api/staticfeeds/4.0/serviceIndicators').and_return(temp_file)
       expect(described_class.fetch).to eq temp_file
@@ -65,9 +65,9 @@ describe RailFeeds::NationalRail::KnowledgeBase::NationalServiceIndicator do
     it 'Using passed credentials' do
       credentials = double RailFeeds::NationalRail::Credentials
       expect(RailFeeds::NationalRail::HTTPClient).to receive(:new)
-        .with(credentials).and_return(http_client)
+        .with(credentials: credentials).and_return(http_client)
       expect(http_client).to receive(:fetch).and_return(temp_file)
-      expect(described_class.fetch(credentials: credentials)).to eq temp_file
+      expect(described_class.fetch(credentials)).to eq temp_file
     end
   end
 
@@ -105,5 +105,18 @@ describe RailFeeds::NationalRail::KnowledgeBase::NationalServiceIndicator do
     expect(temp_file).to receive(:read).and_return(xml)
     expect(described_class).to receive(:parse_xml).with(xml)
     described_class.fetch_data
+  end
+
+  it 'Converts to string' do
+    expect(File).to receive(:read).with('filename').and_return(xml)
+    data = described_class.load_file('filename')
+    expect(data[0].to_s).to eq "AW - Arriva Trains Wales\n" \
+                               "Good service -  - icon-tick2.png\n\n" \
+                               '@ArrivaTW - Follow us on Twitter'
+    expect(data[1].to_s).to eq "WM - West Midlands Railway\n" \
+                               "Major delays on some routes - An amended service is in operation - icon-disruption.png\n" \
+                               "Aston - Read about this disruption\n" \
+                               "36DB32F7EB7F40ACACFF1D5CF7572D4C http://www.nationalrail.co.uk/\n" \
+                               '@WestMidRailway - Latest travel news'
   end
 end

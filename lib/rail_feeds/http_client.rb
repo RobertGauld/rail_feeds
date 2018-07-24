@@ -12,7 +12,7 @@ module RailFeeds
     #   The credentials for connecting to the feed.
     # @param [Logger] logger
     #   The logger for outputting evetns, if nil the global logger will be used.
-    def initialize(credentials = nil, logger: nil)
+    def initialize(credentials: nil, logger: nil)
       @credentials = credentials
       self.logger = logger unless logger.nil?
     end

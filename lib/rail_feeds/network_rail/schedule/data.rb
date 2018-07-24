@@ -92,7 +92,7 @@ module RailFeeds
         #   The credentials for connecting to the feed.
         # @return [RailFeeds::NetworkRail::Schedule::Header::CIF]
         #   The header of the last file added.
-        def fetch_data(credentials: Credentials)
+        def fetch_data(credentials = Credentials)
           fetcher = Fetcher.new credentials: credentials
 
           method = if last_header.nil? ||

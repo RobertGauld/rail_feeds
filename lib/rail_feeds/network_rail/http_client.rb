@@ -6,7 +6,7 @@ module RailFeeds
   module NetworkRail
     # A wrapper class for ::Net::HTTP
     class HTTPClient < RailFeeds::HTTPClient
-      def initialize(credentials = nil, **args)
+      def initialize(credentials: nil, **args)
         credentials ||= RailFeeds::NetworkRail::Credentials
         super
       end

@@ -1,4 +1,4 @@
-# Network Rail SMART 
+# Network Rail - SMART 
 
 The SMART data is a periodically updated list of mappings between train describer berths
 and locations, allowing for TD events to be translated into arrival/departure from location
@@ -18,8 +18,12 @@ reachable in each direction.
 
 ```ruby
 # Download the SMART data and get the data from it
+RailFeeds::NetworkRail::Credentials.configure(
+  username: 'YOUR USERNAME HERE',
+  password: 'YOUR PASSWORD HERE'
+)
 temp_file = RailFeeds::NetworkRail::SMART.fetch
-step_data = RailFeeds::NetworkRail::SMART.load_file(temp_file.path)
+step_data = RailFeeds::NetworkRail::SMART.load_file(temp_file)
 
 # Get the SMART data from a previously saved file
 step_data = RailFeeds::NetworkRail::SMART.load_file('PATH TO FILE.json.gz')

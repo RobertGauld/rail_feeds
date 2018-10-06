@@ -52,7 +52,7 @@ module RailFeeds
         # @param [IO] file
         #   The file to load data from.
         def load_cif_file(file)
-          @parser.parse_cif_file file
+          @parser.parse_file file
 
           logger.info "Currently have #{associations.count} associations, " \
                       "#{tiplocs.count} tiplocs, #{trains.count} trains."

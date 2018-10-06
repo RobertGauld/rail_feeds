@@ -7,7 +7,7 @@ class DummyParserForDataTests
     @events = {}
   end
 
-  def parse_cif_file(file)
+  def parse_file(file)
     filename = File.join RSPEC_FIXTURES, 'network_rail', 'schedule', 'data', "#{file}.yaml"
     YAML.load(File.read(filename)).each do |event, data|
       if data.nil?

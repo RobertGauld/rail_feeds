@@ -1,6 +1,6 @@
 ## Version 0.0.2
 
-  * Add support for rubies upto 2.6.1
+  * Add support for rubies upto 2.6.2
   * Sort API consistency - when passing credentials use positional not keywork arguments, except:
     * Initializing a new HTTP or Stomp client
     * Initializing a new NetworkRail Schedule Fetcher

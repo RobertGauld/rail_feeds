@@ -24,6 +24,7 @@ module RailFeeds
       # Connect to the network rail server.
       def connect
         return if @client && client.open?
+
         client_options = {
           hosts: [{
             host: HOST,
@@ -46,6 +47,7 @@ module RailFeeds
       # Disconnect from the network rail server.
       def disconnect
         return if @client.nil?
+
         @client.close
       end
 

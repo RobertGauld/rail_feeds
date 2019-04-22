@@ -81,7 +81,7 @@ module RailFeeds
           ].join) + "\n"
         end
 
-        def to_json
+        def to_json(**opts)
           {
             'TiplocV1' => {
               'transaction_type' => 'Create',
@@ -92,7 +92,7 @@ module RailFeeds
               'description' => nlc_description,
               'tps_description' => tps_description
             }
-          }.to_json
+          }.to_json(**opts)
         end
       end
     end

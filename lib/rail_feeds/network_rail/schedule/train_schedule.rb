@@ -175,7 +175,7 @@ module RailFeeds
 
         # rubocop:disable Metrics/AbcSize
         # rubocop:disable Metrics/MethodLength
-        def to_json
+        def to_json(**opts)
           {
             'JsonScheduleV1' => {
               'CIF_bank_holiday_running' => bank_holiday_running,
@@ -212,7 +212,7 @@ module RailFeeds
                 'schedule_location' => journey.map(&:to_hash_for_json).reject(&:nil?)
               }
             }
-          }.to_json
+          }.to_json(**opts)
         end
         # rubocop:enable Metrics/AbcSize
         # rubocop:enable Metrics/MethodLength
@@ -315,6 +315,7 @@ module RailFeeds
           return lo_from_json(hash) if hash['record_identity'].eql?('LO')
           return li_from_json(hash) if hash['record_identity'].eql?('LI')
           return lt_from_json(hash) if hash['record_identity'].eql?('LT')
+
           nil
         end
         private_class_method :location_from_json
@@ -374,6 +375,7 @@ module RailFeeds
 
         def self.parse_allowance(value)
           return nil if value.nil? || value.empty?
+
           half = value[-1].eql?('H')
           value = value.to_f
           half ? value + 0.5 : value

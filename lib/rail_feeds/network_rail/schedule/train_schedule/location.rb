@@ -61,6 +61,7 @@ module RailFeeds
 
           def allowance_json(value)
             return nil if value.nil?
+
             i = value.to_i
             f = value.to_f - i
             f.eql?(0.5) ? "#{i}H" : i.to_s

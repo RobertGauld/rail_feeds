@@ -67,6 +67,7 @@ module RailFeeds
 
       def self.nilify(item)
         return nil if item.nil? || item.empty?
+
         item
       end
       private_class_method :nilify

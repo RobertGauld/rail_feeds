@@ -181,7 +181,7 @@ module RailFeeds
         # rubocop:enable Metrics/AbcSize
 
         # rubocop:disable Metrics/MethodLength
-        def to_json
+        def to_json(**opts)
           {
             'JsonAssociationV1' => {
               'transaction_type' => 'Create',
@@ -198,7 +198,7 @@ module RailFeeds
               'diagram_type' => 'T',
               'CIF_stp_indicator' => stp_indicator_to_cif
             }
-          }.to_json
+          }.to_json(**opts)
         end
         # rubocop:enable Metrics/MethodLength
       end

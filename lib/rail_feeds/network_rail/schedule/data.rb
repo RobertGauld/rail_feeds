@@ -198,6 +198,7 @@ module RailFeeds
           trains[train_schedule.uid] ||= []
           index = trains[train_schedule.uid].index train_schedule
           return do_train_schedule_create(parser, train_schedule) if index.nil?
+
           trains[train_schedule.uid][index] = train_schedule
         end
 

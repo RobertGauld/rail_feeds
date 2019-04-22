@@ -49,7 +49,7 @@ module RailFeeds
           end
 
           # rubocop:disable Metrics/MethodLength
-          def to_json
+          def to_json(**opts)
             {
               'JsonTimetableV1' => {
                 'classification' => 'public',
@@ -65,7 +65,7 @@ module RailFeeds
                   'sequence' => sequence
                 }
               }
-            }.to_json
+            }.to_json(**opts)
           end
           # rubocop:enable Metrics/MethodLength
 

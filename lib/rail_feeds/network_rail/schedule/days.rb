@@ -85,6 +85,7 @@ module RailFeeds
 
           def days_from_cif(value)
             return [nil, nil, nil, nil, nil, nil, nil] if value.nil?
+
             Array.new(7) { |i| value[i]&.eql?('1') }
           end
         end

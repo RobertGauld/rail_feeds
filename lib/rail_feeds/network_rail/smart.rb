@@ -13,6 +13,7 @@ module RailFeeds
         def from_direction
           return :up if event_direction.eql?(:down)
           return :down if event_direction.eql?(:up)
+
           nil
         end
 
@@ -144,6 +145,7 @@ module RailFeeds
 
       def self.nilify(value)
         return nil if value.nil? || value.empty?
+
         value
       end
       private_class_method :nilify
@@ -151,6 +153,7 @@ module RailFeeds
       def self.event_type(value)
         return :arrive if value.eql?('A') || value.eql?('C')
         return :depart if value.eql?('B') || value.eql?('D')
+
         nil
       end
       private_class_method :event_type
@@ -158,6 +161,7 @@ module RailFeeds
       def self.event_direction(value)
         return :up if value.eql?('A') || value.eql?('B')
         return :down if value.eql?('C') || value.eql?('D')
+
         nil
       end
       private_class_method :event_direction
@@ -172,6 +176,7 @@ module RailFeeds
         return :clearout if value.eql?('C')
         return :interpose if value.eql?('I')
         return :intermediate if value.eql?('E')
+
         nil
       end
       # rubocop:enable Metrics/CyclomaticComplexity

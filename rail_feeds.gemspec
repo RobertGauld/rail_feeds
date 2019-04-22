@@ -31,7 +31,8 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'rake', '~> 12.0'
   gem.add_development_dependency 'rb-inotify', '~> 0.9'
   gem.add_development_dependency 'rspec', '>= 3.7', '< 4'
-  # gem.add_development_dependency 'rubocop', '~> 0.57.1'
+  gem.add_development_dependency 'rubocop', '~> 0.67'
+  gem.add_development_dependency 'rubocop-performance', '~> 1.1'
   gem.add_development_dependency 'simplecov', '~> 0.7'
   gem.add_development_dependency 'timecop', '~> 0.5'
 end

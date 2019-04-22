@@ -175,6 +175,7 @@ module RailFeeds
             unless %w[mon tue wed thu fri sat sun].include?(day)
               fail ArgumentError, 'day is invalid'
             end
+
             day = "toc-update-#{day}"
             type = "CIF_#{toc}_UPDATE_DAILY"
           end

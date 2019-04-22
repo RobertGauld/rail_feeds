@@ -1,15 +1,5 @@
 # frozen_string_literal: true
 
-require_relative 'schedule/days'
-require_relative 'schedule/stp_indicator'
-require_relative 'schedule/association'
-require_relative 'schedule/header'
-require_relative 'schedule/tiploc'
-require_relative 'schedule/train_schedule'
-require_relative 'schedule/fetcher'
-require_relative 'schedule/parser'
-require_relative 'schedule/data'
-
 module RailFeeds
   module NetworkRail
     module Schedule # :nodoc:

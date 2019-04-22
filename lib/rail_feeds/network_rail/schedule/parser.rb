@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-require_relative 'parser/cif'
-require_relative 'parser/json'
-
 module RailFeeds
   module NetworkRail
     module Schedule

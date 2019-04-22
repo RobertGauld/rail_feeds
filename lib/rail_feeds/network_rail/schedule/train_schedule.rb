@@ -1,11 +1,5 @@
 # frozen_string_literal: true
 
-require 'date'
-require 'time'
-
-require_relative 'train_schedule/change_en_route'
-require_relative 'train_schedule/location'
-
 module RailFeeds
   module NetworkRail
     module Schedule

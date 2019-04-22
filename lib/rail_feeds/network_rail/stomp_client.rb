@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-require 'socket'
-require 'stomp'
-
 module RailFeeds
   module NetworkRail
     # A wrapper class for ::Stomp::Client which provides durable subscriptions

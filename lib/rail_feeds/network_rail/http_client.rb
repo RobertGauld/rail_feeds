@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'open-uri'
-
 module RailFeeds
   module NetworkRail
     # A wrapper class for ::Net::HTTP

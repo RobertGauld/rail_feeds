@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'nokogiri'
-
 module RailFeeds
   module NationalRail
     module KnowledgeBase

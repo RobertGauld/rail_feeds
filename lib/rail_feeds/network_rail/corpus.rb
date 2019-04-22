@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'json'
-
 module RailFeeds
   module NetworkRail
     # A module for getting information out of the CORPUS data.

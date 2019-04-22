@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'open-uri'
-
 module RailFeeds
   # A wrapper class for ::Net::HTTP
   class HTTPClient

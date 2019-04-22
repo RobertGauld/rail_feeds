@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'logger'
-
 module RailFeeds
   # A Module to provide a global logger
   module Logging

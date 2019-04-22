@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-require_relative 'header/cif'
-require_relative 'header/json'
-
 module RailFeeds
   module NetworkRail
     module Schedule

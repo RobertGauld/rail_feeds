@@ -132,7 +132,7 @@ describe RailFeeds::NetworkRail::StompClient do
     end
   end
 
-  describe 'Delegates methods to Stomp::Client' do
+  describe 'Delegates methods to ::Stomp::Client' do
     delegates = %i[
       ack acknowledge nack unreceive create_error_handler open? closed? join
       running? begin abort commit unsubscribe uuid poll hbsend_interval

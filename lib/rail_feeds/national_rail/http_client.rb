@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-require 'net/http'
-require 'open-uri'
-
 module RailFeeds
   module NationalRail
     # A wrapper class for ::Net::HTTP

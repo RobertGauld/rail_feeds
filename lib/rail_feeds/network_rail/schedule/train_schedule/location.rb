@@ -1,9 +1,5 @@
 # frozen_string_literal: true
 
-require_relative 'location/intermediate'
-require_relative 'location/origin'
-require_relative 'location/terminating'
-
 module RailFeeds
   module NetworkRail
     module Schedule

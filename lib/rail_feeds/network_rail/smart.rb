@@ -167,20 +167,18 @@ module RailFeeds
       private_class_method :event_direction
 
       # rubocop:disable Metrics/CyclomaticComplexity
-      # rubocop:disable Metrics/PerceivedComplexity
       def self.step_type(value)
-        return :between if value.eql?('B')
-        return :from if value.eql?('F')
-        return :to if value.eql?('T')
-        return :intermediate_first if value.eql?('D')
-        return :clearout if value.eql?('C')
-        return :interpose if value.eql?('I')
-        return :intermediate if value.eql?('E')
-
-        nil
+        case value
+        when 'B' then :between
+        when 'F' then :from
+        when 'T' then :to
+        when 'D' then :intermediate_first
+        when 'E' then :intermediate
+        when 'C' then :clearout
+        when 'I' then :interpose
+        end
       end
       # rubocop:enable Metrics/CyclomaticComplexity
-      # rubocop:enable Metrics/PerceivedComplexity
       private_class_method :step_type
     end
     # rubocop:enable Metrics/ModuleLength

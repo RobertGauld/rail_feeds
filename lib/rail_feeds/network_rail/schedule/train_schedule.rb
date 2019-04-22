@@ -312,11 +312,11 @@ module RailFeeds
         end
 
         def self.location_from_json(hash)
-          return lo_from_json(hash) if hash['record_identity'].eql?('LO')
-          return li_from_json(hash) if hash['record_identity'].eql?('LI')
-          return lt_from_json(hash) if hash['record_identity'].eql?('LT')
-
-          nil
+          case hash['record_identity']
+          when 'LO' then lo_from_json(hash)
+          when 'LI' then li_from_json(hash)
+          when 'LT' then lt_from_json(hash)
+          end
         end
         private_class_method :location_from_json
 

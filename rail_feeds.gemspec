@@ -23,7 +23,6 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency 'nokogiri', '~> 1.8'
   gem.add_dependency 'stomp', '~> 1.4'
-  gem.add_dependency 'zeitwerk', '~> 2.1.3'
 
   gem.add_development_dependency 'coveralls', '~> 0.7'
   gem.add_development_dependency 'guard-rspec', '~> 4.2', '>= 4.2.5'

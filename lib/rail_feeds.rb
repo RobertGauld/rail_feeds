@@ -10,21 +10,37 @@ require 'logger'
 require 'nokogiri'
 require 'stomp'
 
-require 'zeitwerk'
-class MyInflector < Zeitwerk::Inflector # :nodoc:
-  def camelize(basename, _abspath)
-    case basename
-    when 'stp_indicator' then 'STPIndicator'
-    when 'http_client' then 'HTTPClient'
-    when 'cif' then 'CIF'
-    when 'json' then 'JSON'
-    else
-      super
-    end
-  end
-end
-loader = Zeitwerk::Loader.for_gem
-loader.inflector = MyInflector.new
-loader.setup
-loader.logger = RailFeeds::Logging.logger
-loader.eager_load
+require_relative 'rail_feeds/version'
+require_relative 'rail_feeds/logging'
+require_relative 'rail_feeds/credentials'
+require_relative 'rail_feeds/http_client'
+require_relative 'rail_feeds/national_rail'
+require_relative 'rail_feeds/national_rail/credentials'
+require_relative 'rail_feeds/national_rail/http_client'
+require_relative 'rail_feeds/national_rail/knowledge_base'
+require_relative 'rail_feeds/national_rail/knowledge_base/national_service_indicator'
+require_relative 'rail_feeds/network_rail'
+require_relative 'rail_feeds/network_rail/credentials'
+require_relative 'rail_feeds/network_rail/http_client'
+require_relative 'rail_feeds/network_rail/stomp_client'
+require_relative 'rail_feeds/network_rail/corpus'
+require_relative 'rail_feeds/network_rail/smart'
+require_relative 'rail_feeds/network_rail/schedule'
+require_relative 'rail_feeds/network_rail/schedule/days'
+require_relative 'rail_feeds/network_rail/schedule/stp_indicator'
+require_relative 'rail_feeds/network_rail/schedule/association'
+require_relative 'rail_feeds/network_rail/schedule/data'
+require_relative 'rail_feeds/network_rail/schedule/fetcher'
+require_relative 'rail_feeds/network_rail/schedule/tiploc'
+require_relative 'rail_feeds/network_rail/schedule/header'
+require_relative 'rail_feeds/network_rail/schedule/header/cif'
+require_relative 'rail_feeds/network_rail/schedule/header/json'
+require_relative 'rail_feeds/network_rail/schedule/parser'
+require_relative 'rail_feeds/network_rail/schedule/parser/cif'
+require_relative 'rail_feeds/network_rail/schedule/parser/json'
+require_relative 'rail_feeds/network_rail/schedule/train_schedule'
+require_relative 'rail_feeds/network_rail/schedule/train_schedule/change_en_route'
+require_relative 'rail_feeds/network_rail/schedule/train_schedule/location'
+require_relative 'rail_feeds/network_rail/schedule/train_schedule/location/intermediate'
+require_relative 'rail_feeds/network_rail/schedule/train_schedule/location/origin'
+require_relative 'rail_feeds/network_rail/schedule/train_schedule/location/terminating'

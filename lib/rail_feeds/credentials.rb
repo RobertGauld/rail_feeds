@@ -27,9 +27,9 @@ module RailFeeds
 
     # Initialize a new cresential.
     def initialize(
-        username: self.class.username,
-        password: self.class.password
-      )
+      username: self.class.username,
+      password: self.class.password
+    )
       @username = username.to_s.clone
       @password = password.to_s.clone
     end

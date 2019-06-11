@@ -22,7 +22,7 @@ This gem supports the following versions of ruby, it may work on other versions 
   * ruby:
     * 2.4.4 - 2.4.6
     * 2.5.0 - 2.5.5
-    * 2.6.0 - 2.6.2
+    * 2.6.0 - 2.6.3
   * jruby:
     * 9.2.0.0 - 9.2.6.0
 

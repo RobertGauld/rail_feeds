@@ -1,6 +1,6 @@
 ## Version 0.0.3
 
-  * ...
+  * Add support for ruby 2.6.3
 
 ## Version 0.0.2
 

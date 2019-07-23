@@ -1,19 +1,7 @@
 [![Gem Version](https://badge.fury.io/rb/rail_feeds.png)](http://badge.fury.io/rb/rail_feeds)
-
-Master branch:
 [![Build Status](https://secure.travis-ci.org/robertgauld/rail_feeds.png?branch=master)](http://travis-ci.org/robertgauld/rail_feeds)
 [![Coveralls Status](https://coveralls.io/repos/robertgauld/rail_feeds/badge.png?branch=master)](https://coveralls.io/r/robertgauld/rail_feeds)
 [![Code Climate](https://codeclimate.com/github/robertgauld/rail_feeds.png?branch=master)](https://codeclimate.com/github/robertgauld/rail_feeds)
-
-Staging branch:
-[![Build Status](https://secure.travis-ci.org/robertgauld/rail_feeds.png?branch=staging)](http://travis-ci.org/robertgauld/rail_feeds)
-[![Coveralls Status](https://coveralls.io/repos/robertgauld/rail_feeds/badge.png?branch=staging)](https://coveralls.io/r/robertgauld/rail_feeds)
-
-
-## Build State
-This project uses continuous integration to help ensure that a quality product is delivered.
-Travis CI monitors two branches (versions) of the code - Master (which is what gets released)
-and Staging (which is what is currently being developed ready for moving to master).
 
 
 ## Ruby Versions

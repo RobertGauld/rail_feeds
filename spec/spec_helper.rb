@@ -4,13 +4,13 @@ require 'timecop'
 require 'yaml'
 
 require 'simplecov'
-SimpleCov.coverage_dir(File.join('tmp', 'coverage'))
+SimpleCov.coverage_dir(File.join('tmp', 'coverage')) unless ENV.key?('TRAVIS')
 SimpleCov.start do
   add_filter 'spec/'
 end
 
 require 'coveralls'
-Coveralls.wear! if ENV['TRAVIS']
+Coveralls.wear! if ENV.key?('TRAVIS')
 
 RSPEC_ROOT = File.dirname __FILE__
 RSPEC_FIXTURES = File.join RSPEC_ROOT, 'fixtures'

@@ -2,6 +2,7 @@
 [![Build Status](https://secure.travis-ci.org/robertgauld/rail_feeds.png?branch=master)](http://travis-ci.org/robertgauld/rail_feeds)
 [![Coveralls Status](https://coveralls.io/repos/robertgauld/rail_feeds/badge.png?branch=master)](https://coveralls.io/r/robertgauld/rail_feeds)
 [![Code Climate](https://codeclimate.com/github/robertgauld/rail_feeds.png?branch=master)](https://codeclimate.com/github/robertgauld/rail_feeds)
+[![security](https://hakiri.io/github/robertgauld/rail_feeds/master.svg)](https://hakiri.io/github/robertgauld/rail_feeds/master)
 
 
 ## Ruby Versions

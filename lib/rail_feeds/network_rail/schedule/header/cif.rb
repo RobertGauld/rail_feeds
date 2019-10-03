@@ -70,24 +70,22 @@ module RailFeeds
           end
 
           # rubocop:disable Metrics/AbcSize
+          # rubocop:disable Style/FormatStringToken
           def to_cif
             format('%-80.80s', [
               'HD',
               format('%-20.20s', file_identity),
-              # rubocop:disable Style/FormatStringToken
               format('%-10.10s', extracted_at&.strftime('%d%m%y%H%M')),
-              # rubocop:enable Style/FormatStringToken
               format('%-7.7s', current_file_reference),
               format('%-7.7s', previous_file_reference),
               format('%-1.1s', update_indicator),
               format('%-1.1s', version),
-              # rubocop:disable Style/FormatStringToken
               format('%-6.6s', start_date&.strftime('%d%m%y')),
               format('%-6.6s', end_date&.strftime('%d%m%y'))
-              # rubocop:enable Style/FormatStringToken
             ].join) + "\n"
           end
           # rubocop:enable Metrics/AbcSize
+          # rubocop:enable Style/FormatStringToken
 
           def to_s
             "File #{file_identity.inspect} (version #{version}) " \

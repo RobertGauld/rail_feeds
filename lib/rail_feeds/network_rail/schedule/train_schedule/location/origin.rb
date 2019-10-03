@@ -51,6 +51,7 @@ module RailFeeds
             # rubocop:enable Metrics/AbcSize
 
             # rubocop:disable Metrics/AbcSize
+            # rubocop:disable Style/FormatStringToken
             def to_cif
               format('%-80.80s', [
                 'LO',
@@ -67,6 +68,7 @@ module RailFeeds
               ].join) + "\n"
             end
             # rubocop:enable Metrics/AbcSize
+            # rubocop:enable Style/FormatStringToken
 
             def to_hash_for_json
               {

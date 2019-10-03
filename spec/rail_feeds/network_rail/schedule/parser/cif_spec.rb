@@ -48,6 +48,7 @@ describe RailFeeds::NetworkRail::Schedule::Parser::CIF do
     "AAD            0102030405060101010                                             P\n"
   end
   let(:train_schedule_create_lines) do
+    # rubocop:disable Style/FormatStringToken
     [
       format('%-79s', 'BSN      010203040506') + 'P',
       format('%-80s', 'BX'),
@@ -59,8 +60,10 @@ describe RailFeeds::NetworkRail::Schedule::Parser::CIF do
       format('%-80s', 'LO'),
       format('%-80s', 'LT')
     ].join("\n") + "\n"
+    # rubocop:enable Style/FormatStringToken
   end
   let(:train_schedule_update_lines) do
+    # rubocop:disable Style/FormatStringToken
     [
       format('%-79s', 'BSR      010203040506') + 'P',
       format('%-80s', 'BX'),
@@ -72,8 +75,13 @@ describe RailFeeds::NetworkRail::Schedule::Parser::CIF do
       format('%-80s', 'LO'),
       format('%-80s', 'LT')
     ].join("\n") + "\n"
+    # rubocop:enable Style/FormatStringToken
   end
-  let(:train_schedule_delete_line) { format('%-79.79s', 'BSD      010203040506') + "P\n" }
+  let(:train_schedule_delete_line) do
+    # rubocop:disable Style/FormatStringToken
+    format('%-79.79s', 'BSD      010203040506') + "P\n"
+    # rubocop:enable Style/FormatStringToken
+  end
 
   let(:smallest_file) { StringIO.new header_line + trailer_line }
 

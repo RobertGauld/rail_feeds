@@ -268,14 +268,13 @@ module RailFeeds
 
         # rubocop:disable Metrics/AbcSize
         # rubocop:disable Metrics/MethodLength
+        # rubocop:disable Style/FormatStringToken
         def basic_to_cif
           format('%-80.80s', [
             'BSN',
             format('%-6.6s', uid),
-            # rubocop:disable Style/FormatStringToken
             format('%-6.6s', start_date&.strftime('%y%m%d')),
             format('%-6.6s', end_date&.strftime('%y%m%d')),
-            # rubocop:enable Style/FormatStringToken
             days_to_cif,
             format('%-1.1s', bank_holiday_running),
             format('%-1.1s', status),
@@ -301,7 +300,9 @@ module RailFeeds
         end
         # rubocop:enable Metrics/AbcSize
         # rubocop:enable Metrics/MethodLength
+        # rubocop:enable Style/FormatStringToken
 
+        # rubocop:disable Style/FormatStringToken
         def extra_to_cif
           format('%-80.80s', [
             'BX    ',
@@ -310,6 +311,7 @@ module RailFeeds
             format('%-1.1s', (applicable_timetable ? 'Y' : 'N'))
           ].join) + "\n"
         end
+        # rubocop:enable Style/FormatStringToken
 
         def self.location_from_json(hash)
           case hash['record_identity']

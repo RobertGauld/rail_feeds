@@ -66,6 +66,7 @@ module RailFeeds
           tiploc.dup
         end
 
+        # rubocop:disable Style/FormatStringToken
         def to_cif
           format('%-80.80s', [
             'TI',
@@ -80,6 +81,7 @@ module RailFeeds
             format('%-16.16s', nlc_description)
           ].join) + "\n"
         end
+        # rubocop:enable Style/FormatStringToken
 
         def to_json(**opts)
           {

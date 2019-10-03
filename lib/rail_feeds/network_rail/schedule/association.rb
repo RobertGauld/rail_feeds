@@ -159,15 +159,14 @@ module RailFeeds
         end
 
         # rubocop:disable Metrics/AbcSize
+        # rubocop:disable Style/FormatStringToken
         def to_cif
           format('%-80.80s', [
             'AAN',
             format('%-6.6s', main_train_uid),
             format('%-6.6s', associated_train_uid),
-            # rubocop:disable Style/FormatStringToken
             format('%-6.6s', start_date&.strftime('%y%m%d')),
             format('%-6.6s', end_date&.strftime('%y%m%d')),
-            # rubocop:enable Style/FormatStringToken
             days_to_cif,
             format('%-2.2s', category),
             format('%-1.1s', date_indicator),
@@ -179,6 +178,7 @@ module RailFeeds
           ].join) + "\n"
         end
         # rubocop:enable Metrics/AbcSize
+        # rubocop:enable Style/FormatStringToken
 
         # rubocop:disable Metrics/MethodLength
         def to_json(**opts)

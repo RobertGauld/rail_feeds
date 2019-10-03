@@ -116,6 +116,7 @@ module RailFeeds
 
           # rubocop:disable Metrics/AbcSize
           # rubocop:disable Metrics/MethodLength
+          # rubocop:disable Style/FormatStringToken
           def to_cif
             format('%-80.80s', [
               'CR',
@@ -143,6 +144,7 @@ module RailFeeds
           end
           # rubocop:enable Metrics/AbcSize
           # rubocop:enable Metrics/MethodLength
+          # rubocop:enable Style/FormatStringToken
 
           def hash
             "#{tiploc}-#{tiploc_suffix}"

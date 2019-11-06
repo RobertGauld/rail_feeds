@@ -34,7 +34,7 @@ module RailFeeds
         #   The path to the file to save the .xml download in.
         def self.download(file, credentials = Credentials)
           client = HTTPClient.new(credentials: credentials)
-          client.download 'darwin/api/staticfeeds/4.0/serviceIndicators', file
+          client.download 'api/staticfeeds/4.0/serviceIndicators', file
         end
 
         # Fetch the current data.
@@ -42,7 +42,7 @@ module RailFeeds
         # @return [IO]
         def self.fetch(credentials = Credentials, &block)
           client = HTTPClient.new(credentials: credentials)
-          client.fetch 'darwin/api/staticfeeds/4.0/serviceIndicators', &block
+          client.fetch 'api/staticfeeds/4.0/serviceIndicators', &block
         end
 
         # Load data from either a .json or .json.gz file.

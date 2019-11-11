@@ -40,7 +40,7 @@ describe RailFeeds::NationalRail::KnowledgeBase::NationalServiceIndicator do
       expect(RailFeeds::NationalRail::HTTPClient).to receive(:new)
         .with(credentials: RailFeeds::NationalRail::Credentials).and_return(http_client)
       expect(http_client).to receive(:download)
-        .with('darwin/api/staticfeeds/4.0/serviceIndicators', 'file')
+        .with('api/staticfeeds/4.0/serviceIndicators', 'file')
       described_class.download 'file'
     end
 
@@ -58,7 +58,7 @@ describe RailFeeds::NationalRail::KnowledgeBase::NationalServiceIndicator do
       expect(RailFeeds::NationalRail::HTTPClient).to receive(:new)
         .with(credentials: RailFeeds::NationalRail::Credentials).and_return(http_client)
       expect(http_client).to receive(:fetch)
-        .with('darwin/api/staticfeeds/4.0/serviceIndicators').and_return(temp_file)
+        .with('api/staticfeeds/4.0/serviceIndicators').and_return(temp_file)
       expect(described_class.fetch).to eq temp_file
     end
 

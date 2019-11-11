@@ -14,7 +14,7 @@ module RailFeeds
       # @yield contents
       #   @yieldparam [IO] file Either a Tempfile or StringIO.
       def fetch(path)
-        super "https://datafeeds.nationalrail.co.uk/#{path}", 'X-Auth-Token' => auth_token
+        super "https://opendata.nationalrail.co.uk/#{path}", 'X-Auth-Token' => auth_token
       end
 
       private
@@ -25,7 +25,7 @@ module RailFeeds
 
         logger.info 'Getting an auth token for national rail.'
         response = Net::HTTP.post_form(
-          URI('https://datafeeds.nationalrail.co.uk/authenticate'),
+          URI('https://opendata.nationalrail.co.uk/authenticate'),
           credentials.to_h
         )
         response.value # Raise an exception if not successful

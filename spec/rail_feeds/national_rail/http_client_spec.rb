@@ -17,13 +17,13 @@ describe RailFeeds::NationalRail::HTTPClient do
 
       it 'It has not been fetched yet' do
         expect(subject).to receive(:auth_token)
-        expect(URI).to receive(:parse).with('https://datafeeds.nationalrail.co.uk/path').and_return(uri)
+        expect(URI).to receive(:parse).with('https://opendata.nationalrail.co.uk/path').and_return(uri)
         subject.fetch('path') {}
       end
 
       it 'Token is over an hour old' do
         expect(subject).to receive(:auth_token).twice
-        expect(URI).to receive(:parse).with('https://datafeeds.nationalrail.co.uk/path')
+        expect(URI).to receive(:parse).with('https://opendata.nationalrail.co.uk/path')
                                       .and_return(uri).twice
         subject.fetch('path') {} # Get the auth token
         Timecop.travel 3601
@@ -36,7 +36,7 @@ describe RailFeeds::NationalRail::HTTPClient do
         expect(response).to receive(:value)
         expect(response).to receive(:body).and_return('{"token":"TOKEN"}')
         expect(Net::HTTP).to receive(:post_form)
-          .with(URI('https://datafeeds.nationalrail.co.uk/authenticate'), { username: '', password: '' })
+          .with(URI('https://opendata.nationalrail.co.uk/authenticate'), { username: '', password: '' })
           .and_return(response)
         expect(subject.send(:auth_token)).to eq 'TOKEN'
       end
@@ -48,7 +48,7 @@ describe RailFeeds::NationalRail::HTTPClient do
       end
 
       it 'Adds server to path then delegates to super' do
-        expect(URI).to receive(:parse).with('https://datafeeds.nationalrail.co.uk/path').and_return(uri)
+        expect(URI).to receive(:parse).with('https://opendata.nationalrail.co.uk/path').and_return(uri)
         expect(uri).to receive(:open)
         subject.fetch('path') {}
       end

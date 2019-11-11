@@ -1,6 +1,7 @@
 ## Version 0.0.3
 
-  * Add support for ruby 2.6.3
+  * Add support for ruby 2.6.3 - 2.6.5
+  * Fixes to some URLs (thanks to @marcbest)
 
 ## Version 0.0.2
 

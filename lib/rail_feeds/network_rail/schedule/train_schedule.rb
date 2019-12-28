@@ -124,7 +124,7 @@ module RailFeeds
         end
 
         # rubocop:disable Metrics/AbcSize
-        # rubocop:disable Metrics/LineLength
+        # rubocop:disable Layout/LineLength
         # rubocop:disable Metrics/MethodLength
         # Create a new train schedule from json data.
         def self.from_json(json)
@@ -162,7 +162,7 @@ module RailFeeds
           )
         end
         # rubocop:enable Metrics/AbcSize
-        # rubocop:enable Metrics/LineLength
+        # rubocop:enable Layout/LineLength
         # rubocop:enable Metrics/MethodLength
 
         def to_cif

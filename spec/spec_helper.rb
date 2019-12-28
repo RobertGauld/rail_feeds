@@ -14,7 +14,7 @@ Coveralls.wear! if ENV.key?('TRAVIS')
 
 RSPEC_ROOT = File.dirname __FILE__
 RSPEC_FIXTURES = File.join RSPEC_ROOT, 'fixtures'
-Dir[File.join(RSPEC_ROOT, '**', '*_shared.rb')].each { |f| require f }
+Dir[File.join(RSPEC_ROOT, '**', '*_shared.rb')].sort.each { |f| require f }
 
 RSpec.configure do |config|
   # == Mock Framework

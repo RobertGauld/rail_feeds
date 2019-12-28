@@ -15,7 +15,7 @@ Metrics/LineLength:
   Exclude:
   - rail_feeds.gemspec
   - spec/**/*
-Layout/TrailingBlankLines:
+Layout/TrailingEmptyLines:
   Exclude:
   - rail_feeds.gemspec
 Style/BracesAroundHashParameters:

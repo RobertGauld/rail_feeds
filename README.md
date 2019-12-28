@@ -12,6 +12,7 @@ This gem supports the following versions of ruby, it may work on other versions 
     * 2.4.4 - 2.4.7
     * 2.5.0 - 2.5.6
     * 2.6.0 - 2.6.5
+    * 2.7.0
   * jruby:
     * 9.2.0.0 - 9.2.6.0
 

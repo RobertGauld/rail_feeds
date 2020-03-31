@@ -21,7 +21,7 @@ Gem::Specification.new do |gem|
   gem.required_ruby_version     = '>= 2.4'
   gem.required_rubygems_version = '>= 2.6.14'
 
-  gem.add_dependency 'nokogiri', '~> 1.10', '>= 1.10.4'
+  gem.add_dependency 'nokogiri', '~> 1.10', '>= 1.10.5'
   gem.add_dependency 'stomp', '~> 1.4'
 
   gem.add_development_dependency 'coveralls', '~> 0.7'

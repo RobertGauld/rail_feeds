@@ -9,10 +9,10 @@
 This gem supports the following versions of ruby, it may work on other versions but is not tested against them so don't rely on it.
 
   * ruby:
-    * 2.4.4 - 2.4.7
-    * 2.5.0 - 2.5.6
-    * 2.6.0 - 2.6.5
-    * 2.7.0
+    * 2.4.4 - 2.4.10
+    * 2.5.0 - 2.5.8
+    * 2.6.0 - 2.6.6
+    * 2.7.0 - 2.7.1
   * jruby:
     * 9.2.0.0 - 9.2.6.0
 

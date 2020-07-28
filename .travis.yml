@@ -36,14 +36,13 @@ gemfile:
   - Gemfile
 branches:
   only:
-    - master
-    - staging
+    - main
     - /gh(?:\d)+(?:-.+)?/
     - /dev_ver_\d+\.\d+/
 env:
   global:
     # CC_TEST_REPORTER_ID for reporting test coverage to code climate
-    - secure: "LJDr3rGTkn3gi8Vpvo2LdgvgjfuJHbPD7LIHNfhn+WtjoIXRCBom+CiB8OvStwxHnmK+KkaFK3RJgYSVs7QjgGFquuyVlWnWLU1uJBElZgSHhcgPcenjvzT8GglxR1JBJF322iPblqNDfTaplJw7rNt78dxrJhkCKD8lybwYoE/ops6p510pVsaV44m+N5qcYd8w9WTUhXIr0KZB2bDLAkkZAvdqOrN3qFM/fsnnzzn+EKI3QSxWgfGTzVMlhHPLntsY1DdVvmdK0cDo0jxJ0CbRdkt4XFGfwbSBF2llZ/Mbw7AOm0Ej7xT/Ge6hhg9+hOkrgsd4F0pnmQD8mh5ZR1lCQBCA8D8AHJFUv63bG1GoHs77X5fUNet+NQOnCgs7Xmp7YUYEg8ZqSRqw3FWJ7xn/H9K9s3rHZ3cgQXi+L+ZRocSMnVqEe9BupkgKW6jxtu0RS1Do7jXj32wnNOQoXKRxEdEzvXZyp1XLYw4H2SZkfw8ig3KK0wd8qzBUTVvZCluoOYSvd6AMzf3ZBaKE+r/3HI5M5mW0oCQQPWbz6f3fIlMeRUajzwSiabdRPLT/15FD17OygkhKA0OdIHywQJCmGzjf1r86qxpZXxFjr2+ePQRTH+/3Oj3r4Yb8IkhYnA1gNZgxtnaQSDFcjoFmLwHX2Hx8B9lTTV1teTq7xXc="
+    - secure: "FZfolhPdHyjrdWphjAptqMwn/hRNiMZOEtIxZyJO2iWYaVC53L0NTyYl8TTQai38yG5bTuoSvIzPnAzs1HZv+lGnProvfnPJs0uHOyfLCeUkZtbOmHya0/ZeXQ0pQr/sH4C30Vs2TBaK2WOWPDNPoUYhsfbyUrPefSwJU99JhQZMOrbcJUB2VU8w0INs/5dTowQ3LVfVPOP2c4jTNfsXZm9y7OBHvkRwrWWN28fQgvnmdbL+y29+5v49+XIMdNADaVQI+h6g/aTugH3Ld6rowRh52TEr//tOQ205ryYN2i2RA5Cno7kPS/HQbqOf6Hx2aCBItwMaMBkxV0ZQqVkVWk89Kdw3Et0VthTCHsyhZIIikpdavq5F7J0Zfqe1vrNDU3rciIfHaH5TPgBXianAlbEC8/HJSrxPYGKK9XrM7K3zNln/2GNsRGykVUzJSXFvKRKbwrgKg+4nRLYw9LYtQyKWBqPMY1V3pnVPfBJ0W424gY2phuU5gfhib4bm48SiKoMCyCBReOwKhp+P9lDSkiPYLgjADe1L/+DsfltJdAq1sLx+1chLYQYIOMHZM8dGRWqHY+IvAvNrM12B3j8pR4i1ABREgIb6tkWODlSybIqMFekv9NX5ymXoxuIAFi5ony+xWfR47mC1+fkaTaS02WEhyUyBRY4p25LQ9mKZFLs="
 before_install: gem update bundler
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter && chmod +x ./cc-test-reporter && ./cc-test-reporter before-build

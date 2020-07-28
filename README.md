@@ -1,8 +1,8 @@
 [![Gem Version](https://badge.fury.io/rb/rail_feeds.png)](http://badge.fury.io/rb/rail_feeds)
-[![Build Status](https://secure.travis-ci.org/robertgauld/rail_feeds.png?branch=master)](http://travis-ci.org/robertgauld/rail_feeds)
-[![Coveralls Status](https://coveralls.io/repos/robertgauld/rail_feeds/badge.png?branch=master)](https://coveralls.io/r/robertgauld/rail_feeds)
-[![Code Climate](https://codeclimate.com/github/robertgauld/rail_feeds.png?branch=master)](https://codeclimate.com/github/robertgauld/rail_feeds)
-[![security](https://hakiri.io/github/robertgauld/rail_feeds/master.svg)](https://hakiri.io/github/robertgauld/rail_feeds/master)
+[![Build Status](https://secure.travis-ci.org/robertgauld/rail_feeds.png?branch=main)](http://travis-ci.org/robertgauld/rail_feeds)
+[![Coveralls Status](https://coveralls.io/repos/robertgauld/rail_feeds/badge.png?branch=main)](https://coveralls.io/r/robertgauld/rail_feeds)
+[![Code Climate](https://codeclimate.com/github/robertgauld/rail_feeds.png?branch=main)](https://codeclimate.com/github/robertgauld/rail_feeds)
+[![security](https://hakiri.io/github/robertgauld/rail_feeds/main.svg)](https://hakiri.io/github/robertgauld/rail_feeds/main)
 
 
 ## Ruby Versions
@@ -34,8 +34,8 @@ gem 'rail_feeds', '~> 0.1'
 
 ## Documentation & Versioning
 
-Documentation can be found on [rubydoc.info](http://rubydoc.info/github/robertgauld/rail_feeds/master/frames)
-Some guides can be found in the [doc folder of the repo](https://github.com/robertgauld/rail_feeds/tree/master/doc/guides).
+Documentation can be found on [rubydoc.info](http://rubydoc.info/github/robertgauld/rail_feeds/main/frames)
+Some guides can be found in the [doc folder of the repo](https://github.com/robertgauld/rail_feeds/tree/main/doc/guides).
 
 We follow the [Semantic Versioning](http://semver.org/) concept.
 
